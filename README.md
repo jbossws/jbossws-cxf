@@ -7,10 +7,11 @@
 
 Building and running the testsuite requires Maven version 3.2.2 or higher.
 
-The build follows the usual Maven flow; a `wildfly` or 'wildflydev' profile has to be specified to tell the project which target container to use for integration tests; if no `wildfly` profile is specified, the integration tests are skipped.
+The build follows the usual Maven build, and all tests run against the default WildFly version.
 ```
-mvn -Pwildfly integration-test
+mvn clean install
 ```
+
 * The `-Dserver.home=/foo/bar` option can be used to run the testsuite against a given local server instance; the server must not be already running, as the build will create various standalone server configurations and start multiple instances.
 * The `-Dexclude-udp-tests` option can be used to skip UDP tests; that might be needed when running on a network that does not allow UDP broadcast.
 * The `-Dexclude-ws-discovery-tests` option can be used to skip WS-Discovery tests; that might be needed when running on a network that does not have set multicast properly.
@@ -27,7 +28,7 @@ mvn -Pwildfly integration-test
 
 The `fast` profile can also be used to run tests concurrently; run following command in such case to trigger test servers' shutdown and save memory at the end of each testsuite module:
 ```
-mvn -Pfast,wildfly post-integration-test
+mvn -Pfast post-integration-test
 ```
 
  Updating WS stack
@@ -35,12 +36,12 @@ mvn -Pfast,wildfly post-integration-test
 
 In some cases it might be needed to build the ws stack and install it on a specified server instance without running the integration testsuite; this is achieved as follows:
 ```
-mvn -Pwildfly -Dserver.home=/foo/bar package
+mvn -Dserver.home=/foo/bar package
 ```
 If a `server.home` property is not provided, the build creates a zip archive with a vanilla WildFly server patched with the current WS stack:
 
 ```
-mvn -Pwildfly package
+mvn package
 ```
 the zip file path is modules/dist/target/jbossws-cxf-dist-${project.version}-test-server.zip
 
@@ -58,9 +59,8 @@ mvn -Pdist,testsuite clean
 
 Releases are performed using the Maven Release Plugin; no manual modification of artifact versions in pom.xml files is hence required. The release is tagged with the following command:
 ```
- mvn -Pwildfly release:prepare
+ mvn release:prepare
 ```
-where `wildfly` is the latest target containers and it is the latest official WFLY release.
 
 The release tag can then be checked out, built and deployed to the nexus repository.
 To clean the release plugin data (in case of errors), run:

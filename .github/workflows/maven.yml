@@ -44,7 +44,7 @@ jobs:
         if: ${{ matrix.profile == '-Pwildfly28'}}
         working-directory: ./wildfly
         run: mvn -s ../.m2-settings.xml -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
-      - name: Build with Maven Java ${{ matrix.java }} on WildFly with profile ${{ matrix.profile }}
+      - name: Build with Maven Java ${{ matrix.java }} ${{ matrix.profile }}
         run: |
           mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
       - uses: actions/upload-artifact@v3
