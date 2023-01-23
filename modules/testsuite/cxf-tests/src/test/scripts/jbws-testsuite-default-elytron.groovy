@@ -75,8 +75,7 @@ def legacyDomain = securityDomains.appendNode('security-domain', ['name':'JAASJB
 def jaasJBossWSRealm = legacyDomain.appendNode('realm',['name':'JAASJBossWSRealm','role-decoder':'groups-to-roles'])
 
 def legacyDigestDomain = securityDomains.appendNode('security-domain', ['name':'JBossWSDigest','default-realm':'JAASJBossWSDigestRealm','permission-mapper':'default-permission-mapper'])
-def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJBossWSDigestRealm','role-decoder':'groups-to-roles'])
-
+def jaasJBossWDigestRealm = legacyDigestDomain.appendNode('realm',['name':'JAASJBossWSDigestRealm'])
 
 /**
  *            <security-realms>
@@ -105,10 +104,6 @@ def basicGroupsProperties = basicPropertiesRealm.appendNode('groups-properties',
 def digestRealm = securityRealms.appendNode('properties-realm', ['name':'ws-digest-domain'])
 def digestUserProperties = digestRealm.appendNode('users-properties',['path': testResourcesDir + '/jaxws/cxf/httpauth/WEB-INF/ws-digest-users.properties'])
 def digestGroupsProperties = digestRealm.appendNode('groups-properties',['path': testResourcesDir + '/jaxws/cxf/httpauth/WEB-INF/ws-roles.properties'])
-
-def jbossWSDigestRealm = securityRealms.appendNode('properties-realm', ['name':'JAASJBossWSDigestRealm'])
-def jbossWSDigestUserProperties = jbossWSDigestRealm.appendNode('users-properties',['path': testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties', 'plain-text':'true'])
-def jbossWSDigestGroupsProperties = jbossWSDigestRealm.appendNode('groups-properties',['path': testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties'])
 
 def jAASJBossWSRealm = securityRealms.appendNode('properties-realm', ['name':'JAASJBossWSRealm'])
 def jAASJBossWSRealmUserProperties = jAASJBossWSRealm.appendNode('users-properties',['path':usersPropFile, 'plain-text':'true'])
@@ -155,13 +150,6 @@ def digestMechanismConfiguration = digestHttpAuthenticationFactory.appendNode('m
 def digestMechanism = digestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'DIGEST'])
 def digestMechanismRealm = digestMechanism.appendNode('mechanism-realm',['realm-name':'ws-digest-domain'])
 
-
-def wsDigestHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JBossWSDigest','http-server-mechanism-factory':'global', 'security-domain':'JBossWSDigest'])
-def wsDigestMechanismConfiguration = wsDigestHttpAuthenticationFactory.appendNode('mechanism-configuration')
-def wsDigestMechanism = wsDigestMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
-def wsDigestMechanismRealm = wsDigestMechanism.appendNode('mechanism-realm',['realm-name':'JAASJBossWSDigestRealm'])
-
-
 def jassWsHttpAuthenticationFactory = httpAuthen.appendNode('http-authentication-factory', ['name':'JAASJBossWS','http-server-mechanism-factory':'global', 'security-domain':'JAASJBossWS'])
 def jassWsMechanismConfiguration = jassWsHttpAuthenticationFactory.appendNode('mechanism-configuration')
 def jassWsMechanism = jassWsMechanismConfiguration.appendNode('mechanism',['mechanism-name':'BASIC'])
@@ -189,6 +177,7 @@ def ejbSecurityDomain1 = appSecurityDomains.appendNode('application-security-dom
 def ejbSecurityDomain3 = appSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','security-domain':'ws-basic-domain'])
 def ejbSecurityDomain4 = appSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','security-domain':'JBossWSDigest'])
 
+
 //add to undertow
 def undertowSubsystem = getSubsystem(root, "urn:jboss:domain:undertow:")
 
@@ -199,8 +188,34 @@ undertowChildren.add(undertowAppSecurityDomains)
 def appSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWS','http-authentication-factory':'JBossWS'])
 def basicAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-basic-domain','http-authentication-factory':'ws-basic-domain'])
 def digestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'ws-digest-domain','http-authentication-factory':'ws-digest-domain'])
-def wsDigestAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JBossWSDigest','http-authentication-factory':'JBossWSDigest'])
 def jaasWsAppSecurityDomain = undertowAppSecurityDomains.appendNode('application-security-domain', ['name':'JAASJBossWS','http-authentication-factory':'JAASJBossWS'])
+
+/** --- old style picketbox config start --- **/
+//Add jaas picketbox security domain
+for (element in getSubsystem(root, "urn:jboss:domain:security:")) {
+    if (element.name().getLocalPart() == 'security-domains') {
+        securityDomains = element
+    }
+}
+
+def securityDomainDigest = securityDomains.appendNode('security-domain', ['name':'JBossWSDigest','cache-type':'default'])
+def authenticationDigest = securityDomainDigest.appendNode('authentication')
+def loginModuleDigest = authenticationDigest.appendNode('login-module', ['code':'UsersRoles','flag':'required'])
+loginModuleDigest.appendNode('module-option', ['name':'hashUserPassword','value':'false'])
+loginModuleDigest.appendNode('module-option', ['name':'hashCharset','value':'UTF-8'])
+loginModuleDigest.appendNode('module-option', ['name':'hashAlgorithm','value':'SHA'])
+loginModuleDigest.appendNode('module-option', ['name':'hashEncoding','value':'BASE64'])
+loginModuleDigest.appendNode('module-option', ['name':'storeDigestCallback','value':'org.jboss.wsf.stack.cxf.security.authentication.callback.UsernameTokenCallback'])
+loginModuleDigest.appendNode('module-option', ['name':'hashStorePassword','value':'true'])
+loginModuleDigest.appendNode('module-option', ['name':'unauthenticatedIdentity','value':'anonymous'])
+loginModuleDigest.appendNode('module-option', ['name':'usersProperties','value':testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users.properties'])
+loginModuleDigest.appendNode('module-option', ['name':'rolesProperties','value':testResourcesDir + '/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties'])
+
+def jbossDomainSecurity3_0 = securityDomains.parent()
+elytronIntegration = jbossDomainSecurity3_0.appendNode('elytron-integration')
+elytronRealms = elytronIntegration.appendNode('security-realms')
+elytronRealms.appendNode('elytron-realm', ['name':'JAASJBossWSDigestRealm','legacy-jaas-config':'JBossWSDigest'])
+/** --- old style picketbox config end --- **/
 
 def server = null
 for (element in undertowSubsystem) {
