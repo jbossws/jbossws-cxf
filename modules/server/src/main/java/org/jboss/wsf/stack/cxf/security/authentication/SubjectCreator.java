@@ -160,10 +160,18 @@ public class SubjectCreator
       if (TRACE)
          SECURITY_LOGGER.aboutToAuthenticate(ctx.getSecurityDomain());
 
+      RealmIdentity identity = null;
       if (securityDomain != null) {
-          // use elytron
+         // elytron security domain
          try {
-            RealmIdentity identity = securityDomain.getIdentity(principal.getName());
+            identity = securityDomain.getIdentity(principal.getName());
+         } catch (RealmUnavailableException e) {
+            throw MESSAGES.authenticationFailed(principal.getName());
+         }
+      }
+      if (identity != null && !identity.getClass().getName().equals("org.jboss.as.security.elytron.SecurityDomainContextRealm$PicketBoxBasedIdentity")) {
+          // identity is NOT obtained from picketbox's security domain so use elytron realm to obtain and verify credentials
+         try {
             if (identity.equals(RealmIdentity.NON_EXISTENT)) {
                throw MESSAGES.authenticationFailed(principal.getName());
             }
