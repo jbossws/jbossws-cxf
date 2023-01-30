@@ -95,7 +95,7 @@ public class SubjectCreator
             return null;
          }
          RealmIdentity identity = securityDomain.getIdentity(principal.getName());
-         if (identity.equals(RealmIdentity.NON_EXISTENT)) {
+         if (identity.equals(RealmIdentity.NON_EXISTENT) || identity.getCredential(PasswordCredential.class) == null) {
             throw MESSAGES.authenticationFailed(principal.getName());
          }
          ClearPassword clearPassword = identity.getCredential(PasswordCredential.class).getPassword(ClearPassword.class);
