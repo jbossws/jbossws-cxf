@@ -34,6 +34,23 @@
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
     <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
+    <modular.jdk.args>
+      --add-exports=java.desktop/sun.awt=ALL-UNNAMED
+      --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED
+      --add-exports=java.naming/com.sun.jndi.url.ldap=ALL-UNNAMED
+      --add-exports=java.naming/com.sun.jndi.url.ldaps=ALL-UNNAMED
+      --add-exports=jdk.naming.dns/com.sun.jndi.dns=ALL-UNNAMED
+      --add-opens=java.base/java.io=ALL-UNNAMED
+      --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+      --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+      --add-opens=java.base/java.security=ALL-UNNAMED
+      --add-opens=java.base/java.util=ALL-UNNAMED
+      --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+      --add-opens=java.management/javax.management=ALL-UNNAMED
+      --add-opens=java.naming/javax.naming=ALL-UNNAMED
+    </modular.jdk.args>
+    <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props}</surefire.jvm.args>
   </properties>
 
   <!-- Modules -->
@@ -438,18 +455,7 @@
         </property>
       </activation>
       <properties>
-        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props} ${surefire.jdwp.args}</surefire.jvm.args>
-      </properties>
-    </profile>
-    <profile>
-      <id>no-debug</id>
-      <activation>
-        <property>
-          <name>!debug</name>
-        </property>
-      </activation>
-      <properties>
-        <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props}</surefire.jvm.args>
+        <surefire.jvm.args>${surefire.jvm.args} ${surefire.jdwp.args}</surefire.jvm.args>
       </properties>
     </profile>
     
@@ -588,18 +594,6 @@
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
-        <modular.jdk.args>
-          --add-exports=java.desktop/sun.awt=ALL-UNNAMED
-          --add-opens=java.base/java.io=ALL-UNNAMED
-          --add-opens=java.base/java.lang=ALL-UNNAMED
-          --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
-          --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-          --add-opens=java.base/java.security=ALL-UNNAMED
-          --add-opens=java.base/java.util=ALL-UNNAMED
-          --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-          --add-opens=java.management/javax.management=ALL-UNNAMED
-          --add-opens=java.naming/javax.naming=ALL-UNNAMED
-        </modular.jdk.args>
       </properties>
       <dependencies>
         <dependency>
@@ -689,18 +683,6 @@
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
-        <modular.jdk.args>
-          --add-exports=java.desktop/sun.awt=ALL-UNNAMED
-          --add-opens=java.base/java.io=ALL-UNNAMED
-          --add-opens=java.base/java.lang=ALL-UNNAMED
-          --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
-          --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
-          --add-opens=java.base/java.security=ALL-UNNAMED
-          --add-opens=java.base/java.util=ALL-UNNAMED
-          --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
-          --add-opens=java.management/javax.management=ALL-UNNAMED
-          --add-opens=java.naming/javax.naming=ALL-UNNAMED
-        </modular.jdk.args>
       </properties>
       <dependencies>
         <dependency>
