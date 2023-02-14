@@ -32,7 +32,7 @@
   <description>JBossWS CXF stack jakarta</description>
 
 
-  <version>6.2.0.Final</version>
+  <version>6.2.1-SNAPSHOT</version>
 
   <!-- Parent -->
   <parent>
@@ -46,7 +46,7 @@
     <connection>scm:git:https://github.com/jbossws/jbossws-cxf.git</connection>
     <developerConnection>scm:git:https://github.com/jbossws/jbossws-cxf.git</developerConnection>
     <url>https://github.com/jbossws/jbossws-cxf</url>
-    <tag>jbossws-cxf-6.2.0.Final</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <!-- Modules -->
