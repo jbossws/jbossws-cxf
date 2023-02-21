@@ -41,12 +41,4 @@
 /modules/testsuite/cxf-tests/target
 /modules/testsuite/cxf-tests/lib
 
-# /modules/testsuite/framework-tests/
-/modules/testsuite/framework-tests/target
-/modules/testsuite/framework-tests/org
-/modules/testsuite/framework-tests/transaction.log
-
-# /modules/testsuite/framework-tests/src/test/
-/modules/testsuite/framework-tests/src/test/ant-import
-/modules/testsuite/framework-tests/src/test/java
-/modules/testsuite/framework-tests/src/test/resources
+.DS_Store
