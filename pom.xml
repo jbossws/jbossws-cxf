@@ -1104,20 +1104,24 @@
          <module>modules/dist</module>
       </modules>
     </profile>
-
-
     <profile>
       <id>doc</id>
       <modules>
         <module>docbook</module>
       </modules>
     </profile>
-
-
     <profile>
       <id>testsuite</id>
       <modules>
          <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>release</id>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite</module>
+        <module>docbook</module>
       </modules>
     </profile>
     <profile>
