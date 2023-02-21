@@ -59,11 +59,12 @@ mvn -Pdist,testsuite clean
 
 Releases are performed using the Maven Release Plugin; no manual modification of artifact versions in pom.xml files is hence required. The release is tagged with the following command:
 ```
- mvn release:prepare
+ mvn -Prelease release:prepare 
+```
+To clean the release plugin data (in case of errors), run:
+```
+mvn -Prelease release:clean
 ```
 
 The release tag can then be checked out, built and deployed to the nexus repository.
-To clean the release plugin data (in case of errors), run:
-```
-mvn -Pdist,testsuite release:clean
-```
+
