@@ -1,0 +1,8 @@
+<build xmlns="urn:wildfly:feature-pack-build:3.3" producer="org.jboss.ws.cxf:galleon-feature-pack">
+    <dependencies>
+        <dependency group-id="org.wildfly" artifact-id="wildfly-ee-galleon-pack"/>
+    </dependencies>
+    <default-packages>
+        <package name="modules.all"/>
+    </default-packages>
+</build>

@@ -43,7 +43,7 @@ jobs:
       - name: Build WFLY
         if: ${{ matrix.profile == '-Pwildfly28'}}
         working-directory: ./wildfly
-        run: mvn -s ../.m2-settings.xml -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
+        run: mvn -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
       - name: Build with Maven Java ${{ matrix.java }} ${{ matrix.profile }}
         run: |
           mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
