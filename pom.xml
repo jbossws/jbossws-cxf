@@ -57,6 +57,7 @@
     <module>modules/resources</module>
     <module>modules/addons</module>
     <module>modules/test-utils</module>
+    <module>modules/feature-pack</module>
   </modules>
 
   <!-- Properties -->
@@ -1043,6 +1044,11 @@
         <artifactId>galleon-maven-plugin</artifactId>
         <version>${org.jboss.galleon.version}</version>
       </plugin>
+       <plugin>
+         <groupId>org.wildfly.galleon-plugins</groupId>
+         <artifactId>wildfly-galleon-maven-plugin</artifactId>
+         <version>6.3.1.Final</version>
+       </plugin>
      </plugins>
   </pluginManagement>
   </build>
