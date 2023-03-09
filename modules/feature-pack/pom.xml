@@ -66,18 +66,6 @@
             <artifactId>opensaml-xacml-saml-impl</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!--junit-->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-depchain</artifactId>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-ee-galleon-pack</artifactId>
@@ -85,7 +73,6 @@
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>
