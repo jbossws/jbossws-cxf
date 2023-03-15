@@ -124,8 +124,6 @@ instance.
 |exclude-udp-tests |Force skipping the UDP tests. This option might be
 needed when running on a network that does not allow UDP broadcast.
 
-|nodeploy |Do not upgrade the WS stack on the target server container.
-
 |noprepare |Skip integration tests preparation phase, which includes
 tuning of the server configurations, wsconsume/wsprovide invocations,
 etc.
