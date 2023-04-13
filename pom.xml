@@ -83,7 +83,7 @@
     <jboss-logging-processor.version>2.2.1.Final</jboss-logging-processor.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <jaxws-undertow-httpspi.version>2.0.0.Final</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.2.18.Final</io.undertow.version>
+    <io.undertow.version>2.2.24.Final</io.undertow.version>
     <jaxb.impl.version>4.0.1</jaxb.impl.version>
     <jboss.jaxbintros.version>2.0.0</jboss.jaxbintros.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
