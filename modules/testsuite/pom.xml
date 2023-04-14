@@ -58,6 +58,7 @@
     <module>cxf-tests</module>
     <module>shared-tests</module>
     <module>perf-tests</module>
+    <module>cloud-tests</module>
   </modules>
 
   <!-- Dependencies -->

@@ -1,0 +1,146 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>JBoss Web Services - Stack CXF Specific Cloud Tests jakarta</name>
+    <artifactId>jbossws-cxf-cloud-tests</artifactId>
+    <packaging>war</packaging>
+
+    <!-- Parent -->
+    <parent>
+        <groupId>org.jboss.ws.cxf</groupId>
+        <artifactId>jbossws-cxf-testsuite</artifactId>
+        <version>6.2.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <test.cxf.version>${cxf.version}</test.cxf.version>
+        <warName>echo-ws</warName>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>1.18.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <!--combine.self="override" to override configuration from parent pom-->
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <includes>
+                                <include>**/*Test.java</include>
+                                <include>**/*TestCase.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>forked-integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <warName>${warName}</warName>
+                    <executions>
+                        <execution>
+                            <phase>pre-integration-test</phase>
+                            <goals>
+                                <goal>war</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
+                    <webResources>
+                        <!--resource>
+                            <directory>src/test/resources/WEB-INF</directory>
+                            <targetPath>WEB-INF</targetPath>
+                        </resource-->
+                        <resource>
+                            <directory>${basedir}/target/test-classes</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>4.0.0.Final</version>
+                <configuration>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>org.wildfly:wildfly-galleon-pack:${jboss.version}</location>
+                            <!--location>org.jboss.ws.cxf:jbossws-cxf-feature-pack:${project.version}</location-->
+                        </feature-pack>
+                    </feature-packs>
+                    <layers>
+                        <layer>cloud-server</layer>
+                        <layer>webservices</layer>
+                    </layers>
+                    <filename>${warName}.war</filename>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>image</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
