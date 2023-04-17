@@ -15,7 +15,6 @@
     </parent>
 
     <properties>
-        <test.cxf.version>${cxf.version}</test.cxf.version>
         <warName>echo-ws</warName>
     </properties>
 
@@ -28,13 +27,10 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>1.18.0</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
@@ -105,10 +101,6 @@
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
                     <webResources>
-                        <!--resource>
-                            <directory>src/test/resources/WEB-INF</directory>
-                            <targetPath>WEB-INF</targetPath>
-                        </resource-->
                         <resource>
                             <directory>${basedir}/target/test-classes</directory>
                             <targetPath>WEB-INF/classes</targetPath>
@@ -119,12 +111,15 @@
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
-                <version>4.0.0.Final</version>
                 <configuration>
+
                     <feature-packs>
+                        <!-- TODO: Look at how can we get this work with layers-->
+                        <feature-pack>
+                            <location>org.jboss.ws.cxf:jbossws-cxf-feature-pack:${project.version}</location>
+                        </feature-pack>
                         <feature-pack>
                             <location>org.wildfly:wildfly-galleon-pack:${jboss.version}</location>
-                            <!--location>org.jboss.ws.cxf:jbossws-cxf-feature-pack:${project.version}</location-->
                         </feature-pack>
                     </feature-packs>
                     <layers>

@@ -108,7 +108,7 @@
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.13.1</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <wildfly.plugin.version>4.0.0.Alpha2</wildfly.plugin.version>
+    <wildfly.plugin.version>4.1.0.Beta5</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
     <wildfly.controller.client.version>19.0.0.Beta18</wildfly.controller.client.version>
     <wildfly.elytron.version>2.0.0.Final</wildfly.elytron.version>
@@ -135,6 +135,7 @@
     <jboss.ejb.client.version>5.0.1.Final</jboss.ejb.client.version>
     <org.jboss.galleon.plugin.version>5.2.0.Final</org.jboss.galleon.plugin.version>
     <org.wildfly.galleon.plugin.version>6.4.0.Final</org.wildfly.galleon.plugin.version>
+    <testcontainer.version>1.18.0</testcontainer.version>
   </properties>
 
   <!-- licenses -->
@@ -1004,6 +1005,12 @@
         <groupId>org.jboss</groupId>
         <artifactId>jboss-ejb-client</artifactId>
         <version>${jboss.ejb.client.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>${testcontainer.version}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
