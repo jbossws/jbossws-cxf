@@ -58,7 +58,6 @@
     <module>cxf-tests</module>
     <module>shared-tests</module>
     <module>perf-tests</module>
-    <module>cloud-tests</module>
   </modules>
 
   <!-- Dependencies -->
@@ -957,6 +956,18 @@
       <properties>
         <surefire.default-mgmt-serurity.args> </surefire.default-mgmt-serurity.args>
       </properties>
+    </profile>
+    <profile>
+      <id>linux</id>
+      <activation>
+        <os>
+          <family>unix</family>
+        </os>
+      </activation>
+      <modules>
+        <module>cloud-tests</module>
+      </modules>
+
     </profile>
 
   </profiles>
