@@ -136,6 +136,7 @@
     <org.jboss.galleon.plugin.version>5.2.0.Final</org.jboss.galleon.plugin.version>
     <org.wildfly.galleon.plugin.version>6.4.0.Final</org.wildfly.galleon.plugin.version>
     <testcontainer.version>1.18.0</testcontainer.version>
+    <jib.version>3.3.1</jib.version>
   </properties>
 
   <!-- licenses -->
@@ -1041,6 +1042,11 @@
          <groupId>org.wildfly.galleon-plugins</groupId>
          <artifactId>wildfly-galleon-maven-plugin</artifactId>
          <version>${org.wildfly.galleon.plugin.version}</version>
+       </plugin>
+       <plugin>
+         <groupId>com.google.cloud.tools</groupId>
+         <artifactId>jib-maven-plugin</artifactId>
+         <version>3.3.1</version>
        </plugin>
      </plugins>
   </pluginManagement>
