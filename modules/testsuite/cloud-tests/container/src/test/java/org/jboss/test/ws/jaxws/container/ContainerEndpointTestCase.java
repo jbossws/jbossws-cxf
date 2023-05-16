@@ -38,7 +38,7 @@ import org.testcontainers.utility.DockerImageName;
  */
 public class ContainerEndpointTestCase {
 
-    public static final GenericContainer<?> jbosswsContainer = new GenericContainer<>(DockerImageName.parse("jbossws-cxf-cloud-tests:latest")).withExposedPorts(8080);
+    public static final GenericContainer<?> jbosswsContainer = new GenericContainer<>(DockerImageName.parse("jbossws-cxf-container-tests:latest")).withExposedPorts(8080);
 
     @BeforeClass
     public static void setUp() throws IOException {
