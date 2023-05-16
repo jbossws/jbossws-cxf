@@ -1,0 +1,47 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: jbossws-cxf-k8s-tests
+  name: jbossws-cxf-k8s-tests
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: jbossws-cxf-k8s-tests
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: jbossws-cxf-k8s-tests
+    spec:
+      containers:
+        - name: jbossws-cxf-k8s-tests
+          image: localhost:5000/jbossws-cxf-k8s-tests:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9990
+              name: admin
+              protocol: TCP
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+  labels:
+    app.kubernetes.io/name: jbossws-cxf-k8s-tests
+  name: jbossws-cxf-k8s-tests
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    - name: admin
+      port: 9990
+      targetPort: 9990
+  selector:
+    app.kubernetes.io/name: jbossws-cxf-k8s-tests
+  type: ClusterIP
