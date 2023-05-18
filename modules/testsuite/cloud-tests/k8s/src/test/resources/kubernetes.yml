@@ -19,7 +19,7 @@ spec:
         - name: deployments
           emptyDir: { }
       containers:
-        - name: widlfly-container
+        - name: jbossws-cxf-k8s-tests
           image: localhost:5000/wildfly-without-deployment:latest
           imagePullPolicy: Always
           ports:
@@ -29,13 +29,16 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
+          volumeMounts:
+            - name: deployments
+              mountPath: /opt/server/standalone/deployments
       initContainers:
         - name: init-container
           image: localhost:5000/jbossws-deployment:latest
           volumeMounts:
             - name: deployments
               mountPath: /deployment
-          command: [ "sh", "-c", "cp /opt/app/deployment/jbossws-cxf-k8s.war /deployment" ]
+          command: [ "sh", "-c", "cp /opt/app/deployment/*.war /deployment" ]
 ---
 apiVersion: v1
 kind: Service

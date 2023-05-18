@@ -179,21 +179,12 @@
                         <layer>cloud-server</layer>
                         <layer>webservices</layer>
                     </layers>
-                    <filename>${project.artifactId}.war</filename>
-                    <image>
-                        <build>true</build>
-                        <push>true</push>
-                        <docker-binary>docker</docker-binary>
-                        <name>wildfly-without-deployment</name>
-                        <tag>latest</tag>
-                        <registry>localhost:5000</registry>
-                    </image>
                 </configuration>
                 <executions>
                     <execution>
                         <phase>pre-integration-test</phase>
                         <goals>
-                            <goal>image</goal>
+                            <goal>package</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -203,7 +194,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>build-deployment-image</id>
+                        <id>build-wildfly-images</id>
                         <phase>pre-integration-test</phase>
                         <goals>
                             <goal>build</goal>
@@ -211,6 +202,31 @@
                         </goals>
                         <configuration>
                             <images>
+                                <image>
+                                    <name>localhost:5000/wildfly-without-deployment:latest</name>
+                                    <build>
+                                        <from>quay.io/wildfly/wildfly-runtime:latest</from>
+                                        <assembly>
+                                            <mode>dir</mode>
+                                            <user>jboss:root</user>
+                                            <targetDir>/opt/server</targetDir>
+                                            <inline>
+                                                <formats>
+                                                    <format>dir</format>
+                                                </formats>
+                                                <fileSets>
+                                                    <fileSet>
+                                                        <directory>target/server</directory>
+                                                        <outputDirectory>/</outputDirectory>
+                                                        <includes>
+                                                            <include>**</include>
+                                                        </includes>
+                                                    </fileSet>
+                                                </fileSets>
+                                            </inline>
+                                        </assembly>
+                                    </build>
+                                </image>
                                 <image>
                                     <name>localhost:5000/jbossws-deployment:latest</name>
                                     <build>
