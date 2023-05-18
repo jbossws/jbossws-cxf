@@ -15,9 +15,12 @@ spec:
       labels:
         app.kubernetes.io/name: jbossws-cxf-k8s-tests
     spec:
+      volumes:
+        - name: deployments
+          emptyDir: { }
       containers:
-        - name: jbossws-cxf-k8s-tests
-          image: localhost:5000/jbossws-cxf-k8s-tests:latest
+        - name: widlfly-container
+          image: localhost:5000/wildfly-without-deployment:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 9990
@@ -26,6 +29,13 @@ spec:
             - containerPort: 8080
               name: http
               protocol: TCP
+      initContainers:
+        - name: init-container
+          image: localhost:5000/jbossws-deployment:latest
+          volumeMounts:
+            - name: deployments
+              mountPath: /deployment
+          command: [ "sh", "-c", "cp /opt/app/deployment/jbossws-cxf-k8s.war /deployment" ]
 ---
 apiVersion: v1
 kind: Service

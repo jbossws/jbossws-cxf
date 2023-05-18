@@ -184,7 +184,7 @@
                         <build>true</build>
                         <push>true</push>
                         <docker-binary>docker</docker-binary>
-                        <name>${project.artifactId}</name>
+                        <name>wildfly-without-deployment</name>
                         <tag>latest</tag>
                         <registry>localhost:5000</registry>
                     </image>
@@ -195,6 +195,48 @@
                         <goals>
                             <goal>image</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-deployment-image</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>localhost:5000/jbossws-deployment:latest</name>
+                                    <build>
+                                        <from>busybox</from>
+                                        <assembly>
+                                            <mode>dir</mode>
+                                            <targetDir>/opt/app/deployment</targetDir>
+                                            <inline>
+                                                <formats>
+                                                    <format>dir</format>
+                                                </formats>
+                                                <fileSets>
+                                                    <fileSet>
+                                                        <directory>target</directory>
+                                                        <outputDirectory>/</outputDirectory>
+                                                        <includes>
+                                                            <include>*.war</include>
+                                                        </includes>
+                                                    </fileSet>
+                                                </fileSets>
+                                            </inline>
+                                        </assembly>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -262,6 +304,7 @@
                     <testTarget>11</testTarget>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
 </project>
