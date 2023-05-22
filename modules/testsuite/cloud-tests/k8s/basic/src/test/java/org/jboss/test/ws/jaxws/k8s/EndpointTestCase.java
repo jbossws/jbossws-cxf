@@ -57,22 +57,23 @@ import org.wildfly.test.cloud.common.KubernetesResource;
                         definitionLocation = "src/test/resources/kubernetes.yml"
                 ),}
 )
-public class EndpointTestCaseIT extends WildFlyCloudTestCase {
+public class EndpointTestCase extends WildFlyCloudTestCase {
+
+    private static final String APP_NAME = "jbossws-cxf-k8s-basic";
+
     @Inject
     private KubernetesClient k8sClient;
-    @Inject
-    private KubernetesList kubernetesList;
 
     @Test
     public void  checkWSEndpoint() throws Exception {
-        List<Pod> lst = k8sClient.pods().withLabel("app.kubernetes.io/name","jbossws-cxf-k8s-tests").list().getItems();
+        List<Pod> lst = k8sClient.pods().withLabel("app.kubernetes.io/name", APP_NAME).list().getItems();
         Assertions.assertEquals(1, lst.size(), "More than one pod found with expected label " + lst);
         Pod first = lst.get(0);
         Assertions.assertNotNull(first, "pod isn't created");
         Assertions.assertEquals("Running", first.getStatus().getPhase(), "Pod isn't running");
-        LocalPortForward p = k8sClient.services().withName("jbossws-cxf-k8s-tests").portForward(8080);
+        LocalPortForward p = k8sClient.services().withName(APP_NAME).portForward(8080);
         Assertions.assertTrue(p.isAlive());
-        URL baseURL = new URL("http://localhost:" + p.getLocalPort() + "/jbossws-cxf-k8s-tests/EndpointImpl");
+        URL baseURL = new URL("http://localhost:" + p.getLocalPort() + "/" + APP_NAME + "/EndpointImpl");
         Endpoint endpoint = initPort(baseURL);
         String  echoed = endpoint.echo("from k8s pod");
         Assertions.assertEquals("Echo:from k8s pod", echoed);
