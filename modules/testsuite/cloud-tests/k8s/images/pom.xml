@@ -1,0 +1,166 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <name>JBoss Web Services - Stack CXF Specific K8s Tests Images</name>
+    <artifactId>jbossws-cxf-k8s-images</artifactId>
+    <packaging>pom</packaging>
+
+    <!-- Parent -->
+    <parent>
+        <groupId>org.jboss.ws.cxf</groupId>
+        <artifactId>jbossws-cxf-k8s-tests</artifactId>
+        <version>6.2.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <properties>
+        <wildfly.webserive.image.name>wildfly-webservice</wildfly.webserive.image.name>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <executions>
+                    <!--combine.self="override" to override configuration from parent pom-->
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <includes>
+                                <include>**/*Test.java</include>
+                                <include>**/*TestCase.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>forked-integration-tests</id>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration combine.self="override">
+                            <skip>true</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <feature-packs>
+                        <feature-pack>
+                            <location>org.jboss.ws.cxf:jbossws-cxf-feature-pack:${project.version}</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <location>org.wildfly:wildfly-galleon-pack:${jboss.version}</location>
+                        </feature-pack>
+                        <feature-pack>
+                            <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:2.0.0.Final</location>
+                        </feature-pack>
+                    </feature-packs>
+                    <layers>
+                        <layer>cloud-server</layer>
+                        <layer>webservices</layer>
+                    </layers>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>package</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>build-wildfly-images</id>
+                        <phase>pre-integration-test</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                        <configuration>
+                            <images>
+                                <image>
+                                    <name>localhost:5000/wildfly-webservice:latest</name>
+                                    <build>
+                                        <from>quay.io/wildfly/wildfly-runtime:latest</from>
+                                        <assembly>
+                                            <mode>dir</mode>
+                                            <user>jboss:root</user>
+                                            <targetDir>/opt/server</targetDir>
+                                            <inline>
+                                                <formats>
+                                                    <format>dir</format>
+                                                </formats>
+                                                <fileSets>
+                                                    <fileSet>
+                                                        <directory>target/server</directory>
+                                                        <outputDirectory>/</outputDirectory>
+                                                        <includes>
+                                                            <include>**</include>
+                                                        </includes>
+                                                    </fileSet>
+                                                </fileSets>
+                                            </inline>
+                                        </assembly>
+                                    </build>
+                                </image>
+                            </images>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
