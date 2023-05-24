@@ -17,7 +17,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest ]
         java: ['11','17']
-        profile: ['-Pwildfly28', '']
+        profile: ['-Pwildflydev', '']
 
     steps:
       - name: Checkout jbossws-cxf
@@ -41,7 +41,7 @@ jobs:
       - name: Build docbook
         run: mvn -s ./.m2-settings.xml -f docbook/pom.xml install
       - name: Build WFLY
-        if: ${{ matrix.profile == '-Pwildfly28'}}
+        if: ${{ matrix.profile == '-Pwildflydev'}}
         working-directory: ./wildfly
         run: mvn -DskipTests=true '-Denforcer.skip=true' -Prelease clean install
       - name: Build with Maven Java ${{ matrix.java }} ${{ matrix.profile }}
