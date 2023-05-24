@@ -582,10 +582,10 @@
     </profile>
 
     <!--
-    Descr: WildFly-27.0.0 specific options
+    Descr: WildFly specific options
     -->
     <profile>
-      <id>wildfly27</id>
+      <id>wildfly</id>
       <activation>
         <property>
           <name>!skip.testsuite</name>
@@ -679,7 +679,7 @@
     Descr: Test with the latest WFLY28 upstream version
     -->
     <profile>
-      <id>wildfly28</id>
+      <id>wildflydev</id>
       <properties>
         <jboss.remoting.protocol>remote+http</jboss.remoting.protocol>
         <jboss.initial.context.factory>org.wildfly.naming.client.WildFlyInitialContextFactory</jboss.initial.context.factory>
