@@ -1083,7 +1083,7 @@
       <id>wildfly</id>
       <activation>
         <property>
-          <name>!skip.testsuite</name>
+          <name>!cloud</name>
         </property>
       </activation>
       <properties>
@@ -1109,6 +1109,26 @@
       <modules>
         <module>modules/dist</module>
         <module>modules/testsuite</module>
+      </modules>
+    </profile>
+    <!--
+     Name:  cloud
+     Descr: Cloud test profile -->
+    <profile>
+      <id>cloud</id>
+      <activation>
+        <property>
+          <name>cloud</name>
+        </property>
+      </activation>
+      <properties>
+        <jboss.home>${server.home}</jboss.home>
+        <jboss.version>${wildfly.version}</jboss.version>
+        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
+      </properties>
+      <modules>
+        <module>modules/dist</module>
+        <module>modules/testsuite/cloud-tests</module>
       </modules>
     </profile>
     <profile>
