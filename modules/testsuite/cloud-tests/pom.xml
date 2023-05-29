@@ -14,6 +14,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modules>
+        <module>test-feature-pack</module>
         <module>container</module>
         <module>k8s</module>
     </modules>
