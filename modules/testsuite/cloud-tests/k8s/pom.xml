@@ -15,5 +15,6 @@
     <modules>
         <module>images</module>
         <module>basic</module>
+        <module>wsse</module>
     </modules>
 </project>

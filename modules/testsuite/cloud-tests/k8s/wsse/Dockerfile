@@ -1,0 +1,1 @@
+Needed until https://github.com/dekorateio/dekorate/issues/1000 is fixed
