@@ -17,4 +17,64 @@
         <module>basic</module>
         <module>wsse</module>
     </modules>
+    <properties>
+        <!-- TODO: Move this to the parent pom-->
+        <version.io.decorate.dekorate>3.4.1</version.io.decorate.dekorate>
+        <version.io.fabric8.kubernetes>6.4.0</version.io.fabric8.kubernetes>
+        <version.wildfly.cloud.tests.common>1.0-SNAPSHOT</version.wildfly.cloud.tests.common>
+        <version.junit.jupiter>5.9.1</version.junit.jupiter>
+        <version.rest.assured>5.0.1</version.rest.assured>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.wildfly.cloud-tests</groupId>
+            <artifactId>wildfly-cloud-tests-common</artifactId>
+            <version>${version.wildfly.cloud.tests.common}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${version.junit.jupiter}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekorate</groupId>
+            <artifactId>dekorate-core</artifactId>
+            <version>${version.io.decorate.dekorate}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekorate</groupId>
+            <artifactId>core-junit</artifactId>
+            <version>${version.io.decorate.dekorate}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekorate</groupId>
+            <artifactId>openshift-annotations</artifactId>
+            <version>${version.io.decorate.dekorate}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekorate</groupId>
+            <artifactId>openshift-junit</artifactId>
+            <version>${version.io.decorate.dekorate}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekorate</groupId>
+            <artifactId>kubernetes-annotations</artifactId>
+            <version>${version.io.decorate.dekorate}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.dekorate</groupId>
+            <artifactId>kubernetes-junit</artifactId>
+            <version>${version.io.decorate.dekorate}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+            <version>${version.io.fabric8.kubernetes}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${version.rest.assured}</version>
+        </dependency>
+    </dependencies>
 </project>
