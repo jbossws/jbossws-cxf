@@ -21,7 +21,6 @@
  */
 package org.jboss.test.ws.jaxws.smoke.tools;
 
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +46,7 @@ public class CalculatorBean
    }
    
    @WebMethod
-   public Set<Integer> getKeys(HashMap<Integer, String> map) throws RuntimeException, RemoteException
+   public Set<Integer> getKeys(HashMap<Integer, String> map) throws RuntimeException
    {
       if (map != null)
          return map.keySet();
