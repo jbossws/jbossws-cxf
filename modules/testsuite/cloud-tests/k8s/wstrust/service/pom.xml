@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>JBoss Web Services - Stack CXF Specific K8s WSTrust Test</name>
-    <artifactId>jbossws-cxf-k8s-wstrust-sts</artifactId>
+    <artifactId>jbossws-cxf-k8s-wstrust-service</artifactId>
     <packaging>war</packaging>
 
     <!-- Parent -->
@@ -36,7 +36,7 @@
                     </executions>
                     <archive>
                         <manifestEntries>
-                            <Dependencies>org.jboss.ws.cxf.jbossws-cxf-client,org.jboss.ws.cxf.sts</Dependencies>
+                            <Dependencies>org.jboss.ws.cxf.jbossws-cxf-client</Dependencies>
                         </manifestEntries>
                     </archive>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -57,7 +57,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>localhost:5000/k8s-wstrust-sts:latest</name>
+                                    <name>localhost:5000/k8s-wstrust-service:latest</name>
                                     <build>
                                         <from>busybox</from>
                                         <assembly>

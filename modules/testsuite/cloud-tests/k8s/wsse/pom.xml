@@ -34,16 +34,6 @@
                     </archive>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                     <packagingExcludes>WEB-INF/lib/*.jar</packagingExcludes>
-                    <webResources>
-                        <resource>
-                            <directory>${project.build.directory}/classes</directory>
-                            <targetPath>WEB-INF/classes</targetPath>
-                        </resource>
-                        <resource>
-                            <directory>${project.build.directory}/test-resources/jaxws/samples/wsse/policy/jaas/auth/WEB-INF</directory>
-                            <targetPath>WEB-INF</targetPath>
-                        </resource>
-                    </webResources>
                 </configuration>
             </plugin>
             <plugin>
@@ -60,7 +50,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>localhost:5000/jbossws-wsse-deployment:latest</name>
+                                    <name>registry.me:5000/jbossws-wsse-deployment:latest</name>
                                     <build>
                                         <from>busybox</from>
                                         <assembly>
