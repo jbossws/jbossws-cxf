@@ -15,5 +15,6 @@
     </parent>
     <modules>
         <module>sts</module>
+        <module>service</module>
     </modules>
 </project>
