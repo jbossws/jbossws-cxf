@@ -28,7 +28,7 @@ import io.fabric8.kubernetes.client.LocalPortForward;
 import java.net.URL;
 import java.util.List;
 import javax.xml.namespace.QName;
-import javax.xml.ws.Service;
+import jakarta.xml.ws.Service;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Tag;
@@ -50,10 +50,9 @@ import static org.wildfly.test.cloud.common.WildflyTags.KUBERNETES;
 )
 public class WSTrustK8sTestCase extends WildFlyCloudTestCase {
 
-   private static final String SERVICE_NAME = "k8s-wstrust-service";
-   private static final String STS_NAME = "k8s-wstrust-sts";
-
-
+   //This container name has to be the same as the maven project id
+   private static final String SERVICE_NAME = "jbossws-cxf-k8s-wstrust-service";
+   private static final String STS_NAME = "jbossws-cxf-k8s-wstrust-sts";
    @Inject
    private KubernetesClient k8sClient;
 
@@ -70,6 +69,8 @@ public class WSTrustK8sTestCase extends WildFlyCloudTestCase {
 
       final QName serviceName = new QName("http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy", "SecurityService");
       final URL wsdlURL = new URL(serviceBaseURL + "/SecurityService?wsdl");
+      //TODO: look at how to resolve this to check the services are all ready
+      Thread.sleep(5000);
       Service service = Service.create(wsdlURL, serviceName);
       ServiceIface proxy = (ServiceIface) service.getPort(ServiceIface.class);
 
@@ -78,14 +79,15 @@ public class WSTrustK8sTestCase extends WildFlyCloudTestCase {
       Pod firstSts = stslst.get(0);
       Assertions.assertNotNull(firstSts, "STS pod isn't created");
       Assertions.assertEquals("Running", firstSts.getStatus().getPhase(), "STS Pod isn't running");
-      LocalPortForward stsPort = k8sClient.services().withName(STS_NAME).portForward(9080);
+      LocalPortForward stsPort = k8sClient.services().withName(STS_NAME).portForward(8080);
       Assertions.assertTrue(stsPort.isAlive());
 
       URL stsBaseURL = new URL("http://localhost:" + stsPort.getLocalPort() + "/" + STS_NAME);
+
       final QName stsServiceName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "SecurityTokenService");
       final QName stsPortName = new QName("http://docs.oasis-open.org/ws-sx/ws-trust/200512/", "UT_Port");
-      URL stsURL = new URL(stsBaseURL + "/jaxws-samples-wsse-policy-trust-sts/SecurityTokenService?wsdl");
-      WSTrustTestUtils.setupWsseAndSTSClient(proxy, stsURL.toString(), stsServiceName, stsPortName);
+      URL stsURL = new URL(stsBaseURL + "/SecurityTokenService?wsdl");
+      WSTrustK8sTestUtils.setupWsseAndSTSClient(proxy, stsURL.toString(), stsServiceName, stsPortName);
       Assertions.assertEquals("WS-Trust Hello World!", proxy.sayHello());
    }
 }

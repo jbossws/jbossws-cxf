@@ -3,23 +3,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: k8s-wstrust-service
-  name: k8s-wstrust-service
+    app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-service
+  name: jbossws-cxf-k8s-wstrust-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: k8s-wstrust-service
+      app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-service
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: k8s-wstrust-service
+        app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-service
     spec:
       volumes:
         - name: deployments
           emptyDir: { }
       containers:
-        - name: k8s-wstrust-service
+        - name: jbossws-cxf-k8s-wstrust-service
           image: localhost:5000/wildfly-webservice:latest
           imagePullPolicy: Always
           ports:
@@ -45,41 +45,41 @@ kind: Service
 metadata:
   annotations:
   labels:
-    app.kubernetes.io/name: k8s-wstrust-service
-  name: k8s-wstrust-service
+    app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-service
+  name: jbossws-cxf-k8s-wstrust-service
 spec:
   ports:
     - name: http
-      port: 80
+      port: 8080
       targetPort: 8080
     - name: admin
       port: 9990
       targetPort: 9990
   selector:
-    app.kubernetes.io/name: k8s-wstrust-service
+    app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-service
   type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: k8s-wstrust-sts
-  name: k8s-wstrust-sts
+    app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-sts
+  name: jbossws-cxf-k8s-wstrust-sts
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: k8s-wstrust-sts
+      app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-sts
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: k8s-wstrust-sts
+        app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-sts
     spec:
       volumes:
         - name: deployments
           emptyDir: { }
       containers:
-        - name: k8s-wstrust-sts
+        - name: jbossws-cxf-k8s-wstrust-sts
           image: localhost:5000/wildfly-webservice:latest
           imagePullPolicy: Always
           ports:
@@ -105,16 +105,16 @@ kind: Service
 metadata:
   annotations:
   labels:
-    app.kubernetes.io/name: k8s-wstrust-sts
-  name: k8s-wstrust-sts
+    app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-sts
+  name: jbossws-cxf-k8s-wstrust-sts
 spec:
   ports:
     - name: http
-      port: 80
+      port: 8080
       targetPort: 8080
     - name: admin
       port: 9990
       targetPort: 9990
   selector:
-    app.kubernetes.io/name: k8s-wstrust-sts
+    app.kubernetes.io/name: jbossws-cxf-k8s-wstrust-sts
   type: ClusterIP

@@ -19,8 +19,13 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.shared;
 
+import java.io.IOException;
+import java.util.Map;
+import javax.security.auth.callback.Callback;
+import javax.security.auth.callback.CallbackHandler;
+import javax.security.auth.callback.UnsupportedCallbackException;
 import org.apache.cxf.helpers.DOMUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
@@ -28,16 +33,10 @@ import org.apache.cxf.ws.security.trust.delegation.DelegationCallback;
 import org.apache.wss4j.dom.WSConstants;
 import org.apache.wss4j.dom.message.token.UsernameToken;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
-
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.UnsupportedCallbackException;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * A utility to provide the 3 different input parameter types for jaxws property

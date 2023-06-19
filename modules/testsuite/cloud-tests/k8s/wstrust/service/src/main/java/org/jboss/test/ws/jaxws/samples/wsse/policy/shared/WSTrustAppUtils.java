@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared;
+package org.jboss.test.ws.jaxws.samples.wsse.policy.shared;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
