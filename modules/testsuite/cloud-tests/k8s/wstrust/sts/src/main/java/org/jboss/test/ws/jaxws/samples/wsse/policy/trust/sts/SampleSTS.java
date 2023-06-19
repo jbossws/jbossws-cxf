@@ -69,9 +69,7 @@ public class SampleSTS extends SecurityTokenServiceProvider
       StaticService service = new StaticService();
       String serverHostRegexp = WSTrustAppUtils.getServerHost().replace("[", "\\[").replace("]", "\\]").replace("127.0.0.1", "localhost");
       service.setEndpoints(Arrays.asList(
-         "http://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust/SecurityService",
-         "http://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust-actas/ActAsService",
-         "http://" + serverHostRegexp + ":(\\d)*/jaxws-samples-wsse-policy-trust-onbehalfof/OnBehalfOfService"
+         "http://localhost:(\\d)*/jbossws-cxf-k8s-wstrust-service/SecurityService"
       ));
       services.add(service);
       

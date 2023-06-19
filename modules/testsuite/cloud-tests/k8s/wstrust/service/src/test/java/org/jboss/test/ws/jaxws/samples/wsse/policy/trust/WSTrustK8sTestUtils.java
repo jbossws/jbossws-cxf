@@ -21,6 +21,9 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -31,8 +34,8 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.apache.cxf.ws.security.trust.STSClient;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.ClientCallbackHandler;
-import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.UsernameTokenCallbackHandler;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.shared.ClientCallbackHandler;
+import org.jboss.test.ws.jaxws.samples.wsse.policy.shared.UsernameTokenCallbackHandler;
 
 /**
  * Some client util methods for WS-Trust testcases 
@@ -40,7 +43,7 @@ import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.shared.UsernameTokenCal
  * @author alessio.soldano@jboss.com
  * @since 08-May-2012
  */
-public class WSTrustTestUtils
+public class WSTrustK8sTestUtils
 {
    public static void setupWsseAndSTSClient(ServiceIface proxy, String stsWsdlLocation, QName stsService, QName stsPort)
    {
@@ -55,10 +58,10 @@ public class WSTrustTestUtils
       setServiceContextAttributes(ctx);
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.USERNAME), "alice");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.CALLBACK_HANDLER), new ClientCallbackHandler());
-      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_USERNAME), "mystskey");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
-      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
    }
 
@@ -87,10 +90,10 @@ public class WSTrustTestUtils
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.USERNAME, "alice");
       props.put(SecurityConstants.PASSWORD, "clarinet");
-      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
-      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
    }
@@ -109,8 +112,8 @@ public class WSTrustTestUtils
    public static void setupWsseAndSTSClientNoSignatureUsername(ServiceIface proxy, Bus bus, String stsWsdlLocation, QName stsService, QName stsPort) {
       Map<String, Object> ctx = ((BindingProvider) proxy).getRequestContext();
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
 
       ctx.put(SecurityConstants.STS_CLIENT, createSTSClient(bus, stsWsdlLocation, stsService, stsPort));
@@ -127,9 +130,9 @@ public class WSTrustTestUtils
       Map<String, Object> ctx = proxy.getRequestContext();
 
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myactaskey");
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
 
 
@@ -143,10 +146,10 @@ public class WSTrustTestUtils
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.USERNAME, "bob");
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
-      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
@@ -163,9 +166,9 @@ public class WSTrustTestUtils
       Map<String, Object> ctx = proxy.getRequestContext();
 
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myactaskey");
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.USERNAME,"alice");
       ctx.put(SecurityConstants.PASSWORD, "clarinet");
@@ -175,10 +178,10 @@ public class WSTrustTestUtils
 
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
-      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
@@ -191,16 +194,16 @@ public class WSTrustTestUtils
       STSClient stsClient = new STSClient(bus);
 
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.USERNAME), "alice");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.CALLBACK_HANDLER), new ClientCallbackHandler());
-      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_USERNAME), "mystskey");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
-      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
@@ -213,16 +216,16 @@ public class WSTrustTestUtils
       STSClient stsClient = new STSClient(bus);
 
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.USERNAME), "alice");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.CALLBACK_HANDLER), new ClientCallbackHandler());
-      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_PROPERTIES), getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.ENCRYPT_USERNAME), "mystskey");
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USERNAME), "myclientkey");
-      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_PROPERTIES), getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(appendIssuedTokenSuffix(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO), "true");
 
       ctx.put(SecurityConstants.STS_CLIENT, stsClient);
@@ -256,19 +259,32 @@ public class WSTrustTestUtils
       Map<String, Object> props = stsClient.getProperties();
       props.put(SecurityConstants.USERNAME, "alice");
       props.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      props.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.ENCRYPT_USERNAME, "mystskey");
       props.put(SecurityConstants.STS_TOKEN_USERNAME, "myclientkey");
-      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      props.put(SecurityConstants.STS_TOKEN_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       props.put(SecurityConstants.STS_TOKEN_USE_CERT_FOR_KEYINFO, "true");
       return stsClient;
    }
 
    private static void setServiceContextAttributes(Map<String, Object> ctx){
       ctx.put(SecurityConstants.CALLBACK_HANDLER, new ClientCallbackHandler());
-      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
-      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, Thread.currentThread().getContextClassLoader().getResource("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.SIGNATURE_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
+      ctx.put(SecurityConstants.ENCRYPT_PROPERTIES, getResourceFile("META-INF/clientKeystore.properties"));
       ctx.put(SecurityConstants.SIGNATURE_USERNAME, "myclientkey");
       ctx.put(SecurityConstants.ENCRYPT_USERNAME, "myservicekey");
+   }
+
+   private static URL getResourceFile(String file) {
+      File resFile = new File("src/test/resources/" + file);
+      if (resFile.exists()) {
+         try {
+            return resFile.toURI().toURL();
+         } catch (MalformedURLException e) {
+            throw new IllegalArgumentException("Failed to get URL from resource file " + resFile.getAbsolutePath());
+         }
+      }
+      throw new IllegalArgumentException("Resource file " + file + " doesn't exist");
+
    }
 }

@@ -16,6 +16,7 @@
         <module>images</module>
         <module>basic</module>
         <module>wsse</module>
+        <module>wstrust</module>
     </modules>
     <properties>
         <!-- TODO: Move this to the parent pom-->
