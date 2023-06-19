@@ -57,7 +57,7 @@
                         <configuration>
                             <images>
                                 <image>
-                                    <name>registry.me:5000/k8s-wstrust-service:latest</name>
+                                    <name>localhost:5000/k8s-wstrust-service:latest</name>
                                     <build>
                                         <from>busybox</from>
                                         <assembly>
