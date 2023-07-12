@@ -143,7 +143,7 @@ public final class AddressingTestCase extends JBossWSTest
             proxy.sayHello("Sleepy"); //this takes at least 30 secs
             fail("Timeout exception expected");
          } catch (WebServiceException e) {
-            assertTrue(e.getCause() instanceof SocketTimeoutException);
+            assertTrue(e.getCause().getMessage().contains("Timeout"));
          }
          
          policy.setDecoupledEndpoint("http://" + getServerHost() + ":18181/jaxws-samples-wsa/decoupled-endpoint");
