@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 11
-          distribution: 'temurin'
+          distribution: 'adopt'
           cache: 'maven'
       - name: Build WildFly
         run: 'mvn clean install -Prelease,gendoc -DskipTests -Dcheckstyle.skip=true -Denforcer.skip=true'
