@@ -67,8 +67,8 @@
     <jbossws.spi.version>5.0.0-SNAPSHOT</jbossws.spi.version>
     <jbossws.common.version>5.0.0-SNAPSHOT</jbossws.common.version>
     <jbossws.common.tools.version>2.0.0-SNAPSHOT</jbossws.common.tools.version>
-    <wildfly.version>28.0.1.Final</wildfly.version>
-    <wildfly.dev.version>29.0.0.Final-SNAPSHOT</wildfly.dev.version>
+    <wildfly.version>29.0.0.Final</wildfly.version>
+    <wildfly.dev.version>30.0.0.Beta1-SNAPSHOT</wildfly.dev.version>
     <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
     <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
     <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
