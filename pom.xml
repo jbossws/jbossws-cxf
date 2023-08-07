@@ -38,7 +38,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <version>2.0.0.Final</version>
   </parent>
 
   <!-- Source Control Management -->
@@ -63,10 +63,10 @@
   <!-- Properties -->
   <properties>
     <jboss.modules.version>2.1.0.Final</jboss.modules.version>
-    <jbossws.api.version>3.0.0-SNAPSHOT</jbossws.api.version>
-    <jbossws.spi.version>5.0.0-SNAPSHOT</jbossws.spi.version>
-    <jbossws.common.version>5.0.0-SNAPSHOT</jbossws.common.version>
-    <jbossws.common.tools.version>2.0.0-SNAPSHOT</jbossws.common.tools.version>
+    <jbossws.api.version>3.0.0.Final</jbossws.api.version>
+    <jbossws.spi.version>5.0.0.Final</jbossws.spi.version>
+    <jbossws.common.version>5.0.0.Final</jbossws.common.version>
+    <jbossws.common.tools.version>2.0.0.Final</jbossws.common.tools.version>
     <wildfly.version>29.0.0.Final</wildfly.version>
     <wildfly.dev.version>30.0.0.Beta1-SNAPSHOT</wildfly.dev.version>
     <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
