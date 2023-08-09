@@ -44,10 +44,6 @@
       <groupId>com.fasterxml.woodstox</groupId>
       <artifactId>woodstox-core</artifactId>
     </dependency>
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-    </dependency>
     <!-- END - this should be JDK9 only dependency -->
     <dependency>
       <groupId>junit</groupId>
