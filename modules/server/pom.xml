@@ -182,12 +182,6 @@
       <artifactId>jakarta.xml.ws-api</artifactId>
     </dependency>
 
-    <!-- jboss provided -->
-    <dependency>
-      <groupId>xerces</groupId>
-      <artifactId>xercesImpl</artifactId>
-    </dependency>
-    
     <!-- transitive dependencies -->
     <dependency>
       <groupId>org.glassfish.jaxb</groupId>
