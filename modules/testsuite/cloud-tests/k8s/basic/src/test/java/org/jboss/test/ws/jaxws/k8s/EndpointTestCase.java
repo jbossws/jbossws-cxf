@@ -17,58 +17,41 @@
  * under the License.
  */
 package org.jboss.test.ws.jaxws.k8s;
-import static org.wildfly.test.cloud.common.WildflyTags.KUBERNETES;
-
 import io.fabric8.kubernetes.client.LocalPortForward;
-import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Service;
 import java.net.URL;
-import java.util.Map;
 import javax.xml.namespace.QName;
 import org.jboss.test.ws.jaxws.container.Endpoint;
+import org.jboss.ws.cloud.test.JBossWSKubernetesIntegrationTest;
+import org.jboss.ws.cloud.test.JBossWSKubernetesTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.wildfly.test.cloud.common.WildFlyCloudTestCase;
-import org.wildfly.test.cloud.common.WildFlyKubernetesIntegrationTest;
 
 import io.dekorate.testing.annotation.Inject;
-import io.fabric8.kubernetes.api.model.KubernetesList;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
 import io.fabric8.kubernetes.api.model.Pod;
 import java.util.List;
-import org.wildfly.test.cloud.common.KubernetesResource;
 
 
 /**
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  *
  */
-@Tag(KUBERNETES)
-@WildFlyKubernetesIntegrationTest(
-        buildEnabled=false,
-        deployEnabled=false,
-        kubernetesResources = {
-                @KubernetesResource(
-                        definitionLocation = "src/test/resources/kubernetes.yml"
-                ),}
+@JBossWSKubernetesIntegrationTest(
+        kubernetesResource = "src/test/resources/kubernetes.yml"
 )
-public class EndpointTestCase extends WildFlyCloudTestCase {
+public class EndpointTestCase extends JBossWSKubernetesTest {
 
     private static final String APP_NAME = "jbossws-cxf-k8s-basic";
-
-    @Inject
-    private KubernetesClient k8sClient;
-
     @Test
     public void  checkWSEndpoint() throws Exception {
-        List<Pod> lst = k8sClient.pods().withLabel("app.kubernetes.io/name", APP_NAME).list().getItems();
+        List<Pod> lst = getKubeClient().pods().withLabel("app.kubernetes.io/name", APP_NAME).list().getItems();
         Assertions.assertEquals(1, lst.size(), "More than one pod found with expected label " + lst);
         Pod first = lst.get(0);
         Assertions.assertNotNull(first, "pod isn't created");
         Assertions.assertEquals("Running", first.getStatus().getPhase(), "Pod isn't running");
-        LocalPortForward p = k8sClient.services().withName(APP_NAME).portForward(8080);
+        LocalPortForward p = getKubeClient().services().withName(APP_NAME).portForward(8080);
         Assertions.assertTrue(p.isAlive());
         URL baseURL = new URL("http://localhost:" + p.getLocalPort() + "/" + APP_NAME + "/EndpointImpl");
         Endpoint endpoint = initPort(baseURL);
@@ -82,5 +65,14 @@ public class EndpointTestCase extends WildFlyCloudTestCase {
         Service service = Service.create(wsdlURL, serviceName);
         Endpoint proxy = service.getPort(Endpoint.class);
         return proxy;
+    }
+    //The wildfly container name.If it is not set, it will use the ${project.artifactId}
+
+    /**
+     * Get the WFLY container name, this container name will be used to check the WFLY readiness.
+     * @return the WFLY container name, ${project.artifactId} will be used if this is method is not implemented
+     */
+    public String getContainerName() {
+        return APP_NAME;
     }
 }
