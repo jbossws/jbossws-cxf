@@ -13,6 +13,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modules>
+        <module>common</module>
         <module>images</module>
         <module>basic</module>
         <module>wsse</module>
@@ -24,7 +25,7 @@
         <version.io.fabric8.kubernetes>6.4.0</version.io.fabric8.kubernetes>
         <version.wildfly.cloud.tests.common>1.0-SNAPSHOT</version.wildfly.cloud.tests.common>
         <version.junit.jupiter>5.9.1</version.junit.jupiter>
-        <version.rest.assured>5.0.1</version.rest.assured>
+        <version.rest.assured>5.3.1</version.rest.assured>
     </properties>
     <dependencies>
         <dependency>
