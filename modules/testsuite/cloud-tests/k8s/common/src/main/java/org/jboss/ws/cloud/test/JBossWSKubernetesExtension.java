@@ -18,18 +18,29 @@
  */
 package org.jboss.ws.cloud.test;
 
-import io.dekorate.testing.kubernetes.KubernetesExtension;
 import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import org.junit.jupiter.api.extension.AfterAllCallback;
+import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+import org.junit.jupiter.api.extension.TestInstancePostProcessor;
+import org.junit.platform.commons.support.AnnotationSupport;
 
-public class JBossWSKubernetesExtension extends KubernetesExtension {
+public class JBossWSKubernetesExtension implements BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor, ParameterResolver {
+    private final ExtensionContext.Namespace JBOSSWS = ExtensionContext.Namespace.create(JBossWSKubernetesExtension.class);
+    private final String KUBECLIENT = "kubeclient";
     public JBossWSKubernetesIntegrationTestConfig getIntegrationTestConfig(ExtensionContext context) {
         // Override the super class method so we can use our own configuration
         return context.getElement()
@@ -48,7 +59,33 @@ public class JBossWSKubernetesExtension extends KubernetesExtension {
         JBossWSKubernetesIntegrationTestConfig config = getIntegrationTestConfig(context);
         deleteK8sResources(context,config);
     }
+    public void postProcessTestInstance(Object test, ExtensionContext context) {
+        List<Field> annotatedFields = AnnotationSupport.findAnnotatedFields(context.getRequiredTestClass() , InjectKubeClient.class);
+        annotatedFields.stream().filter(field -> !field.isSynthetic())
+                .forEach(field -> {injectKubernetesClient(context, test, field);});
+    }
 
+    public void injectKubernetesClient(ExtensionContext context, Object test, Field field) {
+        if (field.getType().isAssignableFrom(KubernetesClient.class)) {
+            field.setAccessible(true);
+            try {
+                field.set(test, this.getKubernetesClient(context));
+            } catch (IllegalAccessException var) {
+                //TODO: handle this exception
+            }
+        }
+
+    }
+    KubernetesClient getKubernetesClient(ExtensionContext context) {
+        Object client = context.getStore(JBOSSWS).get(KUBECLIENT);
+        if (client == null) {
+            KubernetesClient kubeclient = (new KubernetesClientBuilder()).build();
+            context.getStore(JBOSSWS).put(KUBECLIENT, kubeclient);
+            return kubeclient;
+        } else {
+            return (KubernetesClient)client;
+        }
+    }
 
     private void createK8sResources(ExtensionContext context, JBossWSKubernetesIntegrationTestConfig config) {
         if (config.getKuberentesResource().isEmpty()) {
@@ -87,5 +124,15 @@ public class JBossWSKubernetesExtension extends KubernetesExtension {
                  return new BufferedInputStream(ins);
             }
         }
+    }
+
+    @Override
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return parameterContext.getParameter().getType() == KubernetesClient.class && parameterContext.isAnnotated(InjectKubeClient.class);
+    }
+
+    @Override
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return getKubernetesClient(extensionContext);
     }
 }
