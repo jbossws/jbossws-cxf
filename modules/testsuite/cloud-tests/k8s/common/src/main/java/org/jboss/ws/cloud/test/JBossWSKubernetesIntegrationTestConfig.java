@@ -18,23 +18,15 @@
  */
 package org.jboss.ws.cloud.test;
 
-import io.dekorate.testing.config.EditableKubernetesIntegrationTestConfig;
-
-public class JBossWSKubernetesIntegrationTestConfig extends EditableKubernetesIntegrationTestConfig {
+public class JBossWSKubernetesIntegrationTestConfig {
 
     private String resource;
-    private JBossWSKubernetesIntegrationTestConfig(boolean deployEnabled, boolean buildEnabled, long readinessTimeout,
-                                                   String[] additionalModules, String resource){
-        super(deployEnabled, buildEnabled, readinessTimeout, additionalModules);
+    private JBossWSKubernetesIntegrationTestConfig( String resource){
         this.resource = resource;
     }
 
     static JBossWSKubernetesIntegrationTestConfig create(JBossWSKubernetesIntegrationTest annotation) {
         return new JBossWSKubernetesIntegrationTestConfig(
-                annotation.deployEnabled(),
-                annotation.buildEnabled(),
-                annotation.readinessTimeout(),
-                annotation.additionalModules(),
                 annotation.kubernetesResource());
     }
 

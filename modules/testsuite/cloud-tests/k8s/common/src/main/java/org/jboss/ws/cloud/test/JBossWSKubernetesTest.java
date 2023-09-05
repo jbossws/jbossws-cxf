@@ -18,7 +18,6 @@
  */
 package org.jboss.ws.cloud.test;
 
-import io.dekorate.testing.annotation.Inject;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.LocalPortForward;
 import io.restassured.RestAssured;
@@ -31,7 +30,7 @@ import org.junit.jupiter.api.BeforeEach;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JBossWSKubernetesTest implements JBossWSServerContainer {
-    @Inject
+    @InjectKubeClient
     private KubernetesClient kubeClient;
 
     @BeforeEach
@@ -73,9 +72,5 @@ public class JBossWSKubernetesTest implements JBossWSServerContainer {
             }
         }
         return false;
-    }
-
-    public KubernetesClient getKubeClient() {
-        return this.kubeClient;
     }
 }

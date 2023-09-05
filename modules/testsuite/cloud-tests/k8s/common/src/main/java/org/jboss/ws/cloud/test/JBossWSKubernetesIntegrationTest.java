@@ -31,10 +31,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Retention(RUNTIME)
 @ExtendWith(JBossWSKubernetesExtension.class)
 public @interface JBossWSKubernetesIntegrationTest {
-    boolean deployEnabled() default false;
-    boolean buildEnabled() default false;
-    long readinessTimeout() default 500000;
-    String[] additionalModules() default {};
     String kubernetesResource() default "";
 }
 

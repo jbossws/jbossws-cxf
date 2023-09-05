@@ -22,6 +22,7 @@ import jakarta.xml.ws.Service;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import org.jboss.test.ws.jaxws.container.Endpoint;
+import org.jboss.ws.cloud.test.InjectKubeClient;
 import org.jboss.ws.cloud.test.JBossWSKubernetesIntegrationTest;
 import org.jboss.ws.cloud.test.JBossWSKubernetesTest;
 import org.junit.jupiter.api.Assertions;
@@ -45,13 +46,13 @@ public class EndpointTestCase extends JBossWSKubernetesTest {
 
     private static final String APP_NAME = "jbossws-cxf-k8s-basic";
     @Test
-    public void  checkWSEndpoint() throws Exception {
-        List<Pod> lst = getKubeClient().pods().withLabel("app.kubernetes.io/name", APP_NAME).list().getItems();
+    public void  checkWSEndpoint(@InjectKubeClient KubernetesClient kubeClient) throws Exception {
+        List<Pod> lst = kubeClient.pods().withLabel("app.kubernetes.io/name", APP_NAME).list().getItems();
         Assertions.assertEquals(1, lst.size(), "More than one pod found with expected label " + lst);
         Pod first = lst.get(0);
         Assertions.assertNotNull(first, "pod isn't created");
         Assertions.assertEquals("Running", first.getStatus().getPhase(), "Pod isn't running");
-        LocalPortForward p = getKubeClient().services().withName(APP_NAME).portForward(8080);
+        LocalPortForward p = kubeClient.services().withName(APP_NAME).portForward(8080);
         Assertions.assertTrue(p.isAlive());
         URL baseURL = new URL("http://localhost:" + p.getLocalPort() + "/" + APP_NAME + "/EndpointImpl");
         Endpoint endpoint = initPort(baseURL);
