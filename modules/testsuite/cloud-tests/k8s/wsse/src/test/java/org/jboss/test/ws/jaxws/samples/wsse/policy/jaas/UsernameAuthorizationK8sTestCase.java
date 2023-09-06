@@ -18,47 +18,33 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
-import static org.wildfly.test.cloud.common.WildflyTags.KUBERNETES;
-
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.LocalPortForward;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Service;
 import java.net.URL;
-import java.util.Map;
-import javax.xml.namespace.QName;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
-import org.junit.jupiter.api.Test;
-import org.wildfly.test.cloud.common.WildFlyCloudTestCase;
-import org.wildfly.test.cloud.common.WildFlyKubernetesIntegrationTest;
-
-import io.dekorate.testing.annotation.Inject;
-import io.fabric8.kubernetes.api.model.KubernetesList;
-import io.fabric8.kubernetes.client.KubernetesClient;
-
-import io.fabric8.kubernetes.api.model.Pod;
 import java.util.List;
-import org.wildfly.test.cloud.common.KubernetesResource;
+import javax.xml.namespace.QName;
+import org.jboss.ws.cloud.test.InjectKubeClient;
+import org.jboss.ws.cloud.test.JBossWSKubernetesIntegrationTest;
+import org.jboss.ws.cloud.test.JBossWSKubernetesTest;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * @author <a href="mailto:ema@redhat.com">Jim Ma</a>
  */
-@Tag(KUBERNETES)
-@WildFlyKubernetesIntegrationTest(
-        buildEnabled = false,
-        deployEnabled = false,
-        kubernetesResources = {
-                @KubernetesResource(
-                        definitionLocation = "src/test/resources/kubernetes.yml"
-                ),}
+@JBossWSKubernetesIntegrationTest(
+        kubernetesResource = "src/test/resources/kubernetes.yml"
 )
-public class UsernameAuthorizationK8sTestCase extends WildFlyCloudTestCase {
+public class UsernameAuthorizationK8sTestCase extends JBossWSKubernetesTest {
 
     private static final String APP_NAME = "jbossws-cxf-k8s-wsse";
 
 
-    @Inject
+    @InjectKubeClient
     private KubernetesClient k8sClient;
 
     @Test

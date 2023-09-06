@@ -3,6 +3,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>JBoss Web Services - Stack CXF Specific K8s WS Security Test</name>
+    <dependencies>
+        <dependency>
+            <groupId>org.jboss.ws.cxf</groupId>
+            <artifactId>jbossws-cxf-k8s-common</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <artifactId>jbossws-cxf-k8s-wsse</artifactId>
     <packaging>war</packaging>
 

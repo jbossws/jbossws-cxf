@@ -18,39 +18,29 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.trust;
 
-import io.dekorate.testing.annotation.Inject;
 import io.fabric8.kubernetes.api.model.Pod;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.LocalPortForward;
+import jakarta.xml.ws.Service;
 import java.net.URL;
 import java.util.List;
 import javax.xml.namespace.QName;
-import jakarta.xml.ws.Service;
 import org.jboss.test.ws.jaxws.samples.wsse.policy.trust.service.ServiceIface;
+import org.jboss.ws.cloud.test.InjectKubeClient;
+import org.jboss.ws.cloud.test.JBossWSKubernetesIntegrationTest;
+import org.jboss.ws.cloud.test.JBossWSKubernetesTest;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.wildfly.test.cloud.common.KubernetesResource;
-import org.wildfly.test.cloud.common.WildFlyCloudTestCase;
-import org.wildfly.test.cloud.common.WildFlyKubernetesIntegrationTest;
 
-import static org.wildfly.test.cloud.common.WildflyTags.KUBERNETES;
-
-@Tag(KUBERNETES)
-@WildFlyKubernetesIntegrationTest(
-        buildEnabled = false,
-        deployEnabled = false,
-        kubernetesResources = {
-                @KubernetesResource(
-                        definitionLocation = "src/test/resources/kubernetes.yml"
-                ),}
+@JBossWSKubernetesIntegrationTest(
+        kubernetesResource = "src/test/resources/kubernetes.yml"
 )
-public class WSTrustK8sTestCase extends WildFlyCloudTestCase {
+public class WSTrustK8sTestCase extends JBossWSKubernetesTest {
 
    //This container name has to be the same as the maven project id
    private static final String SERVICE_NAME = "jbossws-cxf-k8s-wstrust-service";
    private static final String STS_NAME = "jbossws-cxf-k8s-wstrust-sts";
-   @Inject
+   @InjectKubeClient
    private KubernetesClient k8sClient;
 
    @Test

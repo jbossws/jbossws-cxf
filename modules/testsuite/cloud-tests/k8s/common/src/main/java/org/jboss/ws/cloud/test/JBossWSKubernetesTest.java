@@ -35,7 +35,7 @@ public class JBossWSKubernetesTest implements JBossWSServerContainer {
 
     @BeforeEach
     public void checkServerReady() {
-        waitWFLYReady(this.kubeClient, this.getContainerName(), 30000);
+        waitWFLYReady(this.kubeClient, this.getContainerName(), 60000);
     }
     public static boolean waitWFLYReady(KubernetesClient k8sClient, String containerName, long timeout) {
         LocalPortForward p = k8sClient.services().withName(containerName).portForward(9990);
