@@ -31,11 +31,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JBossWSKubernetesTest implements JBossWSServerContainer {
     @InjectKubeClient
-    private KubernetesClient kubeClient;
+    private KubernetesClient jbossWSKubernetesTestKubeClient;
 
     @BeforeEach
     public void checkServerReady() {
-        waitWFLYReady(this.kubeClient, this.getContainerName(), 60000);
+        waitWFLYReady(this.jbossWSKubernetesTestKubeClient, this.getContainerName(), 60000);
     }
     public static boolean waitWFLYReady(KubernetesClient k8sClient, String containerName, long timeout) {
         LocalPortForward p = k8sClient.services().withName(containerName).portForward(9990);
