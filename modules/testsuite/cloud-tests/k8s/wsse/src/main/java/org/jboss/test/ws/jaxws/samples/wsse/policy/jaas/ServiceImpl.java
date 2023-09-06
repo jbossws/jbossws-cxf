@@ -18,17 +18,12 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.jaas;
 
-import io.dekorate.kubernetes.annotation.KubernetesApplication;
 import jakarta.jws.WebService;
 
 import org.apache.cxf.interceptor.InInterceptors;
 import org.jboss.ws.api.annotation.EndpointConfig;
 
-import static io.dekorate.kubernetes.annotation.ImagePullPolicy.Always;
 
-@KubernetesApplication(
-        imagePullPolicy = Always,
-        replicas = 1)
 @WebService
 (
    portName = "SecurityServicePort",

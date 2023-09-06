@@ -28,7 +28,6 @@ import org.jboss.ws.cloud.test.JBossWSKubernetesTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.dekorate.testing.annotation.Inject;
 import io.fabric8.kubernetes.client.KubernetesClient;
 
 import io.fabric8.kubernetes.api.model.Pod;
@@ -67,11 +66,9 @@ public class EndpointTestCase extends JBossWSKubernetesTest {
         Endpoint proxy = service.getPort(Endpoint.class);
         return proxy;
     }
-    //The wildfly container name.If it is not set, it will use the ${project.artifactId}
-
     /**
      * Get the WFLY container name, this container name will be used to check the WFLY readiness.
-     * @return the WFLY container name, ${project.artifactId} will be used if this is method is not implemented
+     * @return the WFLY container name, ${project.artifactId} will be the default one.
      */
     public String getContainerName() {
         return APP_NAME;
