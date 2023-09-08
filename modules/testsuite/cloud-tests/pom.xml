@@ -42,9 +42,6 @@
                                 <include>**/*Test.java</include>
                                 <include>**/*TestCase.java</include>
                             </includes>
-                            <systemPropertyVariables>
-                                <project.artifactId>${project.artifactId}</project.artifactId>
-                            </systemPropertyVariables>
                         </configuration>
                     </execution>
                     <execution>

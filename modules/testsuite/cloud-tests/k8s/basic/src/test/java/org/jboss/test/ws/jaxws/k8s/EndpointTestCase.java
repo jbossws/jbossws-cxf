@@ -43,7 +43,7 @@ import java.util.List;
 )
 public class EndpointTestCase extends JBossWSKubernetesTest {
 
-    private static final String APP_NAME = "jbossws-cxf-k8s-basic";
+    private final String APP_NAME = "jbossws-cxf-k8s-basic";
     @Test
     public void  checkWSEndpoint(@InjectKubeClient KubernetesClient kubeClient) throws Exception {
         List<Pod> lst = kubeClient.pods().withLabel("app.kubernetes.io/name", APP_NAME).list().getItems();
@@ -65,12 +65,5 @@ public class EndpointTestCase extends JBossWSKubernetesTest {
         Service service = Service.create(wsdlURL, serviceName);
         Endpoint proxy = service.getPort(Endpoint.class);
         return proxy;
-    }
-    /**
-     * Get the WFLY container name, this container name will be used to check the WFLY readiness.
-     * @return the WFLY container name, ${project.artifactId} will be the default one.
-     */
-    public String getContainerName() {
-        return APP_NAME;
     }
 }
