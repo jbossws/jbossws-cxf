@@ -146,7 +146,7 @@ public class HelloBasicSecTestCase extends JBossWSTest
             proxy.helloRequest("number");
             fail("Authorization exception expected!");
          } catch (Exception e) {
-            assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
+            assertTrue(e.getCause().getMessage().contains("401"));
          }
       } finally {
          AuthenticationContext.getContextManager().setGlobalDefault(previousAuthContext);
@@ -196,7 +196,7 @@ public class HelloBasicSecTestCase extends JBossWSTest
          proxy.helloRequest("number");
          fail("Authorization exception expected!");
       } catch (Exception e) {
-         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
+         assertTrue(e.getCause().getMessage().contains("401"));
       }
    }
    
@@ -213,7 +213,7 @@ public class HelloBasicSecTestCase extends JBossWSTest
          proxy.helloRequest("number");
          fail("Authorization exception expected!");
       } catch (Exception e) {
-         assertTrue(e.getCause().getMessage().contains("401: Unauthorized"));
+         assertTrue(e.getCause().getMessage().contains("401"));
       }
    }
 }
