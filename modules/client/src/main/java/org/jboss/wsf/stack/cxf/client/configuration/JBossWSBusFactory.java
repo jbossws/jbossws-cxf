@@ -32,6 +32,7 @@ import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.resource.ResourceManager;
 import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
+import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver;
 
@@ -45,7 +46,7 @@ import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver
 public class JBossWSBusFactory extends CXFBusFactory
 {
    private static final Map<ClassLoader, Bus> classLoaderBusses = new WeakHashMap<ClassLoader, Bus>();
-   
+   private static final boolean forceURLConnectionConduit = Boolean.getBoolean(Constants.FORCE_URL_CONNECTION_CONDUIT);
    @Override
    public Bus createBus(Map<Class<?>, Object> extensions, Map<String, Object> properties) {
       if (extensions == null)
@@ -75,6 +76,9 @@ public class JBossWSBusFactory extends CXFBusFactory
       final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
       SecurityProviderConfig.setup(bus);
+      if (forceURLConnectionConduit) {
+         bus.setProperty(Constants.FORCE_URL_CONNECTION_CONDUIT, true);
+      }
    }
    
    /**
