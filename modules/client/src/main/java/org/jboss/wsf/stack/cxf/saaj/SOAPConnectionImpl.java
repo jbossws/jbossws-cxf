@@ -54,7 +54,6 @@ import org.apache.cxf.transport.MessageObserver;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.jboss.logging.Logger;
 import org.jboss.wsf.stack.cxf.client.Constants;
-import org.jboss.wsf.stack.cxf.client.configuration.SecurityActions;
 
 public class SOAPConnectionImpl extends SOAPConnection 
 {
