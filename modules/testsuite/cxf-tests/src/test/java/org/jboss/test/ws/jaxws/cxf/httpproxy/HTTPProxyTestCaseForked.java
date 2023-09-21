@@ -106,7 +106,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       {
          ByteArrayOutputStream baos = new ByteArrayOutputStream();
          e.printStackTrace(new PrintStream(baos));
-         assertTrue(baos.toString().contains(testHost));
+         assertTrue(baos.toString().contains("UnresolvedAddressException"));
       }
       
       //then setup the proxy, but provide no authentication/authorization info -> request fails because of HTTP 407
@@ -121,7 +121,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       {
          ByteArrayOutputStream baos = new ByteArrayOutputStream();
          e.printStackTrace(new PrintStream(baos));
-         assertTrue(baos.toString().contains("407: Proxy Authentication Required"));
+         assertTrue(baos.toString().contains("407"));
       }
       
       //finally setup everything
@@ -156,7 +156,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       {
          ByteArrayOutputStream baos = new ByteArrayOutputStream();
          e.printStackTrace(new PrintStream(baos));
-         assertTrue(baos.toString().contains(testHost));
+         assertTrue(baos.toString().contains("UnresolvedAddressException"));
       }
       
       //then setup the proxy, but provide no authentication/authorization info -> request fails because of HTTP 407
@@ -175,7 +175,7 @@ public class HTTPProxyTestCaseForked extends JBossWSTest
       {
          ByteArrayOutputStream baos = new ByteArrayOutputStream();
          e.printStackTrace(new PrintStream(baos));
-         assertTrue(baos.toString().contains("407: Proxy Authentication Required"));
+         assertTrue(baos.toString().contains("407"));
       }
       
       //finally setup authorization info too

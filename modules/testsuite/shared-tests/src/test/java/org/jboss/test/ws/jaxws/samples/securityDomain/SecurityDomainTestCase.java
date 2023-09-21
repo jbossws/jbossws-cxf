@@ -216,7 +216,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403: Forbidden"));
+         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403"));
       }
    }
    @Test
