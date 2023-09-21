@@ -46,7 +46,7 @@ import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver
 public class JBossWSBusFactory extends CXFBusFactory
 {
    private static final Map<ClassLoader, Bus> classLoaderBusses = new WeakHashMap<ClassLoader, Bus>();
-   private static final boolean forceURLConnectionConduit = Boolean.getBoolean(Constants.FORCE_URL_CONNECTION_CONDUIT);
+   private final boolean forceURLConnectionConduit = Boolean.getBoolean(Constants.FORCE_URL_CONNECTION_CONDUIT);
    @Override
    public Bus createBus(Map<Class<?>, Object> extensions, Map<String, Object> properties) {
       if (extensions == null)

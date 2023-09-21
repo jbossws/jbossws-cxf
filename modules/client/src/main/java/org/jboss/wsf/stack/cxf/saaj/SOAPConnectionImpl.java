@@ -57,8 +57,8 @@ import org.jboss.wsf.stack.cxf.client.Constants;
 
 public class SOAPConnectionImpl extends SOAPConnection 
 {
-   private volatile boolean closed = false;
-   private static final boolean forceURLConnectionConduit = Boolean.getBoolean(Constants.FORCE_URL_CONNECTION_CONDUIT);
+    private volatile boolean closed = false;
+    private boolean forceURLConnectionConduit = Boolean.getBoolean(Constants.FORCE_URL_CONNECTION_CONDUIT);
 
     @Override
     public SOAPMessage call(SOAPMessage msgOut, Object addressObject) throws SOAPException 
@@ -77,7 +77,7 @@ public class SOAPConnectionImpl extends SOAPConnection
        outMessage.setExchange(exch);
        exch.put("org.apache.cxf.transport.process_fault_on_http_400", true); //JBWS-3945
        if (forceURLConnectionConduit) {
-          exch.put("Constants.FORCE_URL_CONNECTION_CONDUIT)", true);
+          exch.put(Constants.FORCE_URL_CONNECTION_CONDUIT, true);
        }
         
        // sent SOAPMessage
