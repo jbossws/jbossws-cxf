@@ -42,6 +42,8 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -69,6 +71,16 @@ public class JBWS3084TestCase extends JBossWSTest
                .addAsWebInfResource(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/wsdl/SaajService.wsdl"), "wsdl/SaajService.wsdl")
                .setWebXML(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
       return archive;
+   }
+   @BeforeClass
+   public static void forceURLConnection() {
+      //The new HttpClientConduit doesn't work for disabling the chunk mode
+      //https://issues.redhat.com/browse/JBWS-4388
+      System.setProperty("force.urlconnection.http.conduit", "true");
+   }
+   @AfterClass
+   public static void cleanupSystemProperty() {
+      System.clearProperty("force.urlconnection.http.conduit");
    }
 
    @Test
@@ -118,7 +130,6 @@ public class JBWS3084TestCase extends JBossWSTest
       SOAPConnection con = conFac.createConnection();
 
       final String serviceURL = baseURL.toString();
-
       URL endpoint = new URL(serviceURL);
       SOAPMessage response = con.call(msg, endpoint);
       QName sayHiResp = new QName("http://www.jboss.org/jbossws/saaj", "sayHelloResponse");
