@@ -175,14 +175,14 @@ public class SubjectCreator
             if (identity.equals(RealmIdentity.NON_EXISTENT)) {
                throw MESSAGES.authenticationFailed(principal.getName());
             }
-            ClearPassword clearPassword = identity.getCredential(PasswordCredential.class).getPassword(ClearPassword.class);
-            // only realms supporting getCredential with clear password can be used with Username Token profile
-            if (clearPassword == null) {
-               throw MESSAGES.authenticationFailed(principal.getName());
-            }
-            String expectedPassword = new String(clearPassword.getPassword());
             if (isDigest && created != null && nonce != null) { // username token profile is using digest
                // verify client's digest
+               ClearPassword clearPassword = identity.getCredential(PasswordCredential.class).getPassword(ClearPassword.class);
+               // only realms supporting getCredential with clear password can be used with Username Token profile
+               if (clearPassword == null) {
+                  throw MESSAGES.authenticationFailed(principal.getName());
+               }
+               String expectedPassword = new String(clearPassword.getPassword());
                if (!getUsernameTokenPasswordDigest(nonce, created, expectedPassword).equals(password)) {
                   throw MESSAGES.authenticationFailed(principal.getName());
                }
