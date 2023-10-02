@@ -257,4 +257,12 @@ public interface Loggers extends BasicLogger
     @LogMessage(level = ERROR)
     @Message(id = 24115, value = "Failed to compute UsernameToken profile digest from expected password")
     void failedToComputeUsernameTokenProfileDigest();
+
+    @LogMessage(level = TRACE)
+    @Message(id = 24116, value = "Plain text password for principal: %s must be recoverable when UsernameToken Profile is used with PasswordDigest")
+    void plainTextPasswordMustBeRecoverable(String principal, @Cause Throwable cause);
+
+    @LogMessage(level = TRACE)
+    @Message(id = 24117, value = "Security realm is not available, could not authenticate a user, principal=%s")
+    void realmNotAvailable(String principal);
 }

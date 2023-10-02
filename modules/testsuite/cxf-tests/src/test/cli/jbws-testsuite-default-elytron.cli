@@ -95,6 +95,25 @@ echo JBossWSDigest domain config
 ./subsystem=undertow/application-security-domain=JBossWSDigest \
    :add(http-authentication-factory=JBossWSDigest)
 
+##----- JAASJBossWSDigestPropertiesRealm domain config ---------
+##----- JAASJBossWSDigestPropertiesRealm domain config ---------
+echo JBossWSDigest domain config
+# 1.
+./subsystem=elytron/properties-realm=JAASJBossWSDigestPropertiesRealm \
+   :add(users-properties={path=$testResourcesDir/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-users-digest.properties, plain-text=false}, \
+   groups-properties={path=$testResourcesDir/jaxws/samples/wsse/policy/jaas/digest/WEB-INF/jbossws-roles.properties})
+# 2.
+./subsystem=elytron/security-domain=JBossWSDigestPropertiesDomain \
+   :add(default-realm=JAASJBossWSDigestPropertiesRealm, permission-mapper=default-permission-mapper, \
+   realms=[{realm=JAASJBossWSDigestPropertiesRealm,role-decoder=groups-to-roles}])
+# 3.
+./subsystem=elytron/http-authentication-factory=JBossWSDigestProperties \
+   :add(security-domain=JBossWSDigestPropertiesDomain, http-server-mechanism-factory=global, \
+   mechanism-configurations=[{mechanism-name=BASIC, \
+   mechanism-realm-configurations=[{realm-name=JAASJBossWSDigestPropertiesRealm}] }])
+# 4.
+./subsystem=undertow/application-security-domain=JBossWSDigestPropertiesDomain \
+   :add(http-authentication-factory=JBossWSDigestProperties)
 
 ##----- JAASJBossWS domain config ---------
 echo JAASJBossWS domain config
