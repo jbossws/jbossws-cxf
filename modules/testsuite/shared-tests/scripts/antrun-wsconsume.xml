@@ -86,7 +86,6 @@
         nocompile="true"
         keep="true"
         verbose="true"
-        target="2.2"
         fork="@{fork}"
       >
         <jvmarg line="-Djavax.xml.accessExternalSchema=file,http"/>

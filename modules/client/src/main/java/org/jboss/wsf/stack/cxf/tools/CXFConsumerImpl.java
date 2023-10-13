@@ -139,6 +139,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       this.additionalHeaders = additionalHeaders;
    }
 
+   //TODO:Remove this api in jbossws-api
    @Override
    public void setTarget(String target)
    {
@@ -174,17 +175,7 @@ public class CXFConsumerImpl extends WSContractConsumer
       {
          stream = NullPrintStream.getInstance();
       }
-      
-      // Always set the target
-      if ("2.1".equals(target))
-      {
-         args.add("-frontend");
-         args.add("jaxws21");
-      }
-      else if (target != null && !target.equals("2.2"))
-      {
-         stream.println(Messages.MESSAGES.unsupportedTargetUsingDefault(target, "2.2"));
-      }
+
       
       if (bindingFiles != null)
       {
