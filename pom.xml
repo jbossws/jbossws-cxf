@@ -1154,6 +1154,7 @@
       <modules>
         <module>modules/dist</module>
         <module>modules/testsuite</module>
+        <module>modules/testsuite/cloud-tests</module>
         <module>docbook</module>
       </modules>
     </profile>
