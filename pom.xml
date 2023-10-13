@@ -63,7 +63,7 @@
     <jbossws.api.version>3.0.0.Final</jbossws.api.version>
     <jbossws.spi.version>5.0.0.Final</jbossws.spi.version>
     <jbossws.common.version>5.0.0.Final</jbossws.common.version>
-    <jbossws.common.tools.version>2.0.0.Final</jbossws.common.tools.version>
+    <jbossws.common.tools.version>2.1.0.Final</jbossws.common.tools.version>
     <wildfly.version>29.0.0.Final</wildfly.version>
     <wildfly.dev.version>30.0.0.Final-SNAPSHOT</wildfly.dev.version>
     <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>

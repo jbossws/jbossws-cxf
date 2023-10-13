@@ -439,7 +439,6 @@ options:
   -w  --wsdlLocation=<loc>    Value to use for @WebServiceClient.wsdlLocation
   -o, --output=<directory>    The directory to put generated artifacts
   -s, --source=<directory>    The directory to put Java source
-  -t, --target=<2.1|2.2>      The JAX-WS specification target
   -q, --quiet                 Be somewhat more quiet
   -v, --verbose               Show full exception stack traces
   -l, --load-consumer         Load the consumer and exit (debug utility)
@@ -544,8 +543,6 @@ mode; can be used to set endorse dir, enable debugging, etc. *_Example_*
 |fork |Whether or not to run the generation task in a separate VM.
 |false
 
-|target |A preference for the JAX-WS specification target |Depends on
-the underlying stack and endorsed dirs if any
 |===
 
 ===== Examples
@@ -700,8 +697,6 @@ the following attributes:
 
 |sourcedestdir |The output directory for Java source. |value of destdir
 
-|target |The JAX-WS specification target. Allowed values are 2.0, 2.1
-and 2.2 | 
 
 |verbose |Enables more informational output about command progress.
 |false
