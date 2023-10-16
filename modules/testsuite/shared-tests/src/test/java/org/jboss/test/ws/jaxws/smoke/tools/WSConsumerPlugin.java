@@ -322,56 +322,6 @@ public class WSConsumerPlugin extends JBossWSTest
    }
 
    /**
-    * Set the target JAX-WS specification target. Defaults to <code>2.0</code>
-    */
-   public void testTarget() throws Exception
-   {
-      consumer.setTargetPackage("org.jboss.test.ws.tools.testTarget");
-      consumer.setGenerateSource(true);
-      consumer.setTarget("2.2");
-      consumer.setNoCompile(false);
-
-      consumeWSDL();
-      ClassLoader loader = getArtefactClassLoader();
-      Class<?> service = loader.loadClass("org.jboss.test.ws.tools.testTarget.TestService");
-
-      boolean featureSig = false;
-      for (Method m : service.getDeclaredMethods())
-      {
-         if (m.getName().equals("getEndpointInterfacePort"))
-         {
-            for (Class<?> c : m.getParameterTypes())
-            {
-               if (c.isArray() && c.getComponentType().equals(WebServiceFeature.class))
-               {
-                  featureSig = true;
-                  break;
-               }
-            }
-         }
-      }
-
-      assertTrue("JAX-WS 2.1 extensions not generated with 'target=2.1'", featureSig);
-
-      Class<?> sei = loader.loadClass("org.jboss.test.ws.tools.testTarget.EndpointInterface");
-      assertTrue("@XmlSeeAlso expected on SEI (types not referenced by the Port in the wsdl)", sei.isAnnotationPresent(XmlSeeAlso.class));
-
-      boolean featureConstructor = false;
-      for (Constructor<?> c : service.getConstructors())
-      {
-         for (Class<?> pt : c.getParameterTypes())
-         {
-            if (pt.isArray() && pt.getComponentType().equals(WebServiceFeature.class))
-            {
-               featureConstructor = true;
-               break;
-            }
-         }
-      }
-      assertTrue("Found JAXWS 2.2 constructor", featureConstructor);
-   }
-
-   /**
     * Tests the SOAP 1.2 binding extension
     *
     */

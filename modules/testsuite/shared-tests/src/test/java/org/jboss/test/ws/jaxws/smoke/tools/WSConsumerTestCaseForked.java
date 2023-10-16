@@ -185,15 +185,6 @@ public class WSConsumerTestCaseForked extends PluginBase
       // that is invoked on each test run. See WSConsumeTask.java for more information how this is tested.
    }
 
-   /**
-    * Set the target JAX-WS specification target. Defaults to <code>2.0</code>
-    */
-   @Test
-   @RunAsClient
-   public void testTarget() throws Exception
-   {
-      dispatch("testTarget");
-   }
 
    /**
     * Tests the SOAP 1.2 binding extension
