@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf</artifactId>
-    <version>5.4.8-SNAPSHOT</version>
+    <version>5.4.9.Final</version>
     <relativePath>../../pom.xml</relativePath>
   </parent>
 
@@ -38,7 +38,7 @@
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
     <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
-    <groovyScriptSuffix></groovyScriptSuffix>
+    <groovyScriptSuffix />
   </properties>
 
   <!-- Modules -->
