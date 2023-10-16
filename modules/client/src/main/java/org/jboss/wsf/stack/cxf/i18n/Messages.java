@@ -51,10 +51,7 @@ public interface Messages {
     
     @Message(id = 24002, value = "Failed to invoke %s")
     String failedToInvoke(String s);
-    
-    @Message(id = 24003, value = "Unsupported value '%s' for target, using default value '%s'")
-    String unsupportedTargetUsingDefault(String target, String defTarget);
-    
+
     @Message(id = 24004, value = "SOAP message could not be sent")
     SOAPException soapMessageCouldNotBeSent(@Cause Throwable cause);
     
