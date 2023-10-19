@@ -82,7 +82,7 @@
     <jaxws-undertow-httpspi.version>2.0.0.Final</jaxws-undertow-httpspi.version>
     <io.undertow.version>2.2.28.Final</io.undertow.version>
     <jaxb.impl.version>4.0.1</jaxb.impl.version>
-    <jboss.jaxbintros.version>2.0.0</jboss.jaxbintros.version>
+    <jboss.jaxbintros.version>2.0.1</jboss.jaxbintros.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <commons-lang3.version>3.11</commons-lang3.version>
