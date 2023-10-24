@@ -75,4 +75,23 @@ class SecurityActions
          });
       }
    }
+   static JAXPDelegateClassLoader createDelegateClassLoader(final ClassLoader delegate, final ClassLoader parent)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return new JAXPDelegateClassLoader(delegate, parent);
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<JAXPDelegateClassLoader>()
+         {
+            @Override
+            public JAXPDelegateClassLoader run()
+            {
+               return new JAXPDelegateClassLoader(delegate, parent);
+            }
+         });
+      }
+   }
 }
