@@ -85,7 +85,12 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
    @Override
    protected void invoke(HttpServletRequest req, HttpServletResponse res) throws ServletException
    {
-      ServletHelper.callRequestHandler(req, res, getServletContext(), bus, endpoint);
+      ClassLoader previous = pushServerCL();
+      try {
+         ServletHelper.callRequestHandler(req, res, getServletContext(), bus, endpoint);
+      } finally {
+         popServerCL(previous);
+      }
    }
 
    @Override
@@ -140,11 +145,27 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
          ServletException
    {
       // filtering not supported, move on
-      chain.doFilter(request, response);
+      ClassLoader previous = pushServerCL();
+      try {
+         chain.doFilter(request, response);
+      } finally {
+         popServerCL(previous);
+      }
    }
 
    protected Bus getBus()
    {
       return bus;
+   }
+   private ClassLoader pushServerCL()
+   {
+      ClassLoader current = SecurityActions.getContextClassLoader();
+      SecurityActions.setContextClassLoader(SecurityActions.createDelegateClassLoader(current, CXFServletExt.class.getClassLoader()));
+      return current;
+   }
+
+   private void popServerCL(ClassLoader previousCL)
+   {
+      SecurityActions.setContextClassLoader(previousCL);
    }
 }

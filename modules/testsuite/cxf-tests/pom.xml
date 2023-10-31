@@ -376,6 +376,24 @@
             			<outputDirectory>target/cxf-embedded</outputDirectory>
             		</configuration>
             	</execution>
+                <execution>
+                    <!--The xerces 2.0.1 to package in test deployment-->
+                    <id>copy-xerces</id>
+                    <phase>process-test-resources</phase>
+                    <goals>
+                        <goal>copy</goal>
+                    </goals>
+                    <configuration>
+                        <artifactItems>
+                            <artifactItem>
+                                <groupId>xerces</groupId>
+                                <artifactId>xerces</artifactId>
+                                <version>2.0.1</version>
+                            </artifactItem>
+                        </artifactItems>
+                        <outputDirectory>target/xerces</outputDirectory>
+                    </configuration>
+                </execution>
             </executions>
           </plugin>
         </plugins>
