@@ -1,0 +1,23 @@
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    target-branch: "jbossws-cxf-5.4.x"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: "jbossws-cxf-5.4.x"
+    schedule:
+      interval: "weekly"
