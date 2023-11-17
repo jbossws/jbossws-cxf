@@ -21,9 +21,9 @@ jobs:
 
     steps:
       - name: Checkout jbossws-cxf
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Checkout wildfly
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           repository: wildfly/wildfly
           path: './wildfly'
