@@ -125,7 +125,7 @@
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
     <!--Add wildfly integration tests dependency version below-->
     <jakarta.json-api.version>2.1.1</jakarta.json-api.version>
-    <jboss.ejb3.ext-api.version>2.3.0.Final</jboss.ejb3.ext-api.version>
+    <jboss.ejb3.ext-api.version>2.4.0.Final</jboss.ejb3.ext-api.version>
     <remoting.jmx.version>3.0.4.Final</remoting.jmx.version>
     <jboss.remoting.version>5.0.27.Final</jboss.remoting.version>
     <wildfly.client.properties.version>27.0.1.Final</wildfly.client.properties.version>
