@@ -104,7 +104,7 @@
     <artemis.client.version>2.26.0</artemis.client.version>
     <version.commons.validator>1.7</version.commons.validator>
     <jakarta.interceptor.api.version>2.1.0</jakarta.interceptor.api.version>
-    <version.org.jboss.openjdk-orb>8.1.9.Final</version.org.jboss.openjdk-orb>
+    <version.org.jboss.openjdk-orb>10.0.0.Final</version.org.jboss.openjdk-orb>
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.13.1</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
