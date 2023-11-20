@@ -128,7 +128,7 @@
     <jboss.ejb3.ext-api.version>2.4.0.Final</jboss.ejb3.ext-api.version>
     <remoting.jmx.version>3.0.4.Final</remoting.jmx.version>
     <jboss.remoting.version>5.0.27.Final</jboss.remoting.version>
-    <wildfly.client.properties.version>27.0.1.Final</wildfly.client.properties.version>
+    <wildfly.client.properties.version>30.0.0.Final</wildfly.client.properties.version>
     <wildfly.naming.client.version>2.0.0.Final</wildfly.naming.client.version>
     <jboss.marshalling.version>2.1.0.Final</jboss.marshalling.version>
     <jboss.marshalling.river.version>${jboss.marshalling.version}</jboss.marshalling.river.version>
