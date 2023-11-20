@@ -113,7 +113,7 @@
     <arquillian-wildfly-container.version>2.2.0.Final</arquillian-wildfly-container.version>
     <version.commons.validator>1.6</version.commons.validator>
     <interceptor.api.version>2.0.0.Final</interceptor.api.version>
-    <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
+    <version.org.jboss.openjdk-orb>10.0.0.Final</version.org.jboss.openjdk-orb>
     <jaspi.api.version>1.0.2.Final</jaspi.api.version>
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
