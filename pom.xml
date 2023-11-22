@@ -69,7 +69,7 @@
     <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
     <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
     <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
-    <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
+    <jakarta.activation-api.version>2.1.1.jbossorg-1</jakarta.activation-api.version>
     <jakarta.angus.activation.version>1.0.0</jakarta.angus.activation.version>
     <jakarta.angus.mail.version>1.0.0</jakarta.angus.mail.version>
     <cxf.version>4.0.4-SNAPSHOT</cxf.version>
