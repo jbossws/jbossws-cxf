@@ -130,7 +130,7 @@
     <jboss.remoting.version>5.0.27.Final</jboss.remoting.version>
     <wildfly.client.properties.version>30.0.0.Final</wildfly.client.properties.version>
     <wildfly.naming.client.version>2.0.0.Final</wildfly.naming.client.version>
-    <jboss.marshalling.version>2.1.0.Final</jboss.marshalling.version>
+    <jboss.marshalling.version>2.1.3.Final</jboss.marshalling.version>
     <jboss.marshalling.river.version>${jboss.marshalling.version}</jboss.marshalling.river.version>
     <jboss.ejb.client.version>5.0.1.Final</jboss.ejb.client.version>
     <org.jboss.galleon.plugin.version>5.2.0.Final</org.jboss.galleon.plugin.version>
