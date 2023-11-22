@@ -114,7 +114,7 @@
     <version.commons.validator>1.6</version.commons.validator>
     <interceptor.api.version>2.0.0.Final</interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
-    <jaspi.api.version>1.0.2.Final</jaspi.api.version>
+    <jaspi.api.version>2.0.1.Final</jaspi.api.version>
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
     <org.easymock.version>3.2</org.easymock.version>
