@@ -122,7 +122,7 @@
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
     <gmavenplus.version>1.5</gmavenplus.version>
     <groovy.version>2.4.15</groovy.version>
-    <jdocbook.plugin.version>2.1.2</jdocbook.plugin.version>
+    <jdocbook.plugin.version>2.3.10</jdocbook.plugin.version>
     <jdocbook.style.version>1.1.1</jdocbook.style.version>
     <docbook.xslt.version>1.1.1</docbook.xslt.version>
     <wildfly.plugin.version>1.0.2.Final</wildfly.plugin.version>
