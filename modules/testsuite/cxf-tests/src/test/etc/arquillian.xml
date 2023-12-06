@@ -11,9 +11,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.cxf-tests.jboss,9990)}</property>
+            <property name="managementPort">${cxf-tests.jboss_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.cxf-tests.jboss,8787)} ${add_int(port-offset.cxf-tests.jboss,9990)}</property>
+            <property name="waitForPorts">${cxf-tests.jboss_8787} ${cxf-tests.jboss_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
@@ -26,9 +26,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.cxf-tests.ssl-mutual-auth,9990)}</property>
+            <property name="managementPort">${cxf-tests.ssl-mutual-auth_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.cxf-tests.ssl-mutual-auth,8787)} ${add_int(port-offset.cxf-tests.ssl-mutual-auth,9990)}</property>
+            <property name="waitForPorts">${cxf-tests.ssl-mutual-auth_8787} ${cxf-tests.ssl-mutual-auth_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
@@ -41,9 +41,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.cxf-tests.default-config-tests,9990)}</property>
+            <property name="managementPort">${cxf-tests.default-config-tests_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.cxf-tests.default-config-tests,8787)} ${add_int(port-offset.cxf-tests.default-config-tests,9990)}</property>
+            <property name="waitForPorts">${cxf-tests.default-config-tests_8787} ${cxf-tests.default-config-tests_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
@@ -56,9 +56,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.cxf-tests.jms,9990)}</property>
+            <property name="managementPort">${cxf-tests.jms_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.cxf-tests.jms,8787)} ${add_int(port-offset.cxf-tests.jms,9990)}</property>
+            <property name="waitForPorts">${cxf-tests.jms_8787} ${cxf-tests.jms_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>

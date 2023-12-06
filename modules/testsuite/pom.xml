@@ -24,7 +24,6 @@
     <test.resources.directory>${project.build.directory}/test-resources</test.resources.directory>
     <wsdl.publish.location>${project.build.directory}/wsdl-publish</wsdl.publish.location>
     <appclient.output.dir>${project.build.directory}/appclient-logs</appclient.output.dir>
-    <resources-plugin-filters.version>1.1.0.Final</resources-plugin-filters.version>
     <exec.plugin.version>3.1.0</exec.plugin.version>
     <port-offset.cxf-tests.jboss>0</port-offset.cxf-tests.jboss>
     <port-offset.cxf-tests.ssl-mutual-auth>5000</port-offset.cxf-tests.ssl-mutual-auth>
@@ -34,6 +33,28 @@
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
     <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
+
+    <!---test server ports-->
+    <cxf-tests.jboss_8080>8080</cxf-tests.jboss_8080>
+    <cxf-tests.jboss_8443>8443</cxf-tests.jboss_8443>
+    <cxf-tests.jboss_9990>9990</cxf-tests.jboss_9990>
+    <cxf-tests.jboss_8787>8787</cxf-tests.jboss_8787>
+    <cxf-tests.ssl-mutual-auth_8080>13080</cxf-tests.ssl-mutual-auth_8080>
+    <cxf-tests.ssl-mutual-auth_8443>13443</cxf-tests.ssl-mutual-auth_8443>
+    <cxf-tests.ssl-mutual-auth_9990>14990</cxf-tests.ssl-mutual-auth_9990>
+    <cxf-tests.ssl-mutual-auth_8787>13787</cxf-tests.ssl-mutual-auth_8787>
+    <cxf-tests.default-config-tests_9990>19990</cxf-tests.default-config-tests_9990>
+    <cxf-tests.default-config-tests_8787>18787</cxf-tests.default-config-tests_8787>
+    <cxf-tests.jms_8080>43080</cxf-tests.jms_8080>
+    <cxf-tests.jms_9990>44990</cxf-tests.jms_9990>
+    <cxf-tests.jms_8787>43787</cxf-tests.jms_8787>
+    <shared-tests.jboss_8080>23080</shared-tests.jboss_8080>
+    <shared-tests.jboss_9990>24990</shared-tests.jboss_9990>
+    <shared-tests.jboss_8787>23787</shared-tests.jboss_8787>
+    <shared-tests.default-config-tests_9990>29990</shared-tests.default-config-tests_9990>
+    <shared-tests.default-config-tests_8787>28787</shared-tests.default-config-tests_8787>
+    <shared-tests.address-rewrite_9990>34990</shared-tests.address-rewrite_9990>
+    <shared-tests.address-rewrite_8787>33787</shared-tests.address-rewrite_8787>
     <modular.jdk.args>
       --add-exports=java.desktop/sun.awt=ALL-UNNAMED
       --add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED
@@ -203,17 +224,7 @@
         <artifactId>maven-resources-plugin</artifactId>
         <configuration>
           <encoding>UTF-8</encoding>
-          <mavenFilteringHints>
-            <mavenFilteringHint>custom</mavenFilteringHint>
-          </mavenFilteringHints>
         </configuration>
-        <dependencies>
-          <dependency>
-            <groupId>org.jboss.ws.plugins</groupId>
-            <artifactId>resources-plugin-filters</artifactId>
-            <version>${resources-plugin-filters.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>

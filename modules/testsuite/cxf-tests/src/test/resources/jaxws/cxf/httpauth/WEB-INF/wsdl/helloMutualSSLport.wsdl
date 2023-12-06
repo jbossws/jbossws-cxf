@@ -55,7 +55,7 @@
     </binding>
     <service name="HelloService">
         <port name="HelloPort" binding="tns:HelloBinding">
-            <soap:address location="http://localhost:@add_int(port-offset.cxf-tests.ssl-mutual-auth,8443)@/jaxws-cxf-sec" />
+            <soap:address location="http://localhost:@cxf-tests.ssl-mutual-auth_8443@/jaxws-cxf-sec" />
         </port>
     </service>
 </definitions>
