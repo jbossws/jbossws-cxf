@@ -11,9 +11,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.shared-tests.jboss,9990)}</property>
+            <property name="managementPort">${shared-tests.jboss_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.shared-tests.jboss,8787)} ${add_int(port-offset.shared-tests.jboss,9990)}</property>
+            <property name="waitForPorts">${shared-tests.jboss_8787} ${shared-tests.jboss_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
@@ -26,9 +26,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.shared-tests.default-config-tests,9990)}</property>
+            <property name="managementPort">${shared-tests.default-config-tests_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.shared-tests.default-config-tests,8787)} ${add_int(port-offset.shared-tests.default-config-tests,9990)}</property>
+            <property name="waitForPorts">${shared-tests.default-config-tests_8787} ${shared-tests.default-config-tests_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
@@ -41,9 +41,9 @@
             <property name="allowConnectingToRunningServer">true</property>
             <property name="managementAddress">${jboss.bind.address:localhost}</property>
             <property name="jbossArguments">${jbossArguments}</property>
-            <property name="managementPort">${add_int(port-offset.shared-tests.address-rewrite,9990)}</property>
+            <property name="managementPort">${shared-tests.address-rewrite_9990}</property>
             <!-- AS7-4070 -->
-            <property name="waitForPorts">${add_int(port-offset.shared-tests.address-rewrite,8787)} ${add_int(port-offset.shared-tests.address-rewrite,9990)}</property>
+            <property name="waitForPorts">${shared-tests.address-rewrite_8787} ${shared-tests.address-rewrite_9990}</property>
             <property name="waitForPortsTimeoutInSeconds">8</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
