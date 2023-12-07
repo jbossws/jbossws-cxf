@@ -38,6 +38,16 @@
       <groupId>org.jboss.ws.cxf</groupId>
       <artifactId>jbossws-cxf-server</artifactId>
       <version>${project.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.cxf.services.sts</groupId>
+          <artifactId>cxf-services-sts-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.jboss.slf4j</groupId>
+          <artifactId>slf4j-jboss-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
        <groupId>org.apache.derby</groupId>
@@ -63,7 +73,17 @@
           <groupId>commons-pool2</groupId>
           <artifactId>commons-pool2</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-1.2-api</artifactId>
+      <version>2.22.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -138,14 +158,7 @@
           <plugin>
             <groupId>org.wildfly.plugins</groupId>
             <artifactId>wildfly-maven-plugin</artifactId>
-            <version>4.0.0.Alpha2</version>
-            <dependencies>
-              <dependency>
-                <groupId>org.wildfly.core</groupId>
-                <artifactId>wildfly-controller-client</artifactId>
-                <version>17.0.1.Final</version>
-              </dependency>
-            </dependencies>
+            <version>5.0.0.Alpha2</version>
             <executions>
               <execution>
                 <id>jbws-testsuite-shared-default config-server</id>
@@ -295,7 +308,7 @@
                 <configuration>
                   <!-- TODO revisit the values here... -->
 <!--                  <jvmArgs>-server -agentpath:/home/alessio/jprofiler7/bin/linux-x64/libjprofilerti.so=offline,id=106 -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</jvmArgs> -->
-                  <jvmArgs>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</jvmArgs>
+                  <javaOpts>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</javaOpts>>
                   <serverConfig>jbws-testsuite-perf.xml</serverConfig>
                   <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
@@ -436,6 +449,16 @@
                   <groupId>org.jboss.ws.cxf</groupId>
                   <artifactId>jbossws-cxf-server</artifactId>
                   <version>${project.version}</version>
+                  <exclusions>
+                    <exclusion>
+                      <groupId>org.apache.cxf.services.sts</groupId>
+                      <artifactId>cxf-services-sts-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                      <groupId>org.jboss.slf4j</groupId>
+                      <artifactId>slf4j-jboss-logging</artifactId>
+                    </exclusion>
+                  </exclusions>
                 </dependency>
                 <dependency>
                   <groupId>org.jboss.ws.cxf</groupId>
@@ -583,6 +606,16 @@
                   <groupId>org.jboss.ws.cxf</groupId>
                   <artifactId>jbossws-cxf-server</artifactId>
                   <version>${project.version}</version>
+                  <exclusions>
+                    <exclusion>
+                      <groupId>org.apache.cxf.services.sts</groupId>
+                      <artifactId>cxf-services-sts-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                      <groupId>org.jboss.slf4j</groupId>
+                      <artifactId>slf4j-jboss-logging</artifactId>
+                    </exclusion>
+                  </exclusions>
                 </dependency>
                 <dependency>
                   <groupId>org.jboss.ws.cxf</groupId>
