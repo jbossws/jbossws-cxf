@@ -71,7 +71,7 @@
     <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
     <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
     <jakarta.angus.activation.version>1.0.0</jakarta.angus.activation.version>
-    <jakarta.angus.mail.version>1.0.0</jakarta.angus.mail.version>
+    <jakarta.angus.mail.version>2.0.2</jakarta.angus.mail.version>
     <cxf.version>4.0.4-SNAPSHOT</cxf.version>
     <cxf.asm.version>9.6</cxf.asm.version>
     <cxf.xjcplugins.version>4.0.0</cxf.xjcplugins.version>
