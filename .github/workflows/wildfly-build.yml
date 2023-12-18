@@ -39,13 +39,13 @@ jobs:
         run: |
           mvn -s ./.m2-settings.xml -B -V -fae -Pwildflydev clean install
       - name: Upload surefire reports
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}
           path: '**/surefire-reports/'
       - name: Upload server logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: server-logs-${{ matrix.os }}-${{ matrix.java }}
