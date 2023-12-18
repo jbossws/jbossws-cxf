@@ -57,14 +57,63 @@ mvn -Pdist,testsuite clean
  Releasing
 -----------
 
-Releases are performed using the Maven Release Plugin; no manual modification of artifact versions in pom.xml files is hence required. The release is tagged with the following command:
-```
- mvn -Prelease release:prepare 
-```
-To clean the release plugin data (in case of errors), run:
-```
-mvn -Prelease release:clean
-```
+### Prerequisites
 
-The release tag can then be checked out, built and deployed to the nexus repository.
+* Check Resources availability
+
+  JBossWS CXF has a lot of dependencies, this includes jbossws subprojects like jbossws-parent,
+  jbossws-spi, jbossws-common, jbossws-api, jbossws-common-tools. Please check if the version is still
+  the SNAPSHOT and release the subproject if it is needed. For the third party projects like CXF, please
+  make sure it is the official release version. Because we always test the jbossws-cxf project against the
+  latest WildFly version, the only SNAPSHOT version is allowed before release is the WildFly version.
+
+* Contents checks
+
+  Check the [JBWS JIRA](https://issues.redhat.com/projects/JBWS/) to make sure all the must-have features or issues are included
+* Quality / testing gate
+    - Make sure the CI is passed/green as expected.
+    - Check if the major component like Apache CXF or WSS4j has some major issue or CVEs
+    - Check if the CXF, jaxb impl has some TCK failure.
+    - Check if other components have some major CVE and it needs an upgrade
+* PR queue
+    - Review the PR queue and check all desired contributions are included
+* Branch preparation
+    - Branch the codebase in preparation for the release if necessary
+* JDK and Maven to build the release
+    - Check the JDK version to run the build is the latest 11
+    - Maven is the latest version
+
+### Source Tagging
+JBossWS relies on `maven-release-plugin` to tag and change the development version.
+
+``` mvn release:prepare -Prelease  -DignoreSnapshots=true -DskipTests=true```
+
+This is interactive command, and make sure you input the correct release version number and next
+development version before the next step.
+The `-DignoreSnapshots=true` is only for WildFly snapshot version, please double-check if there is other
+SNAPSHOT dependency before run this command.
+As CI is passed before we tag the release, we use `-DskipTests=true` property to skip the tests, but it doesn't matter to tag
+release without this property.
+
+### Publish Artifacts
+JBossWS-CXF projects publish the artifacts to jboss nexus, and this requires properly configuring the credentials to upload 
+artifacts to the jboss nexus. Uploading artifacts with the following commands:
+
+```git checkout new-tag-version```
+
+```mvn deploy```
+
+After the artifacts are all uploaded, go to jboss nexus to publish these artifacts.
+
+### Content update
+After the artifacts are published, the release note and website content of this release should be updated too. This includes:
+* Update JIRA to mark the new version is released and add the next version number
+* Generate the JIRA release note
+* Created the blog entry and main page to announce the new release in [jbossws.githut.io](https://github.com/jbossws/jbossws.github.io)
+* Upload the documentation for this release and update the links.
+* Update the download page: adding the download and release notes link for the new release.
+
+
+### JIRA update
+Review / update the schedule, possibly re-assign / reschedule issues for the next release cycle.
 
