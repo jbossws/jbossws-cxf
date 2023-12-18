@@ -47,12 +47,12 @@ jobs:
       - name: Build with Maven Java ${{ matrix.java }} ${{ matrix.profile }}
         run: |
           mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}
           path: '${{ github.workspace }}/**/surefire-reports/*.*'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: server-logs-${{ matrix.os }}-${{ matrix.java }}
