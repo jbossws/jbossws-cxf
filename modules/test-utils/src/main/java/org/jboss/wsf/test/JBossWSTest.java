@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import java.util.concurrent.TimeUnit;
 import javax.management.MBeanServerConnection;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -63,11 +64,10 @@ import static org.junit.Assert.fail;
 public abstract class JBossWSTest extends Assert
 {
    protected static Logger log = Logger.getLogger(JBossWSTest.class.getName());
-   public static final String SYSPROP_COPY_JOB_TIMEOUT = "test.copy.job.timeout";
+   public static final String SYSPROP_PROCESS_TIMEOUT = "test.process.wait.timeout";
    public static final String CXF_TESTS_GROUP_QUALIFIER = "cxf-tests";
    public static final String SHARED_TESTS_GROUP_QUALIFIER = "shared-tests";
-   private static final int COPY_JOB_TIMEOUT = Integer.getInteger(SYSPROP_COPY_JOB_TIMEOUT, File.pathSeparatorChar == ':' ? 5000 : 60000); //60s on Windows, 5s on UNIX and Mac
-   
+   private static final int PROCESS_TIMEOUT = Integer.getInteger(SYSPROP_PROCESS_TIMEOUT, File.pathSeparatorChar == ':' ? 10 : 30); //30s on Windows, 10s on UNIX and Mac
    public JBossWSTest()
    {
    }
@@ -162,35 +162,29 @@ public abstract class JBossWSTest extends Assert
    private static void executeCommand(List<String> command, OutputStream os, String message, Map<String, String> env) throws IOException
    {
       ProcessBuilder pb = new ProcessBuilder(command);
-      if (env != null)
-      {
-         for (String variable : env.keySet())
-         {
+      if (System.getProperty("os.name").toLowerCase().contains("win")) {
+         pb.environment().put("NOPAUSE", "true");
+      }
+      if (env != null) {
+         for (String variable : env.keySet()) {
             pb.environment().put(variable, env.get(variable));
          }
       }
       Process p = pb.start();
       CopyJob inputStreamJob = new CopyJob(p.getInputStream(), os == null ? System.out : os);
       CopyJob errorStreamJob = new CopyJob(p.getErrorStream(), System.err);
-      // unfortunately the following threads are needed because of Windows behavior
       Thread inputJob = new Thread(inputStreamJob);
       Thread outputJob = new Thread(errorStreamJob);
-      try
-      {  
-         inputJob.start();
-         inputJob.join(COPY_JOB_TIMEOUT);
-         outputJob.start();
-         outputJob.join(COPY_JOB_TIMEOUT);
-         int statusCode = p.waitFor();
-         String fallbackMessage = "Process did exit with status " + statusCode; 
-         assertTrue(message != null ? message : fallbackMessage, statusCode == 0);
-      }
-      catch (InterruptedException ie)
-      {
+      inputJob.start();
+      outputJob.start();
+      try {
+         boolean exited = p.waitFor(PROCESS_TIMEOUT, TimeUnit.SECONDS);
+         assertTrue("Process isn't exited in " + PROCESS_TIMEOUT + " seconds", exited);
+         String fallbackMessage = "Process did exit with status " + p.exitValue();
+         assertTrue(message != null ? message : fallbackMessage, p.exitValue() == 0);
+      } catch (InterruptedException ie) {
          ie.printStackTrace(System.err);
-      }
-      finally
-      {
+      } finally {
          inputStreamJob.kill();
          errorStreamJob.kill();
          p.destroy();
