@@ -17,7 +17,6 @@
         <plugins>
             <!-- Use the resources plugin to apply expression replacement filtering to the channel.yaml -->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
@@ -27,7 +26,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.basedir}/target/resources</outputDirectory>
+                            <outputDirectory>${project.basedir}/target</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/src/main/resources</directory>
@@ -55,7 +54,7 @@
                         <configuration>
                             <artifacts>
                                 <artifact>
-                                    <file>${project.build.directory}/resources/jbossws-manifest.yaml</file>
+                                    <file>${project.build.directory}/jbossws-manifest.yaml</file>
                                     <type>yaml</type>
                                     <classifier>manifest</classifier>
                                 </artifact>

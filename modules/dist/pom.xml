@@ -79,12 +79,12 @@
                                 <version>${jboss.version}</version>
                                 <inherit-configs>true</inherit-configs>
                             </feature-pack>
-                            <!--feature-pack>
+                            <feature-pack>
                                 <groupId>org.jboss.ws.cxf</groupId>
                                 <artifactId>jbossws-cxf-feature-pack</artifactId>
                                 <version>${project.version}</version>
                                 <inherit-configs>false</inherit-configs>
-                            </feature-pack-->
+                            </feature-pack>
                         </feature-packs>
                         <channels>
                             <channel>
