@@ -84,7 +84,7 @@
     <io.undertow.version>2.0.30.Final</io.undertow.version>
     <jaxb.api.version>2.0.1.Final</jaxb.api.version>
     <jaxb.impl.version>2.3.3-b02</jaxb.impl.version>
-    <jaxws.api.version>1.0.0.Final</jaxws.api.version>
+    <jaxws.api.version>2.0.0.Final</jaxws.api.version>
     <jsr181.api.version>1.0-MR1</jsr181.api.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
