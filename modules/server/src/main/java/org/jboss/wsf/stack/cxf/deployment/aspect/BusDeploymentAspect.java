@@ -87,7 +87,8 @@ public final class BusDeploymentAspect extends AbstractDeploymentAspect
          //use origClassLoader (which on AS7 is set to ASIL aggregation module's classloader by TCCLDeploymentProcessor) as
          //parent to make sure user provided libs in the deployment do no mess up the WS endpoint's deploy if they duplicates
          //libraries already available on the application server modules.
-         SecurityActions.setContextClassLoader(new JAXPDelegateClassLoader(dep.getClassLoader(), origClassLoader));
+         JAXPDelegateClassLoader delegateClassLoader = SecurityActions.createDelegateClassLoader(dep.getClassLoader(), origClassLoader);
+         SecurityActions.setContextClassLoader(delegateClassLoader);
          DDBeans metadata = dep.getAttachment(DDBeans.class);
          BusHolder holder = new BusHolder(metadata);
 
