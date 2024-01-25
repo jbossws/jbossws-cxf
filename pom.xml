@@ -1088,7 +1088,7 @@
       </activation>
       <properties>
         <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly.version}</jboss.version>
+        <jboss.version>31.0.0.Final</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
       </properties>
       <modules>
