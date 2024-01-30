@@ -18,6 +18,8 @@
  */
 package org.jboss.ws.cloud.test;
 
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.NamespaceBuilder;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import java.io.BufferedInputStream;
@@ -29,6 +31,9 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -41,6 +46,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
 public class JBossWSKubernetesExtension implements BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor, ParameterResolver {
     private final ExtensionContext.Namespace JBOSSWS = ExtensionContext.Namespace.create(JBossWSKubernetesExtension.class);
     private final String KUBECLIENT = "kubeclient";
+    private Namespace testNamespace;
     public JBossWSKubernetesIntegrationTestConfig getIntegrationTestConfig(ExtensionContext context) {
         // Override the super class method so we can use our own configuration
         return context.getElement()
@@ -77,8 +83,11 @@ public class JBossWSKubernetesExtension implements BeforeAllCallback, AfterAllCa
 
     }
     KubernetesClient getKubernetesClient(ExtensionContext context) {
+        return getKubernetesClient(context, false);
+    }
+    KubernetesClient getKubernetesClient(ExtensionContext context, boolean recreate) {
         Object client = context.getStore(JBOSSWS).get(KUBECLIENT);
-        if (client == null) {
+        if (client == null || recreate) {
             KubernetesClient kubeclient = (new KubernetesClientBuilder()).build();
             context.getStore(JBOSSWS).put(KUBECLIENT, kubeclient);
             return kubeclient;
@@ -92,6 +101,24 @@ public class JBossWSKubernetesExtension implements BeforeAllCallback, AfterAllCa
             return;
         }
         KubernetesClient client = getKubernetesClient(context);
+        String namespace = "jbws-" + UUID.randomUUID().toString().split("-")[0];
+        testNamespace = client.namespaces().resource(new NamespaceBuilder().withNewMetadata().withName(namespace).endMetadata().build()).create();
+        if (testNamespace != null) {
+            //switch to this namespace
+            //TODO: look at if kubernetes client can do this job
+            ProcessBuilder pb = new ProcessBuilder("kubectl", "config", "set-context", "--current", "--namespace=" + namespace);
+            try {
+                Process process = pb.start();
+                if (process.waitFor() != 0) {
+                    throw new IllegalStateException("Failed to switch namespace to " + namespace);
+                }
+            } catch (Exception e) {
+                throw new IllegalStateException("Failed to execute kubectl config to switch namespace " + namespace);
+
+            }
+        }
+        client.close();
+        client = getKubernetesClient(context, true);
         String resource = config.getKuberentesResource();
         try {
             client.load(this.getInputStream(resource)).createOrReplace();
@@ -110,6 +137,10 @@ public class JBossWSKubernetesExtension implements BeforeAllCallback, AfterAllCa
             client.load(this.getInputStream(resource)).delete();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+        //finally remove the new created test namespace
+        if (testNamespace != null) {
+            client.namespaces().resource(testNamespace).delete();
         }
     }
     private InputStream getInputStream(String resource) throws IOException {
