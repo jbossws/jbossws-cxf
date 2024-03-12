@@ -33,7 +33,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.TargetsContainer;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -42,9 +42,8 @@ import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * WS-Security Policy examples
@@ -55,7 +54,7 @@ import org.junit.runner.RunWith;
  * @author alessio.soldano@jboss.com
  * @since 10-Sep-2012
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
 {
    private static final String DEPLOYMENT = "jaxws-samples-wsse-policy-oasis-23x";
@@ -109,8 +108,9 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
          }
       });
    }
-   
-   @Before
+
+   //TODO: this method should be annotated with @BeforeEach, and should not be called again in each test method
+   // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
          containerController.start(SSL_MUTUAL_AUTH_SERVER);
@@ -129,6 +129,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @OperateOnDeployment(DEPLOYMENT)
    public void test2311() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2311?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2311Port"), ServiceIface.class);
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SAML_CALLBACK_HANDLER, new SamlCallbackHandler());
@@ -146,6 +147,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @OperateOnDeployment(DEPLOYMENT)
    public void test2312() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2312?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2312Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
@@ -164,6 +166,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2313() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2313?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2313Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -187,6 +190,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2314() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2314?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2314Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -215,6 +219,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2315() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2315?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2315Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -244,6 +249,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2321() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2321?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2321Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
@@ -269,6 +275,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2322() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2322?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2322Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
@@ -288,6 +295,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2323() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2323?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2323Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -312,6 +320,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2324() throws Exception
    {
+      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2324?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2324Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();

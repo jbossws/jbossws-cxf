@@ -37,11 +37,11 @@ import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.configuration.NullConfigurer;
 import org.easymock.classextension.EasyMock;
 import org.easymock.classextension.IMocksControl;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Tests for UndertowServerEngineTest
@@ -61,7 +61,7 @@ public class UndertowServerEngineTest {
     private static List<UndertowServerEngine> servers = Collections.synchronizedList(new ArrayList<UndertowServerEngine>());
 
     
-   @Before
+   @BeforeEach
    public void setUp() throws Exception
    {
       control = EasyMock.createNiceControl();

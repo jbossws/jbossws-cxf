@@ -20,7 +20,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws4046;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.FileAsset;
@@ -29,9 +29,9 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.stack.cxf.client.UseThreadBusFeature;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.Service;
@@ -42,7 +42,7 @@ import java.net.URL;
 /**
  * @author bspyrkos@redhat.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS4046TestCase extends JBossWSTest {
 
     @ArquillianResource
@@ -68,8 +68,8 @@ public class JBWS4046TestCase extends JBossWSTest {
         String v1Resp = callVersionService("1");
         String v2Resp = callVersionService("2");
 
-        Assert.assertNotNull("Service version 1 failed", v1Resp);
-        Assert.assertNotNull("Service version 2 failed", v2Resp);
+        Assertions.assertNotNull("Service version 1 failed", v1Resp);
+        Assertions.assertNotNull("Service version 2 failed", v2Resp);
     }
 
     public String callVersionService(String path) throws Exception {

@@ -27,7 +27,7 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -37,10 +37,10 @@ import org.jboss.test.ws.jaxws.jbws2009.generated.GetCountryCodesResponse.Respon
 import org.jboss.test.ws.jaxws.jbws2009.generated.ServiceType;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-2009] JBossWS cannot find local schema with relative urls
@@ -48,7 +48,7 @@ import org.junit.runner.RunWith;
  * @author thomas.diesler@jboss.com
  * @since 16-Oct-2007
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS2009TestCase extends JBossWSTest
 {
    private static ServiceType proxy;
@@ -70,7 +70,7 @@ public class JBWS2009TestCase extends JBossWSTest
       return archive;
    }
 
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       if (proxy == null) {
@@ -82,7 +82,7 @@ public class JBWS2009TestCase extends JBossWSTest
       }
    }
 
-   @AfterClass
+   @AfterAll
    public static void cleanup() {
       proxy = null;
    }

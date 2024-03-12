@@ -46,7 +46,7 @@ import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.TargetsContainer;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -54,10 +54,11 @@ import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
 
@@ -75,7 +76,10 @@ import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
  * @author richard.opalka@jboss.com
  * @author alessio.soldano@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
+//TODO: there is a bug using deployer in @BeforeEach method, see: https://github.com/arquillian/arquillian-core/issues/543
+// this test needs to be enabled again when it gets fixed.
+@Disabled("https://github.com/arquillian/arquillian-core/issues/543")
 public final class JBWS2150TestCase extends JBossWSTest
 {
    private static final ObjectName SERVER_CONFIG_OBJECT_NAME = ObjectNameFactory.create("jboss.ws:service=ServerConfig");
@@ -146,7 +150,7 @@ public final class JBWS2150TestCase extends JBossWSTest
       return archive;
    }
    
-   @Before
+   @BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(ADDRESS_REWRITE_SERVER)) {
          containerController.start(ADDRESS_REWRITE_SERVER);
@@ -160,7 +164,7 @@ public final class JBWS2150TestCase extends JBossWSTest
       webServiceUriScheme = (String) getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "WebServiceUriScheme");
    }
 
-   @After
+   @AfterEach
    public void cleanup() throws Exception
    {
       Attribute attr = new Attribute("ModifySOAPAddress", modifySOAPAddress);

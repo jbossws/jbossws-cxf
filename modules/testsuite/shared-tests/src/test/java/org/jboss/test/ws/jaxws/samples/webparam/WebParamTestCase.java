@@ -27,15 +27,15 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test the JSR-181 annotation: jakarta.jws.WebParam
@@ -43,7 +43,7 @@ import org.junit.runner.RunWith;
  * @author Thomas.Diesler@jboss.org
  * @since 07-Oct-2005
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class WebParamTestCase extends JBossWSTest
 {
    private String targetNS = "http://www.openuri.org/jsr181/WebParamExample";  
@@ -60,7 +60,7 @@ public class WebParamTestCase extends JBossWSTest
       return archive;
    }
 
-   @Before
+   @BeforeEach
    public void createPort() throws Exception
    {
       if (port == null)
@@ -112,7 +112,7 @@ public class WebParamTestCase extends JBossWSTest
       port.securePing(doc, secHeader);
    }
    
-   @AfterClass
+   @AfterAll
    public static void cleanupPort() {
 	   port = null;
    }

@@ -38,17 +38,17 @@ import org.jboss.test.ws.jaxws.endpoint.jse.endpoints.DHResponse;
 import org.jboss.test.ws.jaxws.endpoint.jse.endpoints.Endpoint1Iface;
 import org.jboss.test.ws.jaxws.endpoint.jse.endpoints.Endpoint1Impl;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 
 /**
  * Tests endpoint dynamic publishing in JSE environment.
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class UsecasesTestCase extends JBossWSTest
 {
    private static WebServiceFeature[] mtomEnabled = new WebServiceFeature[] { new MTOMFeature(true) };

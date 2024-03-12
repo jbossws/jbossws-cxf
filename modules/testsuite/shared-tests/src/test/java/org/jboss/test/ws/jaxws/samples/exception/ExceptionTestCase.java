@@ -21,18 +21,18 @@ package org.jboss.test.ws.jaxws.samples.exception;
 import java.io.File;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test JAX-WS exception handling
  *
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class ExceptionTestCase extends AbstractExceptionTests
 {
    @Deployment(name="jaxws-samples-exception-jse-plain", testable = false)

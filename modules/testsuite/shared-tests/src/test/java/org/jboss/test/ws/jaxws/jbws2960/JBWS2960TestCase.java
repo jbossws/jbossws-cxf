@@ -31,13 +31,13 @@ import javax.wsdl.xml.WSDLReader;
 import javax.xml.namespace.QName;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.ws.api.util.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.w3c.dom.Element;
 
 /**
@@ -45,7 +45,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS2960TestCase extends JBossWSTest
 {
    private final QName WSAM_ACTION_QNAME = new QName("http://www.w3.org/2007/05/addressing/metadata", "Action");
@@ -55,7 +55,7 @@ public class JBWS2960TestCase extends JBossWSTest
    private final QName POLICY_REFERENCE_QNAME = new QName("http://www.w3.org/ns/ws-policy", "PolicyReference");
    private final File wsdlFile = JBossWSTestHelper.getResourceFile("jaxws/jbws2960/AddNumbersService.wsdl");
 
-   @Before
+   @BeforeEach
    public void setup()
    {
       assertNotNull("WSDL not found", wsdlFile);

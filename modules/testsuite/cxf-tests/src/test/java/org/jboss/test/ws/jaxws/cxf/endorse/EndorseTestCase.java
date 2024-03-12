@@ -24,7 +24,7 @@ import java.net.URL;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -32,8 +32,8 @@ import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test required endorsing when using the CXF stack
@@ -41,7 +41,7 @@ import org.junit.runner.RunWith;
  * @author alessio.soldano@jboss.com
  * @since 02-Jun-2010
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class EndorseTestCase extends JBossWSTest
 {
    private static final String ENDORSE_DEP= "jaxws-cxf-endorse";

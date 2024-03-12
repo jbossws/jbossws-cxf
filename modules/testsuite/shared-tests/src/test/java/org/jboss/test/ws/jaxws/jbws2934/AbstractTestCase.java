@@ -26,9 +26,9 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.logging.Logger;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 
 /**
@@ -47,7 +47,7 @@ public abstract class AbstractTestCase extends JBossWSTest
    
    protected abstract String getEndpointAddress();
    
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       QName serviceName = new QName("http://jboss.org/jbws2934", "EndpointService");
@@ -62,7 +62,7 @@ public abstract class AbstractTestCase extends JBossWSTest
       }
    }
    
-   @After
+   @AfterEach
    public void cleanup() {
       for (int i = 0; i < THREADS_COUNT; i++) {
          proxies[i] = null;

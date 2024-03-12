@@ -26,14 +26,14 @@ import org.apache.cxf.ws.mex.model._2004_09.Metadata;
 import org.apache.cxf.ws.mex.model._2004_09.MetadataSection;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.w3c.dom.Node;
 
 /**
@@ -42,7 +42,7 @@ import org.w3c.dom.Node;
  * @author alessio.soldano@jboss.com
  * @since 10-May-2012
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class WSMexTestCase extends JBossWSTest
 {
    @ArquillianResource

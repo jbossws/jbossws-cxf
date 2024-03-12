@@ -28,16 +28,16 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Serviceref through ejb3 deployment descriptor.
@@ -46,7 +46,7 @@ import org.junit.runner.RunWith;
  *
  * @author Heiko.Braun@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS1841TestCase extends JBossWSTest
 {
    private static EndpointInterface port;
@@ -75,7 +75,7 @@ public class JBWS1841TestCase extends JBossWSTest
       return archive;
    }
 
-   @AfterClass
+   @AfterAll
    public static void cleanUp() {
       port = null;
       remote = null;
@@ -90,7 +90,7 @@ public class JBWS1841TestCase extends JBossWSTest
       }
    }
 
-   @Before
+   @BeforeEach
    public void setup() throws Exception {
       if (port == null) {
          URL wsdlURL = new URL(baseURL + "/jaxws-jbws1841/EndpointService/EJB3Bean?wsdl");

@@ -29,7 +29,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -39,8 +39,8 @@ import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * WS-SecurityPolicy code first dev test
@@ -48,7 +48,7 @@ import org.junit.runner.RunWith;
  * @author alessio.soldano@jboss.com
  * @since 05-Jun-2013
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class AnnotatedSignEncryptTestCase extends JBossWSTest
 {
    @ArquillianResource

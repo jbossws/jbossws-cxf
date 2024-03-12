@@ -37,17 +37,17 @@ import jakarta.xml.ws.soap.AddressingFeature;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.logging.Logger;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
@@ -56,7 +56,7 @@ import org.w3c.dom.Node;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class JBWS2937TestCase extends JBossWSTest
 {
    private final WebServiceFeature[] ADDRESSING_ENABLED = { new AddressingFeature(true) };
@@ -87,7 +87,7 @@ public final class JBWS2937TestCase extends JBossWSTest
       return archive;
    }
    
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       if (service == null) {
@@ -98,7 +98,7 @@ public final class JBWS2937TestCase extends JBossWSTest
       }
    }
    
-   @AfterClass
+   @AfterAll
    public static void cleanup() {
       epr = null;
       proxy = null;

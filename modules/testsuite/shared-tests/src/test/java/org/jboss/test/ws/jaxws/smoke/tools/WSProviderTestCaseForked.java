@@ -20,18 +20,18 @@ package org.jboss.test.ws.jaxws.smoke.tools;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * @author Heiko.Braun@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class WSProviderTestCaseForked extends PluginBase
 {
    @Deployment(name="jaxws-classloading-types", order=1, testable = false)
@@ -58,7 +58,7 @@ public class WSProviderTestCaseForked extends PluginBase
     * Recreates a tools delegate for every test
     * @throws Exception
     */
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       setupClasspath();
@@ -68,7 +68,7 @@ public class WSProviderTestCaseForked extends PluginBase
     }
 
 
-   @After
+   @AfterEach
    public void teardown() throws Exception
    {
       restoreClasspath();

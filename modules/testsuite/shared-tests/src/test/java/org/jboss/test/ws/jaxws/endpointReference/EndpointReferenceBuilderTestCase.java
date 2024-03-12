@@ -26,7 +26,7 @@ import jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 

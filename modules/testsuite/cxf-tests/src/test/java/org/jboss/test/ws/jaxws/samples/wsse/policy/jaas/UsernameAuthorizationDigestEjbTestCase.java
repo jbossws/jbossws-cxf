@@ -34,15 +34,15 @@ import jakarta.xml.ws.Service;
 import org.apache.cxf.ws.security.SecurityConstants;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * WS-Security Policy username ejb endpoint test case leveraging JAAS container integration and using digest passwords.
@@ -52,7 +52,7 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:ema@redhat.com"/>Jim Ma<a>
  * @since 26-May-2011
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
 {
    @ArquillianResource

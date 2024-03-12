@@ -25,9 +25,9 @@ import jakarta.xml.ws.wsaddressing.W3CEndpointReference;
 import jakarta.xml.ws.wsaddressing.W3CEndpointReferenceBuilder;
 
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.runner.RunWith;
-import org.junit.Test;
-import org.jboss.arquillian.junit.Arquillian;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.Test;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 
 /**
@@ -35,7 +35,7 @@ import org.jboss.arquillian.container.test.api.RunAsClient;
  *
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class JBWS2942TestCase extends JBossWSTest
 {
    @Test

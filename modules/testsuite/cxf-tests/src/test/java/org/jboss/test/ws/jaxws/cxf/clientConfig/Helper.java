@@ -36,8 +36,8 @@ import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.spi.metadata.config.ClientConfig;
 import org.jboss.wsf.test.ClientHelper;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Verifies client configuration setup

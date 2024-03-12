@@ -27,17 +27,17 @@ import jakarta.xml.ws.Dispatch;
 import jakarta.xml.ws.WebServiceException;
 import jakarta.xml.ws.handler.Handler;
 import jakarta.xml.ws.http.HTTPBinding;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author <a href="ema@redhat.com">Jim Ma</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JAXWS2976TestCase
 {
 

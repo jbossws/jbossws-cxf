@@ -24,11 +24,11 @@ import org.apache.cxf.annotations.Policy.Placement;
 import org.jboss.wsf.stack.cxf.extensions.policy.EndpointPolicyAttachments;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachment;
 import org.jboss.wsf.stack.cxf.extensions.policy.PolicyAttachmentStore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * A test case of basic policy sets parsing

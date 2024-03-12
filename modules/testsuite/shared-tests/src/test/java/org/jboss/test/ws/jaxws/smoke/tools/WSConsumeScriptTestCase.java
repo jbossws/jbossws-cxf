@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.junit5.ArquillianExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-1793] Provide a test case for the tools scripts that reside under JBOSS_HOME/bin
@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
  * 
  * @author Heiko.Braun@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class WSConsumeScriptTestCase extends org.jboss.test.ws.jaxws.smoke.tools.ScriptTestCase
 {
    private String WSDL_LOCATION = "jaxws" + FS + "smoke" + FS + "tools" + FS + "wsdl" + FS + "TestServiceCatalog.wsdl";

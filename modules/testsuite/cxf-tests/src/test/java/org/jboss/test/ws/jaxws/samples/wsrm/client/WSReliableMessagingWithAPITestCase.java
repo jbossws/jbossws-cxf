@@ -34,7 +34,7 @@ import org.apache.cxf.ws.rmp.v200502.RMAssertion;
 import org.apache.cxf.ws.rmp.v200502.RMAssertion.AcknowledgementInterval;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -45,8 +45,8 @@ import org.jboss.ws.api.configuration.ClientConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Client invoking web service with WS-RM and using no xml descriptor
@@ -55,7 +55,7 @@ import org.junit.runner.RunWith;
  * @since 02-Aug-2010
  * 
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
 {
    @ArquillianResource

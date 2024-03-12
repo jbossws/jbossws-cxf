@@ -31,7 +31,7 @@ import jakarta.xml.ws.handler.Handler;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
@@ -39,10 +39,10 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-2278] JBossWS is picking the wrong binding when both Soap1.1 and Soap1.2 bindings are provided for a port
@@ -51,7 +51,7 @@ import org.junit.runner.RunWith;
  * @since 30-Sep-2008
  * @see https://jira.jboss.org/jira/browse/JBWS-2278
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS2278TestCase extends JBossWSTest
 {
    private static TestEndpoint port11;
@@ -77,7 +77,7 @@ public class JBWS2278TestCase extends JBossWSTest
       return archive;
    }
 
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       if (port11 == null) {
@@ -100,7 +100,7 @@ public class JBWS2278TestCase extends JBossWSTest
       }
    }
    
-   @AfterClass
+   @AfterAll
    public static void cleanup()
    {
       port11 = null;

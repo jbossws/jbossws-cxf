@@ -28,12 +28,12 @@ import jakarta.xml.ws.soap.SOAPBinding;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test service endpoint capability to process inlined and optimized
@@ -47,7 +47,7 @@ import org.junit.runner.RunWith;
  * @author Heiko Braun <heiko.braun@jboss.com>
  * @since 05.12.2006
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class XOPBareTestCase extends XOPBase
 {
    @ArquillianResource
@@ -58,7 +58,7 @@ public class XOPBareTestCase extends XOPBase
       return DeploymentArchive.createDeployment("bare");
    }
 
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       QName serviceName = new QName("http://doclit.xop.samples.jaxws.ws.test.jboss.org/", "MTOMService");

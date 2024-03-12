@@ -21,11 +21,11 @@ package org.jboss.test.ws.jaxws.smoke.tools;
 import java.io.File;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-1793] Provide a test case for the tools scripts that reside under JBOSS_HOME/bin
@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
  * 
  * @author Heiko.Braun@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class ScriptTestCase extends JBossWSTest
 {
    public static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
@@ -51,7 +51,7 @@ public class ScriptTestCase extends JBossWSTest
    public String CLASSES_DIR;
    public String TEST_DIR;
 
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       JBOSS_HOME = System.getProperty("jboss.home");
