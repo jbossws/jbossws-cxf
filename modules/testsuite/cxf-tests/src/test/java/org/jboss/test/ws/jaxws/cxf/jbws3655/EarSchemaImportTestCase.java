@@ -28,19 +28,17 @@ import jakarta.xml.ws.Service;
 import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class EarSchemaImportTestCase extends JBossWSTest
 {
    @ArquillianResource
@@ -49,7 +47,6 @@ public class EarSchemaImportTestCase extends JBossWSTest
    private String dataDir;
    private File wsdlDir;
 
-   @Before
    public void setup() throws Exception {
       deployer.deploy(EAR_DEPLOYMENT);
       ObjectName serverEnviroment = new ObjectName("jboss.as:core-service=server-environment");
@@ -58,7 +55,6 @@ public class EarSchemaImportTestCase extends JBossWSTest
       //JBWS-3992:check wsdl dir is generated
       assertTrue(wsdlDir.getAbsolutePath() + "is expected", wsdlDir.exists());
    }
-   @After
    public void cleanup() throws Exception {
       deployer.undeploy(EAR_DEPLOYMENT);
       //JBWS-3992:check wsdl directory is removed
@@ -79,7 +75,7 @@ public class EarSchemaImportTestCase extends JBossWSTest
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello.wsdl"), "wsdl/Hello.wsdl")
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/wsdl/Hello_schema1.xsd"), "wsdl/Hello_schema1.xsd");
       writeToDisk(archive2);
-      
+
       JavaArchive archive = ShrinkWrap.create(JavaArchive.class, "jaxws-cxf-jbws3655.ear");
       archive.addManifest()
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws3655/META-INF/application.xml"))
@@ -90,7 +86,7 @@ public class EarSchemaImportTestCase extends JBossWSTest
    
    public static void writeToDisk(JavaArchive archive)
    {
-      File file = new File(JBossWSTestHelper.getTestArchiveDir(), archive.getName());
+      File file = new File(JBossWSTestHelper.assertArchiveDirExists(), archive.getName());
       archive.as(ZipExporter.class).exportTo(file, true);
    }
 
@@ -98,11 +94,19 @@ public class EarSchemaImportTestCase extends JBossWSTest
    @RunAsClient
    public void testSchemaImport() throws Exception
    {
-      HelloWs port = getPort("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3655/HelloService");
-      HelloRequest request = new HelloRequest();
-      request.setInput("hello");
-      HelloResponse response = port.doHello(request);
-      assertEquals(2, response.getMultiHello().size());
+      try {
+         //TODO: the setup() and cleanup() call should be annotated with @BeforeEach and @AfterEach
+         // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
+         setup();
+         HelloWs port = getPort("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3655/HelloService");
+         HelloRequest request = new HelloRequest();
+         request.setInput("hello");
+         HelloResponse response = port.doHello(request);
+         assertEquals(2, response.getMultiHello().size());
+      } finally {
+         cleanup();
+      }
+
    }
 
    private HelloWs getPort(String publishURL) throws Exception

@@ -22,7 +22,7 @@ import java.util.logging.Logger;
 
 import org.apache.cxf.common.logging.LogUtils;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test CXF logging on the client side

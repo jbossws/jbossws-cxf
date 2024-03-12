@@ -27,7 +27,7 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -37,8 +37,8 @@ import org.jboss.test.ws.jaxws.jbws1798.generated.GetCountryCodesResponse.Respon
 import org.jboss.test.ws.jaxws.jbws1798.generated.ServiceType;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-1798] JBossWS cannot find local schema with relative urls
@@ -46,7 +46,7 @@ import org.junit.runner.RunWith;
  * @author thomas.diesler@jboss.com
  * @since 16-Oct-2007
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS1798TestCase extends JBossWSTest
 {
    @ArquillianResource

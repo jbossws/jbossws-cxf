@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.junit5.ArquillianExtension;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
@@ -39,7 +39,7 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  * 
  * @author Heiko.Braun@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class WSProvideScriptTestCase extends org.jboss.test.ws.jaxws.smoke.tools.ScriptTestCase
 {
    @Test

@@ -28,21 +28,21 @@ import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Service;
 import jakarta.xml.ws.soap.SOAPBinding;
 
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS3250TestCase extends JBossWSTest
 {
    @ArquillianResource
@@ -77,9 +77,9 @@ public class JBWS3250TestCase extends JBossWSTest
       request.setContent(dh);
       request.setId("largeSize_mtom_request");
       MTOMResponse mtomResponse = port.echo(request);
-      Assert.assertEquals("Response for requestID:largeSize_mtom_request", mtomResponse.getResponse());
+      Assertions.assertEquals("Response for requestID:largeSize_mtom_request", mtomResponse.getResponse());
       byte[] responseBytes = IOUtils.convertToBytes(mtomResponse.getContent());
-      Assert.assertTrue(responseBytes.length > 65536);
+      Assertions.assertTrue(responseBytes.length > 65536);
    }
 
 }

@@ -23,7 +23,7 @@ import java.io.PrintStream;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test JAX-WS exception handling

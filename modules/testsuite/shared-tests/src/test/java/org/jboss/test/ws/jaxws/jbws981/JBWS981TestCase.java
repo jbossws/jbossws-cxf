@@ -25,15 +25,14 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.wsf.test.IgnoreEnv;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-981] Virtual host configuration for EJB endpoints
@@ -41,12 +40,12 @@ import org.junit.runner.RunWith;
  * @author darran.lofthouse@jboss.com
  * @since Nov 2, 2006
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
+//Ignore this test for ipv6; it requires host setting in /etc/hosts [::1 localhost]
+@DisabledIfSystemProperty(named = "java.net.preferIPv6Addresses", matches = "true")
 public class JBWS981TestCase extends JBossWSTest
 {
-   //Ignore this test for ipv6; it requires host setting in /etc/hosts [::1 localhost]
-   @Rule
-   public IgnoreEnv rule = IgnoreEnv.IPV6;
+
    @ArquillianResource
    private URL baseURL;
 

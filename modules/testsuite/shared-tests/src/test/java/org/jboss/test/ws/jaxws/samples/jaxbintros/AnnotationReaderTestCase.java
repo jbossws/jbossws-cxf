@@ -29,16 +29,16 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.jboss.jaxb.intros.BindingCustomizationFactory;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 
 /**
  * @author Heiko.Braun@jboss.com
  * @author alessio.soldano@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class AnnotationReaderTestCase extends JBossWSTest
 {
    @Test

@@ -31,7 +31,7 @@ import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.metadata.services.DDBeans;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Verifies the Bus is properly shutdown when created through the BusHolder

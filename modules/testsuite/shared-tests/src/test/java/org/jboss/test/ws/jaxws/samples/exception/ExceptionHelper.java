@@ -29,7 +29,7 @@ import org.jboss.test.ws.jaxws.samples.exception.client.ExceptionEndpoint;
 import org.jboss.test.ws.jaxws.samples.exception.client.UserException;
 import org.jboss.test.ws.jaxws.samples.exception.client.UserException_Exception;
 import org.w3c.dom.Element;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 
 public class ExceptionHelper implements ClientHelper

@@ -29,17 +29,16 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.wsf.test.EnableOnJDK;
-import org.jboss.wsf.test.IgnoreJdk;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
+import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Verifies a plain Apache CXF ws endpoint war can be deployed on
@@ -55,11 +54,10 @@ import org.junit.runner.RunWith;
  * @author alessio.soldano@jboss.com
  * @since 15-Apr-2013
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
+@EnabledForJreRange(min = JRE.JAVA_17)
 public class EmbeddedCXFTestCase extends JBossWSTest
 {
-   @ClassRule
-   public static EnableOnJDK jdk17 = EnableOnJDK.ON_JDK17;
 
    @ArquillianResource
    private URL baseURL;

@@ -20,10 +20,10 @@ package org.jboss.test.ws.jaxws.container;
 import jakarta.xml.ws.BindingProvider;
 import jakarta.xml.ws.Service;
 import javax.xml.namespace.QName;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 
 import java.io.IOException;
@@ -37,12 +37,12 @@ public class ContainerEndpointTestCase {
 
     public static final GenericContainer<?> jbosswsContainer = new GenericContainer<>(DockerImageName.parse("jbossws-cxf-container-tests:latest")).withExposedPorts(8080);
 
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws IOException {
        jbosswsContainer.start();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws IOException {
         jbosswsContainer.stop();
     }
@@ -54,7 +54,7 @@ public class ContainerEndpointTestCase {
         //we need a modify address config in WFLY
         ((BindingProvider)endpoint).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, baseURL.toString());
         String result = endpoint.echo("from docker container");
-        Assert.assertEquals("Unexpected result", result, "Echo:from docker container");
+        Assertions.assertEquals("Echo:from docker container", result, "Unexpected result");
     }
     private Endpoint initPort(URL baseUrl) throws Exception {
         QName serviceName = new QName("http://org.jboss.ws/cxf/container", "EndpointImplService");

@@ -36,16 +36,16 @@ import jakarta.xml.soap.SOAPMessage;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-3084] Enable control of chunked encoding when using SOAPConnection.
@@ -53,7 +53,7 @@ import org.junit.runner.RunWith;
  * @author sberyozk@redhat.com
  * @author alessio.soldano@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS3084TestCase extends JBossWSTest
 {
    @ArquillianResource
@@ -72,13 +72,13 @@ public class JBWS3084TestCase extends JBossWSTest
                .setWebXML(new File(getTestResourcesDir() + "/saaj/jbws3084/WEB-INF/web.xml"));
       return archive;
    }
-   @BeforeClass
+   @BeforeAll
    public static void forceURLConnection() {
       //The new HttpClientConduit doesn't work for disabling the chunk mode
       //https://issues.redhat.com/browse/JBWS-4388
       System.setProperty("force.urlconnection.http.conduit", "true");
    }
-   @AfterClass
+   @AfterAll
    public static void cleanupSystemProperty() {
       System.clearProperty("force.urlconnection.http.conduit");
    }

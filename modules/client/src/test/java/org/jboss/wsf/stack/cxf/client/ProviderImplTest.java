@@ -31,14 +31,14 @@ import jakarta.xml.ws.spi.Provider;
 
 import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.stack.cxf.client.ProviderImpl.DelegateEndpointImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * A test case for jbossws-cxf jakarta.xml.ws.spi.Provider implementation
@@ -203,7 +203,7 @@ public class ProviderImplTest
    {
       final String impl = ProviderImpl.class.getName();
       boolean canLoad = canLoad(cl, impl);
-      assertTrue("ClassLoader " + cl + " was not able to load " + impl + "!", canLoad);
+      assertTrue(canLoad, "ClassLoader " + cl + " was not able to load " + impl + "!");
    }
    
    //------ Test classes ------

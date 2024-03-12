@@ -32,7 +32,7 @@ import jakarta.xml.ws.soap.SOAPBinding;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.wsf.test.XOPTestSupport;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * User: hbraun

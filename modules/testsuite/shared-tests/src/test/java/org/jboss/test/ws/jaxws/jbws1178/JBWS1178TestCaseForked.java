@@ -34,18 +34,16 @@ import jakarta.xml.ws.Service;
 import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.After;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-1178] Multiple virtual host and soap:address problem
@@ -54,7 +52,7 @@ import org.junit.runner.RunWith;
  * @author Thomas.Diesler@jboss.com
  * @since 05-Oct-2006
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS1178TestCaseForked extends JBossWSTest
 {  
    @ArquillianResource
@@ -74,7 +72,6 @@ public class JBWS1178TestCaseForked extends JBossWSTest
       return archive;
    }
 
-   @Before
    public void setup() throws Exception {
       // Setting the WebServiceHost to an empty string, causes the request host to be used.
       // This must be done before deploy time.
@@ -82,7 +79,6 @@ public class JBWS1178TestCaseForked extends JBossWSTest
       getServer().setAttribute(objectName, new Attribute("WebServiceHost", ""));
       deployer.deploy(WAR_DEPLOYMENT);
    }
-   @After
    public void cleanup() throws Exception {
       deployer.undeploy(WAR_DEPLOYMENT);
       getServer().setAttribute(objectName, new Attribute("WebServiceHost", webServiceHost));
@@ -93,35 +89,44 @@ public class JBWS1178TestCaseForked extends JBossWSTest
    @RunAsClient
    public void testHostAddress() throws Exception
    {
-      InetAddress inetAddr = InetAddress.getByName(getServerHost());
-      String hostAddress = inetAddr instanceof Inet6Address ? "[" + inetAddr.getHostAddress() + "]" : inetAddr.getHostAddress();
-      URL wsdlURL = new URL("http://" + hostAddress + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
+      try {
+         setup();
+         InetAddress inetAddr = InetAddress.getByName(getServerHost());
+         String hostAddress = inetAddr instanceof Inet6Address ? "[" + inetAddr.getHostAddress() + "]" : inetAddr.getHostAddress();
+         URL wsdlURL = new URL("http://" + hostAddress + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
 
-      QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
-      Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = service.getPort(Endpoint.class);
-      Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext(); 
-      URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
+         QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
+         Service service = Service.create(wsdlURL, serviceName);
+         Endpoint port = service.getPort(Endpoint.class);
+         Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext();
+         URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
 
-      assertEqualsIpv6FormatAware(wsdlURL.getHost(), epURL.getHost());
+         assertEqualsIpv6FormatAware(wsdlURL.getHost(), epURL.getHost());
+      } finally {
+         cleanup();
+      }
    }
 
    @Test
    @RunAsClient
    public void testHostName() throws Exception
    {
-      InetAddress inetAddr = InetAddress.getByName(getServerHost());
-      Assume.assumeFalse("The test works only if there is a hostname available for the machine.",
-              inetAddr.getHostAddress().equals(inetAddr.getHostName()));
-      URL wsdlURL = new URL("http://" + inetAddr.getHostName() + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
+      try {
+         setup();
+         InetAddress inetAddr = InetAddress.getByName(getServerHost());
+         Assumptions.assumeFalse(inetAddr.getHostAddress().equals(inetAddr.getHostName()), "The test works only if there is a hostname available for the machine.");
+         URL wsdlURL = new URL("http://" + inetAddr.getHostName() + ":" + getServerPort() + "/jaxws-jbws1178/testpattern?wsdl");
 
-      QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
-      Service service = Service.create(wsdlURL, serviceName);
-      Endpoint port = service.getPort(Endpoint.class);
-      Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext(); 
-      URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
+         QName serviceName = new QName("http://org.jboss.ws/jbws1178", "EndpointService");
+         Service service = Service.create(wsdlURL, serviceName);
+         Endpoint port = service.getPort(Endpoint.class);
+         Map<String, Object> reqCtx = ((BindingProvider)port).getRequestContext();
+         URL epURL = new URL((String)reqCtx.get(BindingProvider.ENDPOINT_ADDRESS_PROPERTY));
 
-      assertEqualsIpv6FormatAware(wsdlURL.getHost(), epURL.getHost());
+         assertEqualsIpv6FormatAware(wsdlURL.getHost(), epURL.getHost());
+      } finally {
+         cleanup();
+      }
    }
 
    private static void assertEqualsIpv6FormatAware(String expected, String actual) throws UnknownHostException

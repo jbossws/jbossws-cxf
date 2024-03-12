@@ -28,10 +28,10 @@ import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-import org.junit.AfterClass;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class UDPTransportTest
 {
@@ -39,7 +39,7 @@ public class UDPTransportTest
    private static Server server;
    private static Bus bus;
 
-   @BeforeClass
+   @BeforeAll
    public static void setUpBeforeClass() throws Exception
    {
       bus = BusFactory.newInstance().createBus();
@@ -51,7 +51,7 @@ public class UDPTransportTest
       server = factory.create();
    }
 
-   @AfterClass
+   @AfterAll
    public static void shutdown() throws Exception
    {
       server.stop();
@@ -70,7 +70,7 @@ public class UDPTransportTest
       Greeter g = fact.create(Greeter.class);
       for (int x = 0; x < 5; x++)
       {
-         Assert.assertEquals("Hello World", g.greetMe("World"));
+         Assertions.assertEquals("Hello World", g.greetMe("World"));
       }
 
       ((java.io.Closeable) g).close();
@@ -100,7 +100,7 @@ public class UDPTransportTest
       JaxWsProxyFactoryBean fact = new JaxWsProxyFactoryBean();
       fact.setAddress("udp://:" + PORT + "/foo");
       Greeter g = fact.create(Greeter.class);
-      Assert.assertEquals("Hello World", g.greetMe("World"));
+      Assertions.assertEquals("Hello World", g.greetMe("World"));
       ((java.io.Closeable) g).close();
    }
 
@@ -115,7 +115,7 @@ public class UDPTransportTest
       {
          b.append("Hello ");
       }
-      Assert.assertEquals("Hello " + b.toString(), g.greetMe(b.toString()));
+      Assertions.assertEquals("Hello " + b.toString(), g.greetMe(b.toString()));
 
       ((java.io.Closeable) g).close();
    }

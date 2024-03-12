@@ -35,14 +35,14 @@ import jakarta.xml.ws.soap.SOAPFaultException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.test.ws.jaxws.samples.exception.client.ExceptionEndpoint;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.w3c.dom.Element;
 
 /**
@@ -50,7 +50,7 @@ import org.w3c.dom.Element;
  *
  * @author <a href="alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS3945TestCase extends JBossWSTest
 {
    private String targetNS = "http://server.exception.samples.jaxws.ws.test.jboss.org/";

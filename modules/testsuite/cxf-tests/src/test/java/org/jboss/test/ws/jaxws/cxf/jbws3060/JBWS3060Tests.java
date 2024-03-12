@@ -32,7 +32,7 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  *

@@ -27,19 +27,19 @@ import jakarta.xml.ws.Service;
 import jakarta.xml.ws.Service.Mode;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS3131TestCase extends JBossWSTest
 {
    private Service service;
    private Service serviceChanged;
 
-   @Before
+   @BeforeEach
    public void setUp() throws IOException
    {
       QName serviceName = new QName("http://www.portalfiscal.inf.br/nfe/wsdl/NfeStatusServico2", "NfeStatusServico2");

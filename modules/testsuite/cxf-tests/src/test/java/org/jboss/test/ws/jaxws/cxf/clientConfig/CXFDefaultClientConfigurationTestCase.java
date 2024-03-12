@@ -22,12 +22,11 @@ import java.io.File;
 import java.net.URL;
 
 import org.jboss.arquillian.container.test.api.ContainerController;
-import org.jboss.arquillian.container.test.api.Deployer;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.TargetsContainer;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
@@ -35,9 +34,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Verifies client configuration setup (in-container tests, relying on AS model)
@@ -45,16 +43,13 @@ import org.junit.runner.RunWith;
  * @author alessio.soldano@jboss.com
  * @since 31-May-2012
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
 {
    private static final String DEP = "jaxws-cxf-clientConfig-def";
    private static final String CLIENT_DEP = "jaxws-cxf-clientConfig-inContainer-def-client";
    private static final String DEFAULT_CONFIG_TESTS_SERVER = "default-config-tests";
-   
-   @ArquillianResource
-   private Deployer deployer;
-   
+
    @ArquillianResource
    private ContainerController containerController;
    
@@ -83,8 +78,9 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/default-client-permissions.xml"), "permissions.xml");
       return archive;
    }
-   
-   @Before
+
+   //TODO: this method should be annotated with @BeforeEach, and should not be called again in each test method
+   // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(DEFAULT_CONFIG_TESTS_SERVER)) {
          containerController.start(DEFAULT_CONFIG_TESTS_SERVER);
@@ -100,6 +96,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testDefaultClientConfigurationInContainer() throws Exception {
+      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testDefaultClientConfiguration"));
    }
    
@@ -107,6 +104,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testDefaultClientConfigurationOnDispatchInContainer() throws Exception {
+      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testDefaultClientConfigurationOnDispatch"));
    }
    
@@ -119,6 +117,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationInContainer() throws Exception {
+      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfiguration"));
    }
    
@@ -126,6 +125,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationOnDispatchInContainer() throws Exception {
+      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatch"));
    }
    
@@ -133,6 +133,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationUsingFeatureInContainer() throws Exception {
+      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationUsingFeature"));
    }
    
@@ -140,6 +141,7 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationOnDispatchUsingFeatureInContainer() throws Exception {
+      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatchUsingFeature"));
    }
    

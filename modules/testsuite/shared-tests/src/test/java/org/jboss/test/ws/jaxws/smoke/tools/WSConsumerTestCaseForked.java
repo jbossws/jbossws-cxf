@@ -19,11 +19,11 @@
 package org.jboss.test.ws.jaxws.smoke.tools;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.jboss.arquillian.junit5.ArquillianExtension;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test the WSContractConsumer API across different implementations.
@@ -31,7 +31,7 @@ import org.junit.runner.RunWith;
  * @author Heiko.Braun@jboss.com
  * @author alessio.soldano@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class WSConsumerTestCaseForked extends PluginBase
 {
 
@@ -39,7 +39,7 @@ public class WSConsumerTestCaseForked extends PluginBase
     * Recreates a tools delegate for every test
     * @throws Exception
     */
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       // JBWS-3937 (IBM JDK 8)
@@ -51,7 +51,7 @@ public class WSConsumerTestCaseForked extends PluginBase
       setDelegate(wscClass);
    }
 
-   @After
+   @AfterEach
    public void teardown() throws Exception
    {
       restoreClasspath();

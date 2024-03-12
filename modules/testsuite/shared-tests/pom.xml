@@ -41,8 +41,8 @@
       <scope>runtime</scope> <!-- override scope from parent dependency to make sure tests are not compiled using (JBWS-)CXF classes -->
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>

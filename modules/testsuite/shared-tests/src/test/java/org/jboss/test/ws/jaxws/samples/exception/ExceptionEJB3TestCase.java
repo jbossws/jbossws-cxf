@@ -21,11 +21,11 @@ package org.jboss.test.ws.jaxws.samples.exception;
 import java.io.File;
 
 import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test JAX-WS exception handling with EJB3 endpoints
@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
  * @author <a href="jason.greene@jboss.com">Jason T. Greene</a>
  * @author alessio.soldano@jboss.com
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class ExceptionEJB3TestCase extends AbstractExceptionTests
 {
    @Deployment(name="jaxws-samples-exception", testable = false)

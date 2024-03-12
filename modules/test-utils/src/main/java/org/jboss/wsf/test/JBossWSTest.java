@@ -21,11 +21,11 @@ package org.jboss.wsf.test;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -41,18 +41,16 @@ import javax.naming.NamingException;
 import org.jboss.logging.Logger;
 import org.jboss.ws.common.DOMWriter;
 import org.jboss.ws.common.concurrent.CopyJob;
-import org.junit.Assert;
-import org.junit.AssumptionViolatedException;
-import org.junit.Rule;
-import org.junit.rules.TestRule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.TestWatcher;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Base class for JBossWS test cases.
@@ -61,7 +59,8 @@ import static org.junit.Assert.fail;
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @author <a href="mailto:alessio.soldano@jboss.com">Alessio Soldano</a>
  */
-public abstract class JBossWSTest extends Assert
+@ExtendWith(JBossWSTest.TestResultExtension.class)
+public abstract class JBossWSTest extends Assertions
 {
    protected static Logger log = Logger.getLogger(JBossWSTest.class.getName());
    public static final String SYSPROP_PROCESS_TIMEOUT = "test.process.wait.timeout";
@@ -179,9 +178,9 @@ public abstract class JBossWSTest extends Assert
       outputJob.start();
       try {
          boolean exited = p.waitFor(PROCESS_TIMEOUT, TimeUnit.SECONDS);
-         assertTrue("Process isn't exited in " + PROCESS_TIMEOUT + " seconds", exited);
+         assertTrue(exited, "Process isn't exited in " + PROCESS_TIMEOUT + " seconds");
          String fallbackMessage = "Process did exit with status " + p.exitValue();
-         assertTrue(message != null ? message : fallbackMessage, p.exitValue() == 0);
+         assertTrue(p.exitValue() == 0, message != null ? message : fallbackMessage);
       } catch (InterruptedException ie) {
          ie.printStackTrace(System.err);
       } finally {
@@ -304,90 +303,70 @@ public abstract class JBossWSTest extends Assert
    public static void assertEquals(Object exp, Object was)
    {
       if (exp instanceof Object[] && was instanceof Object[])
-         assertEqualsArray((Object[])exp, (Object[])was);
+         assertArrayEquals((Object[])exp, (Object[])was);
       else if (exp instanceof byte[] && was instanceof byte[])
-         assertEqualsArray((byte[])exp, (byte[])was);
+         assertArrayEquals((byte[])exp, (byte[])was);
       else if (exp instanceof boolean[] && was instanceof boolean[])
-         assertEqualsArray((boolean[])exp, (boolean[])was);
+         assertArrayEquals((boolean[])exp, (boolean[])was);
       else if (exp instanceof short[] && was instanceof short[])
-         assertEqualsArray((short[])exp, (short[])was);
+         assertArrayEquals((short[])exp, (short[])was);
       else if (exp instanceof int[] && was instanceof int[])
-         assertEqualsArray((int[])exp, (int[])was);
+         assertArrayEquals((int[])exp, (int[])was);
       else if (exp instanceof long[] && was instanceof long[])
-         assertEqualsArray((long[])exp, (long[])was);
+         assertArrayEquals((long[])exp, (long[])was);
       else if (exp instanceof float[] && was instanceof float[])
-         assertEqualsArray((float[])exp, (float[])was);
+         assertArrayEquals((float[])exp, (float[])was);
       else if (exp instanceof double[] && was instanceof double[])
-         assertEqualsArray((double[])exp, (double[])was);
+         assertArrayEquals((double[])exp, (double[])was);
       else
-         Assert.assertEquals(exp, was);
+         Assertions.assertEquals(exp, was);
+   }
+   protected static void assertTrue(String reason, boolean condition) {
+      Assertions.assertTrue(condition, reason);
    }
 
-   private static void assertEqualsArray(Object[] exp, Object[] was)
-   {
-      if (exp == null && was == null)
-         return;
-
-      if (exp != null && was != null)
-      {
-         if (exp.length != was.length)
-         {
-            fail("Expected <" + exp.length + "> array items, but was <" + was.length + ">");
-         }
-         else
-         {
-            for (int i = 0; i < exp.length; i++)
-            {
-
-               Object compExp = exp[i];
-               Object compWas = was[i];
-               assertEquals(compExp, compWas);
-            }
-         }
-      }
-      else if (exp == null)
-      {
-         fail("Expected a null array, but was: " + Arrays.asList(was));
-      }
-      else if (was == null)
-      {
-         fail("Expected " + Arrays.asList(exp) + ", but was: null");
-      }
+   protected static void assertFalse(String reason, boolean condition) {
+      Assertions.assertFalse(condition, reason);
    }
 
-   private static void assertEqualsArray(byte[] exp, byte[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, char expected, char actual) {
+      Assertions.assertEquals(expected, actual, message);
    }
 
-   private static void assertEqualsArray(boolean[] exp, boolean[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, String expected, String actual) {
+      Assertions.assertEquals(expected, actual, message);
    }
 
-   private static void assertEqualsArray(short[] exp, short[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, Object expected, Object actual) {
+      Assertions.assertEquals(expected, actual, message);
    }
 
-   private static void assertEqualsArray(int[] exp, int[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, double expected, double actual) {
+      Assertions.assertEquals(expected, actual, message);
    }
 
-   private static void assertEqualsArray(long[] exp, long[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, long expected, long actual) {
+      Assertions.assertEquals(expected, actual, message);
    }
 
-   private static void assertEqualsArray(float[] exp, float[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, int expected, int actual) {
+      Assertions.assertEquals(expected, actual, message);
    }
 
-   private static void assertEqualsArray(double[] exp, double[] was)
-   {
-      assertTrue("Arrays don't match", Arrays.equals(exp, was));
+   protected static void assertEquals(String message, byte expected, byte actual) {
+      Assertions.assertEquals(expected, actual, message);
+   }
+
+   protected static void assertEquals(String message, float expected, float actual) {
+      Assertions.assertEquals(expected, actual, message);
+   }
+
+   protected static void assertNotNull(String message, Object obj) {
+      Assertions.assertNotNull(obj, message);
+   }
+
+   protected static void assertNotNull(String message, String obj) {
+      Assertions.assertNotNull(obj, message);
    }
 
    /** Removes whitespace text nodes if they have an element sibling.
@@ -426,26 +405,40 @@ public abstract class JBossWSTest extends Assert
       }
    }
 
-   @Rule
-   public TestRule watcher = new TestWatcher() {
-      
+   public static class TestResultExtension implements TestWatcher, BeforeEachCallback, AfterEachCallback {
+
       private ClassLoader classLoader = null;
-      
-      protected void starting(Description description) {
-         final String cjp = getClientJarPaths();
+
+      @Override
+      public void afterEach(ExtensionContext ctx) throws Exception {
+         if (classLoader != null && ctx.getElement().isPresent() && ctx.getElement().get().isAnnotationPresent(WrapThreadContextClassLoader.class)) {
+            Thread.currentThread().setContextClassLoader(classLoader);
+         }
+      }
+
+      @Override
+      public void beforeEach(ExtensionContext ctx) throws Exception {
+         final Method cjpMethod;
+         try {
+           cjpMethod = ctx.getRequiredTestClass().getDeclaredMethod("getClientJarPaths");
+           cjpMethod.setAccessible(true);
+         } catch (NoSuchMethodException nme) {
+            return;
+         }
+         final String cjp = cjpMethod.invoke(ctx.getRequiredTestInstance()).toString();
          if (cjp == null || cjp.trim().isEmpty()) {
             return;
          }
-         if (description.getAnnotation(WrapThreadContextClassLoader.class) != null) {
+         if (ctx.getElement().isPresent() && ctx.getElement().get().isAnnotationPresent(WrapThreadContextClassLoader.class)) {
             classLoader = Thread.currentThread().getContextClassLoader();
-            
+
             StringTokenizer st = new StringTokenizer(cjp, ", ");
             URL[] archives = new URL[st.countTokens()];
 
             try {
                for (int i = 0; i < archives.length; i++)
                   archives[i] = new File(JBossWSTestHelper.getTestArchiveDir(), st.nextToken()).toURI().toURL();
-               
+
                URLClassLoader cl = new URLClassLoader(archives, classLoader);
                Thread.currentThread().setContextClassLoader(cl);
             } catch (Exception e) {
@@ -453,24 +446,8 @@ public abstract class JBossWSTest extends Assert
             }
          }
       }
-      
-      protected void finished(Description description) {
-         if (classLoader != null && description.getAnnotation(WrapThreadContextClassLoader.class) != null) {
-            Thread.currentThread().setContextClassLoader(classLoader);
-         }
-      }
-      
-      protected void skipped(AssumptionViolatedException e, Description description) {
-         //This is a workaround for Maven Surefire not printing the skip message
-         //when exclusion comes from a custom rule (e.g. our IgnoreContainer rule)
-         //See https://github.com/apache/maven-surefire/pull/81 for proper fix.
-         
-         //note, the exact system out text here is grepped by Hudson, do not change and/or turn into a Log4J log
-         System.out.println("Test skipped: " + e.getMessage());
-         super.skipped(e, description);
-      }
-   };
-   
+   }
+
    protected String getClientJarPaths() {
       return null;
    }

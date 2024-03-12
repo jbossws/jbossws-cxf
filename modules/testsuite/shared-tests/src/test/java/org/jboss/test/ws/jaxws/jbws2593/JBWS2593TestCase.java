@@ -25,11 +25,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.jboss.wsf.test.JBossWSTestHelper;
 
 /**
@@ -40,7 +40,7 @@ import org.jboss.wsf.test.JBossWSTestHelper;
  * @author alessio.soldano@jboss.com
  * @since 02-Apr-2009
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS2593TestCase extends JBossWSTest
 {
    private static final String FS = System.getProperty("file.separator"); // '/' on unix, '\' on windows
@@ -54,7 +54,7 @@ public class JBWS2593TestCase extends JBossWSTest
    private String JBOSS_HOME;
    private String TEST_DIR;
 
-   @Before
+   @BeforeEach
    public void setup() throws Exception
    {
       JBOSS_HOME = System.getProperty("jboss.home");

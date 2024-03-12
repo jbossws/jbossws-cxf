@@ -24,19 +24,18 @@ import java.net.URL;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
-import org.jboss.wsf.test.EnableOnJDK;
-import org.jboss.wsf.test.IgnoreJdk;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledForJreRange;
+import org.junit.jupiter.api.condition.JRE;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * An application embedding Spring jars acts as a client to an existing WS endpoint.
@@ -45,7 +44,8 @@ import org.junit.runner.RunWith;
  * @author alessio.soldano@jboss.com
  * @since 02-Apr-2012
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
+@EnabledForJreRange(min = JRE.JAVA_17)
 public final class ClientSpringAppTestCase extends JBossWSTest
 {
    private static final String DEP = "jaxws-cxf-spring";
@@ -53,9 +53,6 @@ public final class ClientSpringAppTestCase extends JBossWSTest
    
    @ArquillianResource
    private URL baseURL;
-
-   @ClassRule
-   public static EnableOnJDK jdk17 = EnableOnJDK.ON_JDK17;
 
    @Deployment(name = DEP, testable = false)
    public static WebArchive createDeployment()

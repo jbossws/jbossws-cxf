@@ -36,16 +36,15 @@ import jakarta.xml.soap.SOAPMessage;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-@RunWith(Arquillian.class)
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+@ExtendWith(ArquillianExtension.class)
 public class MultipartContentTypeTestCase extends JBossWSTest
 {
    private static final String PROJECT_NAME = "reproducer-eap-wrong-multipart";
@@ -89,7 +88,7 @@ public class MultipartContentTypeTestCase extends JBossWSTest
 
    private void assertContentTypeStarts(final String expectedStart, final String actual) {
       if (!actual.startsWith(expectedStart)) {
-         Assert.fail("We have send request with Content-Type " + actual + ", but expected start is " + expectedStart);
+         fail("We have send request with Content-Type " + actual + ", but expected start is " + expectedStart);
       }
    }
 

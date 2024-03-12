@@ -25,16 +25,16 @@ import jakarta.xml.ws.Service;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ArchivePath;
 import org.jboss.shrinkwrap.api.Filter;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * [JBWS-3552] @XmlJavaTypeAdapter ignored on exception classes.
@@ -48,7 +48,7 @@ import org.junit.runner.RunWith;
  * </ul>
  * @author <a href="ropalka@redhat.com">Richard Opalka</a>
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class JBWS3552TestCase extends JBossWSTest {
 
    @ArquillianResource
@@ -141,7 +141,7 @@ public class JBWS3552TestCase extends JBossWSTest {
 
    @Test
    @RunAsClient
-   @Ignore(value="FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol")
+   @Disabled(value="FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol")
     public void testExceptionCA() throws Exception {
         EndpointIface endpoint = getProxy();
         try {
@@ -166,7 +166,7 @@ public class JBWS3552TestCase extends JBossWSTest {
 
    @Test
    @RunAsClient
-   @Ignore("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol") 
+   @Disabled("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol") 
     public void testExceptionFA() throws Exception {
         EndpointIface endpoint = getProxy();
         try {
@@ -191,7 +191,7 @@ public class JBWS3552TestCase extends JBossWSTest {
 
    @Test
    @RunAsClient
-   @Ignore("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol") 
+   @Disabled("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol") 
     public void testExceptionGA() throws Exception {
         EndpointIface endpoint = getProxy();        
         try {
@@ -216,7 +216,7 @@ public class JBWS3552TestCase extends JBossWSTest {
 
    @Test
    @RunAsClient
-   @Ignore("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol")
+   @Disabled("FIXME: [CXF-4600] Exception inheritance not working over SOAP protocol")
     public void testExceptionMA() throws Exception {
         EndpointIface endpoint = getProxy();        
         try {

@@ -35,14 +35,14 @@ import jakarta.xml.ws.Service.Mode;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
  * Test the JSR-181 annotation: jakarta.jws.SOAPBinding
@@ -51,7 +51,7 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:jason.greene@jboss.com">Jason T. Greene</a>
  * @since 17-Oct-2005
  */
-@RunWith(Arquillian.class)
+@ExtendWith(ArquillianExtension.class)
 public class SOAPBindingTestCase extends JBossWSTest
 {
    @ArquillianResource
