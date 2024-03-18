@@ -70,7 +70,7 @@ public final class AnnotatedSignEncryptTestCase extends JBossWSTest
    }
    
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("AnnotatedSignEncryptTestCase-client.jar") { {
       archive
          .addManifest()

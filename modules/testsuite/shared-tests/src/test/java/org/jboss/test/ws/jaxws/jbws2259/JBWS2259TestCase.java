@@ -97,7 +97,7 @@ public class JBWS2259TestCase extends JBossWSTest
       DataHandler dhResponse = reponse.getImage();
 
       String contentType = dhResponse.getContentType();
-      assertEquals("content-type", expectedContentType, contentType);
+      assertEquals(expectedContentType, contentType, "content-type");
    }
 
 }

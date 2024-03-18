@@ -79,7 +79,7 @@ public class PolicyAttachmentTestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-jbws3648-b-client.jar") { {
          archive
                .addManifest()

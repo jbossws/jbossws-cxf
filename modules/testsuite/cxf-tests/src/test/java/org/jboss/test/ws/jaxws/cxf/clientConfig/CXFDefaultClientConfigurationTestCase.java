@@ -79,8 +79,8 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
       return archive;
    }
 
-   //TODO: this method should be annotated with @BeforeEach, and should not be called again in each test method
-   // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
+   //TODO: After https://issues.redhat.com/browse/ARQ-2231 is fixed. Moved this BeforeEach method
+   //@BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(DEFAULT_CONFIG_TESTS_SERVER)) {
          containerController.start(DEFAULT_CONFIG_TESTS_SERVER);

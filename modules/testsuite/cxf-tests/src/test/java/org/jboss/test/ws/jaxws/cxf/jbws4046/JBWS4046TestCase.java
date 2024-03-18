@@ -68,8 +68,8 @@ public class JBWS4046TestCase extends JBossWSTest {
         String v1Resp = callVersionService("1");
         String v2Resp = callVersionService("2");
 
-        Assertions.assertNotNull("Service version 1 failed", v1Resp);
-        Assertions.assertNotNull("Service version 2 failed", v2Resp);
+        Assertions.assertNotNull(v1Resp, "Service version 1 failed");
+        Assertions.assertNotNull(v2Resp, "Service version 2 failed");
     }
 
     public String callVersionService(String path) throws Exception {

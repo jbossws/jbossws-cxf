@@ -81,7 +81,7 @@ public class FastInfosetTestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-fastinfoset-client.jar") { {
          archive
                .addManifest()

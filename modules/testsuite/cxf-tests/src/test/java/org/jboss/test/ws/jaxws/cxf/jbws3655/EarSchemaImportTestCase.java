@@ -47,6 +47,8 @@ public class EarSchemaImportTestCase extends JBossWSTest
    private String dataDir;
    private File wsdlDir;
 
+   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
+   //@BeforeEach
    public void setup() throws Exception {
       deployer.deploy(EAR_DEPLOYMENT);
       ObjectName serverEnviroment = new ObjectName("jboss.as:core-service=server-environment");
@@ -55,6 +57,9 @@ public class EarSchemaImportTestCase extends JBossWSTest
       //JBWS-3992:check wsdl dir is generated
       assertTrue(wsdlDir.exists(), wsdlDir.getAbsolutePath() + "is expected");
    }
+
+   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @AfterEach method
+   //@AfterEach
    public void cleanup() throws Exception {
       deployer.undeploy(EAR_DEPLOYMENT);
       //JBWS-3992:check wsdl directory is removed
@@ -95,8 +100,6 @@ public class EarSchemaImportTestCase extends JBossWSTest
    public void testSchemaImport() throws Exception
    {
       try {
-         //TODO: the setup() and cleanup() call should be annotated with @BeforeEach and @AfterEach
-         // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
          setup();
          HelloWs port = getPort("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3655/HelloService");
          HelloRequest request = new HelloRequest();

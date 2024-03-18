@@ -108,7 +108,7 @@ public class WSTrustTestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-trust-client.jar") { {
             archive
                .addManifest()

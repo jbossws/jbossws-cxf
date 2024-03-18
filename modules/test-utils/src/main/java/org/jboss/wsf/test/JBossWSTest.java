@@ -321,53 +321,6 @@ public abstract class JBossWSTest extends Assertions
       else
          Assertions.assertEquals(exp, was);
    }
-   /*protected static void assertTrue(String reason, boolean condition) {
-      Assertions.assertTrue(condition, reason);
-   }
-
-   protected static void assertFalse(String reason, boolean condition) {
-      Assertions.assertFalse(condition, reason);
-   }
-
-   protected static void assertEquals(String message, char expected, char actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, String expected, String actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, Object expected, Object actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, double expected, double actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, long expected, long actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, int expected, int actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, byte expected, byte actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertEquals(String message, float expected, float actual) {
-      Assertions.assertEquals(expected, actual, message);
-   }
-
-   protected static void assertNotNull(String message, Object obj) {
-      Assertions.assertNotNull(obj, message);
-   }
-
-   protected static void assertNotNull(String message, String obj) {
-      Assertions.assertNotNull(obj, message);
-   }*/
 
    /** Removes whitespace text nodes if they have an element sibling.
     */
@@ -418,14 +371,8 @@ public abstract class JBossWSTest extends Assertions
 
       @Override
       public void beforeEach(ExtensionContext ctx) throws Exception {
-         final Method cjpMethod;
-         try {
-           cjpMethod = ctx.getRequiredTestClass().getDeclaredMethod("getClientJarPaths");
-           cjpMethod.setAccessible(true);
-         } catch (NoSuchMethodException nme) {
-            return;
-         }
-         final String cjp = cjpMethod.invoke(ctx.getRequiredTestInstance()).toString();
+         final Method cjpMethod = ctx.getRequiredTestClass().getMethod("getClientJarPaths");
+         final String cjp = (String)cjpMethod.invoke(ctx.getRequiredTestInstance());
          if (cjp == null || cjp.trim().isEmpty()) {
             return;
          }
@@ -448,7 +395,7 @@ public abstract class JBossWSTest extends Assertions
       }
    }
 
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return null;
    }
 }

@@ -168,7 +168,7 @@ public class WSProviderPlugin extends JBossWSTest
       Class<?> responseWrapper = loader.loadClass("org.jboss.test.ws.jaxws.smoke.tools.jaxws.AddResponse");
       XmlRootElement rootElement = (XmlRootElement) responseWrapper.getAnnotation(XmlRootElement.class);
       assertNotNull( rootElement,"@XmlRootElement missing from response wrapper");
-      assertEquals("Wrong namespace", rootElement.namespace(), "http://foo.bar.com/calculator");
+      assertEquals(rootElement.namespace(), "http://foo.bar.com/calculator", "Wrong namespace");
       responseWrapper = loader.loadClass("org.jboss.test.ws.jaxws.smoke.tools.jaxws.ProcessListResponse");
       XmlList xmlList = (XmlList) responseWrapper.getDeclaredField("_return").getAnnotation(XmlList.class);
       assertNotNull( xmlList,"@XmlList missing from response wrapper's _return field");

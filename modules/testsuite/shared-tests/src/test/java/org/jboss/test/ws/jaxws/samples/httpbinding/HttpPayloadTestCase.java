@@ -88,10 +88,10 @@ public class HttpPayloadTestCase extends JBossWSTest
       Source resPayload = dispatch.invoke(new DOMSource(DOMUtils.parse(reqString)));
 
       Element docElement = DOMUtils.sourceToElement(resPayload);
-      assertEquals("wrong namespace: " + docElement.getNamespaceURI(), "http://org.jboss.ws/httpbinding", docElement.getNamespaceURI());
-      assertEquals("wrong localPart: " + docElement.getLocalName(), "somePayload", docElement.getLocalName());
+      assertEquals("http://org.jboss.ws/httpbinding", docElement.getNamespaceURI(), "wrong namespace: " + docElement.getNamespaceURI());
+      assertEquals("somePayload", docElement.getLocalName(), "wrong localPart: " + docElement.getLocalName());
       String responseString = DOMUtils.getTextContent(docElement);
-      assertEquals("wrong content: " + responseString, "Hello:InboundLogicalHandler:OutboundLogicalHandler", responseString);
+      assertEquals("Hello:InboundLogicalHandler:OutboundLogicalHandler", responseString, "wrong content: " + responseString);
    }
 
    private Dispatch<Source> createDispatch(String target) throws MalformedURLException, JAXBException

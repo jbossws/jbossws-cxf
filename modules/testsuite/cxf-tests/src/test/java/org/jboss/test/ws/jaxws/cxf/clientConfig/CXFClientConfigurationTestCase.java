@@ -76,7 +76,7 @@ public class CXFClientConfigurationTestCase extends JBossWSTest
    }
    
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-clientConfig-client.jar") { {
          archive
                .addManifest()

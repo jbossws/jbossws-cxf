@@ -80,13 +80,13 @@ public class CXFClientClusterTestCase extends JBossWSTest
       factory.getFeatures().add(ff);
       factory.setServiceClass(Endpoint.class);
       Endpoint proxy = factory.create(Endpoint.class);
-      assertEquals("Unexpected resposne", "cluster", proxy.echo("cluster"));
+      assertEquals("cluster", proxy.echo("cluster"), "Unexpected resposne");
 
       URL wsdlURL = new URL(baseURL.toExternalForm() + "/ClusetrService?wsdl");
       QName qname = new QName("http://org.jboss.ws/jaxws/cxf/endpoint", "EndpointService");
       Service service = Service.create(wsdlURL, qname);
       Endpoint endpoint = service.getPort(Endpoint.class, ff);
       ((BindingProvider)endpoint).getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, "http://localhost:8080/notExist/NotExistPort");
-      assertEquals("Unexpected resposne", "cluster", endpoint.echo("cluster"));
+      assertEquals("cluster", endpoint.echo("cluster"), "Unexpected resposne");
    }
 }

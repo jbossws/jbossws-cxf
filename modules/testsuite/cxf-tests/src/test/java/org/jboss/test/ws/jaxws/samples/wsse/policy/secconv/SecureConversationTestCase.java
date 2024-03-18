@@ -75,7 +75,7 @@ public final class SecureConversationTestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-secconv-client.jar") { {
          archive
                .addManifest()

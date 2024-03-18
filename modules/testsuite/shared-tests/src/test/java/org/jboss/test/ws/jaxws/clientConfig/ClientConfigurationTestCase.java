@@ -94,8 +94,8 @@ public class ClientConfigurationTestCase extends JBossWSTest
       return archive;
    }
 
-   //TODO: this method should be annotated with @BeforeEach, and should not be called again in each test method
-   // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
+   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
+   //@BeforeEach
    public void startContainerAndDeploy() {
       if (!containerController.isStarted(DEFAULT_CONFIG_TESTS_SERVER)) {
          containerController.start(DEFAULT_CONFIG_TESTS_SERVER);
@@ -328,7 +328,7 @@ public class ClientConfigurationTestCase extends JBossWSTest
    // -----------------------------------
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-clientConfig-client.jar") { {
          archive
                .addManifest()
