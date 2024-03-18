@@ -111,9 +111,9 @@ public class AsyncClientTestCase extends JBossWSTest
          BusFactory.setThreadDefaultBus(bus);
          Endpoint proxy = initPort();
          assertEquals("Echo:1000", proxy.echo(1000));
-         assertFalse("Async client is expected disabled", asyncInfo.isAsyncEnabled());
+         assertFalse(asyncInfo.isAsyncEnabled(), "Async client is expected disabled");
          assertEquals("Echo:1000", proxy.echoAsync(1000).get());
-         assertTrue("Async client is expected enabled", asyncInfo.isAsyncEnabled());
+         assertTrue(asyncInfo.isAsyncEnabled(), "Async client is expected enabled");
       }
       finally
       {

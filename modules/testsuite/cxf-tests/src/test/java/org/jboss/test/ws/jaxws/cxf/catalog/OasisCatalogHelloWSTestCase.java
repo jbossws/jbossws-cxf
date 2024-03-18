@@ -99,7 +99,7 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
          Service service = Service.create(wsdlURL, serviceName);
 
          OASISCatalogManager catalogManager = bus.getExtension(OASISCatalogManager.class);
-         assertNotNull("OASISCatalogManager not provided ", catalogManager);
+         assertNotNull( catalogManager,"OASISCatalogManager not provided ");
 
          String xsd = "http://org.jboss.ws/cxf/catalogclient/ws-addr.xsd";
          String resolvedSchemaLocation = catalogManager.resolveSystem(xsd);
@@ -127,7 +127,7 @@ public class OasisCatalogHelloWSTestCase extends JBossWSTest
          // jbossws-cxf-client.Jar is on the classpath by default.
          // cxf processed it during service creation.
          OASISCatalogManager catalogManager = bus.getExtension(OASISCatalogManager.class);
-         assertNotNull("OASISCatalogManager not provided ", catalogManager);
+         assertNotNull( catalogManager,"OASISCatalogManager not provided ");
 
          String xsd = "http://ws-i.org/profiles/basic/1.1/ws-addr.xsd";
          String resolvedSchemaLocation = catalogManager.resolveSystem(xsd);

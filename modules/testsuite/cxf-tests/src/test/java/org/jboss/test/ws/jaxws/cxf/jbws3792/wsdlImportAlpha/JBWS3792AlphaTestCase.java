@@ -75,8 +75,8 @@ public class JBWS3792AlphaTestCase extends JBossWSTest {
       {
          cnt++;
          QName qn = (QName) it.next();
-         assertTrue("qname: " + qn.toString(), "{http://hello/test}HelloServicePort".equals(qn.toString()));
+         assertTrue("{http://hello/test}HelloServicePort".equals(qn.toString()), "qname: " + qn.toString());
       }
-      assertTrue("Expected cnt to be 1 but cnt is " + cnt, cnt == 1);
+      assertTrue(cnt == 1, "Expected cnt to be 1 but cnt is " + cnt);
    }
 }

@@ -86,9 +86,9 @@ public class JBWS2591TestCase extends JBossWSTest
 
       executeCommand(command, null, "wsconsume", env);
       File javaSource = new File(TEST_DIR, "wsconsume" + FS + "java" + FS + "org" + FS + "marshalltestservice" + FS + "newschemadefs" + FS + "NewSchemaTest.java");
-      assertTrue("Service endpoint interface not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Service endpoint interface not generated");
       String contents = readFile(javaSource);
-      assertTrue("@XmlList not found", contents.contains("@XmlList"));
+      assertTrue(contents.contains("@XmlList"), "@XmlList not found");
    }
 
    private String readFile(File file) throws Exception

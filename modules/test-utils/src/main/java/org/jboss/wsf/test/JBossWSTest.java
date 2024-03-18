@@ -321,7 +321,7 @@ public abstract class JBossWSTest extends Assertions
       else
          Assertions.assertEquals(exp, was);
    }
-   protected static void assertTrue(String reason, boolean condition) {
+   /*protected static void assertTrue(String reason, boolean condition) {
       Assertions.assertTrue(condition, reason);
    }
 
@@ -367,7 +367,7 @@ public abstract class JBossWSTest extends Assertions
 
    protected static void assertNotNull(String message, String obj) {
       Assertions.assertNotNull(obj, message);
-   }
+   }*/
 
    /** Removes whitespace text nodes if they have an element sibling.
     */

@@ -74,7 +74,7 @@ public abstract class XOPBase extends JBossWSTest
    @RunAsClient
    public void testImgRoundtrip() throws Exception
    {
-      assertTrue("Cannot find: " + imgFile, imgFile.exists());
+      assertTrue(imgFile.exists(), "Cannot find: " + imgFile);
 
       getBinding().setMTOMEnabled(true);
 
@@ -95,7 +95,7 @@ public abstract class XOPBase extends JBossWSTest
    @RunAsClient
    public void testImgResponseOptimized() throws Exception
    {
-      assertTrue("Cannot find: " + imgFile, imgFile.exists());
+      assertTrue(imgFile.exists(), "Cannot find: " + imgFile);
 
       getBinding().setMTOMEnabled(false);
 

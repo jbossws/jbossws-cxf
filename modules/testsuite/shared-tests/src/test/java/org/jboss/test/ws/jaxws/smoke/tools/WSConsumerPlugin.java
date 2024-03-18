@@ -103,7 +103,7 @@ public class WSConsumerPlugin extends JBossWSTest
       }
       bin.close();
 
-      assertTrue("External binding file was ignored", containsAsyncOperations);
+      assertTrue(containsAsyncOperations, "External binding file was ignored");
 
    }
 
@@ -133,7 +133,7 @@ public class WSConsumerPlugin extends JBossWSTest
       consumeWSDL();
 
       File sei = new File(workDirectory, "testOutputDirectory/java/org/jboss/test/ws/tools/testOutputDirectory/EndpointInterface.java");
-      assertTrue("Output directory switch ignored", sei.exists());
+      assertTrue(sei.exists(), "Output directory switch ignored");
    }
 
    /**
@@ -151,7 +151,7 @@ public class WSConsumerPlugin extends JBossWSTest
       consumeWSDL();
 
       File sei = new File(workDirectory, "wsconsumeSource/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
-      assertTrue("Source directory switch ignored", sei.exists());
+      assertTrue(sei.exists(), "Source directory switch ignored");
    }
 
    public void testNoCompile() throws Exception
@@ -166,10 +166,10 @@ public class WSConsumerPlugin extends JBossWSTest
       consumer.consume(getResourceFile("jaxws/smoke/tools/wsdl/TestService.wsdl").getCanonicalPath());
 
       File sei = new File(workDirectory, "wsconsumeNoCPSources/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
-      assertTrue("Expected sei not generated in the expected directory " + outputDir.getPath() , sei.exists());
+      assertTrue(sei.exists(), "Expected sei not generated in the expected directory " + outputDir.getPath());
 
       File notExistSei = new File(workDirectory, "wsconsumeNoCPOutput/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
-      assertFalse("Directory " + sourceDir.getPath() + "  is expected to empty", notExistSei.exists());
+      assertFalse(notExistSei.exists(), "Directory " + sourceDir.getPath() + "  is expected to empty");
    }
 
    public void testNoCompileNoKeep() throws Exception
@@ -184,10 +184,10 @@ public class WSConsumerPlugin extends JBossWSTest
       consumer.consume(getResourceFile("jaxws/smoke/tools/wsdl/TestService.wsdl").getCanonicalPath());
 
       File sourceSei = new File(workDirectory, "wsconsumeNoCPNoKeepsource/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
-      assertFalse("Directory " + sourceDir.getPath() + "  is expected to be empty", sourceSei.exists());
+      assertFalse(sourceSei.exists(), "Directory " + sourceDir.getPath() + "  is expected to be empty");
 
       File outputSei = new File(workDirectory, "wsconsumeNoCPNoKeepOutput/java/org/jboss/test/ws/tools/testSourceDirectory/EndpointInterface.java");
-      assertFalse("Directory " + sourceDir.getPath() + "  is expected to be empty", outputSei.exists());
+      assertFalse(outputSei.exists(), "Directory " + sourceDir.getPath() + "  is expected to be empty");
    }
 
 
@@ -206,10 +206,10 @@ public class WSConsumerPlugin extends JBossWSTest
       consumeWSDL();
 
       File packageDir = new File(sourceDir, "org/jboss/test/ws/tools/testGenerateSource");
-      assertTrue("Package not created", packageDir.exists());
+      assertTrue(packageDir.exists(), "Package not created");
 
       File seiSource = new File(sourceDir, "org/jboss/test/ws/tools/testGenerateSource/EndpointInterface.java");
-      assertTrue("SEI not generated", seiSource.exists());
+      assertTrue(seiSource.exists(), "SEI not generated");
 
       sourceDir = new File(workDirectory, "wsconsumeGenerateSource2/java/");
       consumer.setTargetPackage("org.jboss.test.ws.tools.testGenerateSource2");
@@ -220,10 +220,10 @@ public class WSConsumerPlugin extends JBossWSTest
       consumeWSDL();
 
       packageDir = new File(sourceDir, "org/jboss/test/ws/tools/testGenerateSource2");
-      assertFalse("Package should not have been created!", packageDir.exists());
+      assertFalse(packageDir.exists(), "Package should not have been created!");
 
       File interfaceClass = new File(outputDirectory, "org/jboss/test/ws/tools/testGenerateSource2/EndpointInterface.class");
-      assertTrue("SEI not generated", interfaceClass.exists());
+      assertTrue(interfaceClass.exists(), "SEI not generated");
    }
 
    /**
@@ -239,13 +239,13 @@ public class WSConsumerPlugin extends JBossWSTest
       consumeWSDL();
 
       File packageDir = new File(outputDirectory, "org/jboss/test/ws/tools/testTargetPackage");
-      assertTrue("Package not created", packageDir.exists());
+      assertTrue(packageDir.exists(), "Package not created");
 
       File seiSource = new File(outputDirectory, "org/jboss/test/ws/tools/testTargetPackage/EndpointInterface.java");
-      assertTrue("SEI not generated", seiSource.exists());
+      assertTrue(seiSource.exists(), "SEI not generated");
 
       File seiClass = loadEndpointInterface("testTargetPackage");
-      assertTrue("Cannot load SEI class", seiClass.exists());
+      assertTrue(seiClass.exists(), "Cannot load SEI class");
    }
 
    /**
@@ -281,7 +281,7 @@ public class WSConsumerPlugin extends JBossWSTest
       }
       bin.close();
 
-      assertTrue("@WebServiceClient not generated on service interface", match);
+      assertTrue(match, "@WebServiceClient not generated on service interface");
    }
 
    /**
@@ -303,7 +303,7 @@ public class WSConsumerPlugin extends JBossWSTest
       System.out.println(messageOut);
       System.out.println("--- End captured output --");
 
-      assertTrue("Tools output not correctly redirected", messageOut.indexOf("wsdl2java -exsh false -p org.jboss.test.ws.tools.testMessageStream") != -1);
+      assertTrue(messageOut.indexOf("wsdl2java -exsh false -p org.jboss.test.ws.tools.testMessageStream") != -1, "Tools output not correctly redirected");
    }
 
    /**
@@ -334,9 +334,9 @@ public class WSConsumerPlugin extends JBossWSTest
       consumer.consume(getResourceFile("jaxws/smoke/tools/wsdl/TestServiceSoap12.wsdl").getCanonicalPath());
 
       File sei = new File(outputDirectory, "org/jboss/test/ws/tools/testSOAP12Extension/EndpointInterface.java");
-      assertTrue("SEI not generated", sei.exists());
+      assertTrue(sei.exists(), "SEI not generated");
       File service = new File(outputDirectory, "org/jboss/test/ws/tools/testSOAP12Extension/TestService.java");
-      assertTrue("Service not generated", service.exists());
+      assertTrue(service.exists(), "Service not generated");
    }
 
    public void testAdditionalHeaders() throws Exception

@@ -94,7 +94,7 @@ public class XOPHandlerTestCase extends XOPBase
       DHResponse response = getPort().echoDataHandler(new DHRequest(dh));
       assertNotNull(response);
       assertEquals("application/octet-stream", response.getDataHandler().getContentType());
-      assertTrue("Wrong java type returned", response.getDataHandler().getContent() instanceof InputStream);
+      assertTrue(response.getDataHandler().getContent() instanceof InputStream, "Wrong java type returned");
    }
 
    /**
@@ -111,6 +111,6 @@ public class XOPHandlerTestCase extends XOPBase
       DHResponse response = getPort().echoDataHandler(new DHRequest(dh));
       assertNotNull(response);
       assertEquals("application/octet-stream", response.getDataHandler().getContentType());
-      assertTrue("Wrong java type returned", response.getDataHandler().getContent() instanceof InputStream);
+      assertTrue(response.getDataHandler().getContent() instanceof InputStream, "Wrong java type returned");
    }
 }

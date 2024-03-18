@@ -78,6 +78,6 @@ public class JBWS3792DeltaTestCase extends JBossWSTest {
          QName qn = (QName) it.next();
          assertTrue("{http://hello/test}HelloServicePort".equals(qn.toString()));
       }
-      assertTrue("Expected cnt to be 1 but cnt is " + cnt, cnt == 1);
+      assertTrue(cnt == 1, "Expected cnt to be 1 but cnt is " + cnt);
    }
 }

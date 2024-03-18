@@ -113,6 +113,6 @@ public class WebServiceContextJSETestCase extends JBossWSTest
    @RunAsClient
    public void testIsUserInRole() throws Exception
    {
-      assertTrue("kermit is my friend", port.testIsUserInRole("friend"));
+      assertTrue(port.testIsUserInRole("friend"), "kermit is my friend");
    }
 }

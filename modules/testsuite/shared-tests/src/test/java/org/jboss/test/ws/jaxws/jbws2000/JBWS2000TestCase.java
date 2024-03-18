@@ -75,7 +75,7 @@ public class JBWS2000TestCase extends JBossWSTest
       DataHandler dh = new DataHandler(source);
 
       boolean success = port.transferFile("JBWS2000.data", dh);
-      assertTrue("Failed to transfer file", success);
+      assertTrue(success, "Failed to transfer file");
    }
 
 }

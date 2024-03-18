@@ -88,7 +88,7 @@ public class WSRMStoreFeatureTestCase extends JBossWSTest
       Endpoint proxy = (Endpoint)service.getPort(Endpoint.class, new RMStoreFeature());
       assertEquals("Hello World! with RMStore", proxy.checkPersistent("Hello World!"));
       //check client RMStore enabled
-      assertTrue("RMStore is not enabled and stores data for client side", RMStoreCheckInterceptor.seqSize > 0);
+      assertTrue(RMStoreCheckInterceptor.seqSize > 0, "RMStore is not enabled and stores data for client side");
    }
 
    

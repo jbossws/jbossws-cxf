@@ -53,12 +53,12 @@ public class EarSchemaImportTestCase extends JBossWSTest
       dataDir = (String)getServer().getAttribute(serverEnviroment, "dataDir");
       wsdlDir = new File(dataDir+"/wsdl/" + EAR_DEPLOYMENT);
       //JBWS-3992:check wsdl dir is generated
-      assertTrue(wsdlDir.getAbsolutePath() + "is expected", wsdlDir.exists());
+      assertTrue(wsdlDir.exists(), wsdlDir.getAbsolutePath() + "is expected");
    }
    public void cleanup() throws Exception {
       deployer.undeploy(EAR_DEPLOYMENT);
       //JBWS-3992:check wsdl directory is removed
-      assertTrue("wsdlDir is expetcted to remove" , !wsdlDir.exists());
+      assertTrue(!wsdlDir.exists(), "wsdlDir is expetcted to remove");
    }
    @Deployment(testable = false, name=EAR_DEPLOYMENT,managed=false)
    public static JavaArchive createDeployment3() {

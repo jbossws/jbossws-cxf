@@ -92,7 +92,7 @@ public class SchemaValidationTestCase extends JBossWSTest
          proxy.helloRequest("number");
          fail("validation error is expected");
       } catch (Exception e) {
-         assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
+         assertTrue(e.getMessage().contains("is not facet-valid with respect to enumeration"), "not respect to enumration error is expected");
       }
    }
    
@@ -130,7 +130,7 @@ public class SchemaValidationTestCase extends JBossWSTest
          proxy.helloRequest("number");
          fail("validation error is expected");
       } catch (Exception e) {
-         assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
+         assertTrue(e.getMessage().contains("is not facet-valid with respect to enumeration"), "not respect to enumration error is expected");
       }
    }
    
@@ -154,7 +154,7 @@ public class SchemaValidationTestCase extends JBossWSTest
          proxy.helloRequest("number");
          fail("validation error is expected");
       } catch (Exception e) {
-         assertTrue("not respect to enumration error is expected", e.getMessage().contains("is not facet-valid with respect to enumeration"));
+         assertTrue(e.getMessage().contains("is not facet-valid with respect to enumeration"), "not respect to enumration error is expected");
       }
       } finally {
          

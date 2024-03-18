@@ -58,8 +58,8 @@ public class JBWS2960TestCase extends JBossWSTest
    @BeforeEach
    public void setup()
    {
-      assertNotNull("WSDL not found", wsdlFile);
-      assertTrue("WSDL doesn't exist", wsdlFile.exists());
+      assertNotNull( wsdlFile,"WSDL not found");
+      assertTrue(wsdlFile.exists(), "WSDL doesn't exist");
    }
 
    /*
@@ -101,13 +101,13 @@ public class JBWS2960TestCase extends JBossWSTest
       assertEquals("WS Policy mapping error", wsuIdAttrValue, uriAttrValue);
 
       Element addressingElement = DOMUtils.getFirstChildElement(policyElement, WSAM_ADDRESSING_QNAME);
-      assertNotNull("Addressing element not found", addressingElement);
+      assertNotNull( addressingElement,"Addressing element not found");
       String optionalAttributeValue = addressingElement.getAttributeNS("http://www.w3.org/ns/ws-policy", "Optional");
       assertEquals("Addressing should be optional", "true", optionalAttributeValue);
       Element nestedPolicyElement = DOMUtils.getFirstChildElement(addressingElement, POLICY_QNAME);
-      assertNotNull("Nested Policy element not found", nestedPolicyElement);
+      assertNotNull( nestedPolicyElement, "Nested Policy element not found");
       Element nonAnonymousResponsesElement = DOMUtils.getFirstChildElement(nestedPolicyElement, WSAM_NON_ANONYMOUS_RESPONSES_QNAME);
-      assertNotNull("NonAnonymousResponses element not found", nonAnonymousResponsesElement);
+      assertNotNull( nonAnonymousResponsesElement, "NonAnonymousResponses element not found");
    }
 
    @Test
@@ -213,7 +213,7 @@ public class JBWS2960TestCase extends JBossWSTest
       QName wsamValue = (QName)operation.getInput().getExtensionAttribute(WSAM_ACTION_QNAME);
 
       log.debug("Validating input of operation " + operation.getName());
-      assertNotNull("No WSAM attr", wsamValue);
+      assertNotNull(wsamValue,"No WSAM attr");
       assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
    }
 
@@ -222,7 +222,7 @@ public class JBWS2960TestCase extends JBossWSTest
       QName wsamValue = (QName)operation.getOutput().getExtensionAttribute(WSAM_ACTION_QNAME);
 
       log.debug("Validating output of operation " + operation.getName());
-      assertNotNull("No WSAM attr", wsamValue);
+      assertNotNull(wsamValue,"No WSAM attr");
       assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
    }
 
@@ -231,7 +231,7 @@ public class JBWS2960TestCase extends JBossWSTest
       QName wsamValue = (QName)operation.getFault(faultName).getExtensionAttribute(WSAM_ACTION_QNAME);
 
       log.debug("Validating fault '" + faultName + "' of operation " + operation.getName());
-      assertNotNull("No WSAM attr", wsamValue);
+      assertNotNull(wsamValue,"No WSAM attr");
       assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
    }
 
@@ -245,8 +245,8 @@ public class JBWS2960TestCase extends JBossWSTest
 
    private Element getRequiredElement(final List<?> extElements, final QName elementQName)
    {
-      assertNotNull("No extensibility elements found", extElements);
-      assertTrue("No extensibility elements found", extElements.size() > 0);
+      assertNotNull(extElements,"No extensibility elements found");
+      assertTrue(extElements.size() > 0, "No extensibility elements found");
 
       Element retVal = null;
       for (int i = 0; i < extElements.size(); i++)
@@ -266,7 +266,7 @@ public class JBWS2960TestCase extends JBossWSTest
          }
       }
 
-      assertNotNull("Required element '" + elementQName + " ' not found", retVal);
+      assertNotNull(retVal,"Required element '" + elementQName + " ' not found");
       return retVal;
    }
 }

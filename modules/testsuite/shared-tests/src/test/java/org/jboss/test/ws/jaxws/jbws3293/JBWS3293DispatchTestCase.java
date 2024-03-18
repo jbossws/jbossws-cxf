@@ -116,7 +116,7 @@ public class JBWS3293DispatchTestCase extends JBossWSTest
       if (handlerException != null)
          throw handlerException;
 
-      assertTrue("Async handler called", asyncHandlerCalled);
+      assertTrue(asyncHandlerCalled, "Async handler called");
    }
 
    private void installHandler(final Dispatch<Source> dispatch)

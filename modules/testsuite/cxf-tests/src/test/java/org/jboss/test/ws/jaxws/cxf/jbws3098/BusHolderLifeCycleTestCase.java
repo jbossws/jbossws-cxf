@@ -59,8 +59,8 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));
       holder.configure(null, null, null, dep);
       holder.close();
-      assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
-                  + listener.getCount(), 1, listener.getCount());
+      assertEquals( 1, listener.getCount(),"preShutdown method on listener should be called exactly once; number of actual calls: "
+              + listener.getCount());
    }
    
    private static void shutdownTestWithInnerShutdown(BusHolder holder)
@@ -73,8 +73,8 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       holder.configure(null, null, null, dep);
       bus.shutdown(true);
       holder.close();
-      assertEquals("preShutdown method on listener should be called exactly once; number of actual calls: "
-                  + listener.getCount(), 1, listener.getCount());
+      assertEquals( listener.getCount(), 1, listener.getCount(),"preShutdown method on listener should be called exactly once; number of actual calls: "
+              + listener.getCount());
    }
    
    private static void shutdownTestWithNoShutdown(BusHolder holder)
@@ -85,8 +85,7 @@ public class BusHolderLifeCycleTestCase extends JBossWSTest
       Deployment dep = new DefaultDeploymentModelFactory().newDeployment("testDeployment", null, null);
       dep.addAttachment(SOAPAddressRewriteMetadata.class, new SOAPAddressRewriteMetadata(getTestServerConfig(), null));
       holder.configure(null, null, null, dep);
-      assertEquals("preShutdown method on listener shouldn't be called before holder is closed: number of actual calls: "
-                  + listener.getCount(), 0, listener.getCount());
+      assertEquals(0, listener.getCount(),"preShutdown method on listener shouldn't be called before holder is closed: number of actual calls: "+ listener.getCount());
       holder.close();
    }
    
