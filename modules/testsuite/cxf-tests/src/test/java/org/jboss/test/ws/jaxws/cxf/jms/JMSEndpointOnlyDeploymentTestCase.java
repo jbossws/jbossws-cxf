@@ -185,7 +185,7 @@ public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
          timeout -= 100;
       }
 
-      assertNotNull("Expected response message", responseListener.resMessage);
+      assertNotNull(responseListener.resMessage, "Expected response message");
       assertEquals(DOMUtils.parse(resMessage), DOMUtils.parse(responseListener.resMessage));
 
       sender.close();

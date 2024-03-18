@@ -121,26 +121,26 @@ public final class EndpointReferenceBuilderTestCase extends JBossWSTest
    {
       Element metadataElement = (Element)DOMUtils.getFirstChildElement(root, METADATA_QNAME, true);
       String wsdlLocationValue = metadataElement.getAttributeNodeNS("http://www.w3.org/ns/wsdl-instance", "wsdlLocation").getValue();
-      assertEquals("wsdlLocation mismatch", wsdlLocationValue, MY_NS + " " + WSDL_URL);
+      assertEquals(wsdlLocationValue, MY_NS + " " + WSDL_URL, "wsdlLocation mismatch");
       Element serviceNameElement = (Element)DOMUtils.getFirstChildElement(metadataElement, WSAM_SERVICE_QNAME);
       assertNamespaces(serviceNameElement);
-      assertEquals("wrong text content in ServiceName element", "myns:HelloService", DOMUtils.getTextContent(serviceNameElement));
+      assertEquals("myns:HelloService", DOMUtils.getTextContent(serviceNameElement), "wrong text content in ServiceName element");
       String endpointNameValue = DOMUtils.getAttributeValue(serviceNameElement, "EndpointName");
-      assertNotNull("cannot find endpointName attribute value", endpointNameValue);
-      assertEquals("wrong endpointName attribute value", endpointNameValue, "HelloPort");
+      assertNotNull(endpointNameValue, "cannot find endpointName attribute value");
+      assertEquals(endpointNameValue, "HelloPort", "wrong endpointName attribute value");
       Element interfaceNameElement = (Element)DOMUtils.getFirstChildElement(metadataElement, WSAM_INTERFACE_QNAME);
       assertNamespaces(interfaceNameElement);
-      assertEquals("wrong text content in InterfaceName element", "myns:Hello", DOMUtils.getTextContent(interfaceNameElement));
+      assertEquals("myns:Hello", DOMUtils.getTextContent(interfaceNameElement), "wrong text content in InterfaceName element");
    }
    
    private static void assertNamespaces(final Element e)
    {
       String myNamespace = e.lookupNamespaceURI(MY_PREFIX);
-      assertNotNull("namespace is null for prefix " + MY_PREFIX + ", isn't xalan in endorsed directory?", myNamespace);
-      assertEquals("namespace mismatch", myNamespace, MY_NS);
+      assertNotNull(myNamespace, "namespace is null for prefix " + MY_PREFIX + ", isn't xalan in endorsed directory?");
+      assertEquals(myNamespace, MY_NS, "namespace mismatch");
       String wsamNamespace = e.lookupNamespaceURI(WSAM_PREFIX);
-      assertNotNull("namespace is null for prefix " + WSAM_PREFIX + ", isn't xalan in endorsed directory?", wsamNamespace);
-      assertEquals("namespace mismatch", wsamNamespace, WSAM_NS);
+      assertNotNull(wsamNamespace, "namespace is null for prefix " + WSAM_PREFIX + ", isn't xalan in endorsed directory?");
+      assertEquals(wsamNamespace, WSAM_NS, "namespace mismatch");
    }
 }
 

@@ -54,9 +54,6 @@ import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -77,9 +74,6 @@ import com.ibm.wsdl.extensions.soap.SOAPAddressImpl;
  * @author alessio.soldano@jboss.com
  */
 @ExtendWith(ArquillianExtension.class)
-//TODO: there is a bug using deployer in @BeforeEach method, see: https://github.com/arquillian/arquillian-core/issues/543
-// this test needs to be enabled again when it gets fixed.
-@Disabled("https://github.com/arquillian/arquillian-core/issues/543")
 public final class JBWS2150TestCase extends JBossWSTest
 {
    private static final ObjectName SERVER_CONFIG_OBJECT_NAME = ObjectNameFactory.create("jboss.ws:service=ServerConfig");

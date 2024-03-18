@@ -99,7 +99,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    }
    
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-oasis-23x-client.jar") { {
          archive
             .addManifest()
@@ -109,8 +109,8 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
       });
    }
 
-   //TODO: this method should be annotated with @BeforeEach, and should not be called again in each test method
-   // after https://github.com/arquillian/arquillian-core/issues/543 gets fixed
+   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
+   //@BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
          containerController.start(SSL_MUTUAL_AUTH_SERVER);

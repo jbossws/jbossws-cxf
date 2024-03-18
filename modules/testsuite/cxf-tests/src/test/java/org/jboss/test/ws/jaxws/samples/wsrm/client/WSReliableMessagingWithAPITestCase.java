@@ -78,7 +78,7 @@ public final class WSReliableMessagingWithAPITestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jjaxws-samples-wsrm-api-client.jar") { {
          archive
                .addManifest()

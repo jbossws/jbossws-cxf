@@ -67,7 +67,7 @@ public class SchemaValidationTestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-schemavalidation-client.jar") { {
                archive
                .addManifest()

@@ -34,8 +34,7 @@ import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperties;
-import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
+import org.junit.jupiter.api.condition.DisabledIf;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 /**
@@ -47,8 +46,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  */
 @ExtendWith(ArquillianExtension.class)
 //https://issues.jboss.org/browse/JBEAP-5200
-@DisabledIfSystemProperties({@DisabledIfSystemProperty(named = "java.vendor", matches = "IBM Corporation"),
-        @DisabledIfSystemProperty(named = "java.version", matches = "1.8")})
+@DisabledIf("ifOnIBMJDK8")
 public final class SignEncryptGCMTestCase extends JBossWSTest
 {
 
@@ -95,8 +93,14 @@ public final class SignEncryptGCMTestCase extends JBossWSTest
       return archive;
    }
 
+   static boolean ifOnIBMJDK8() {
+      String jdkVersion = System.getProperty("java.version", "0");
+      String jdkVendor = System.getProperty("java.vendor", "UNKNOWN");
+      return jdkVendor.contains("IBM Corporation") && jdkVersion.startsWith("1.8");
+   }
+
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("SignEncryptGCMTestCase-client.jar") { {
       archive
          .addManifest()

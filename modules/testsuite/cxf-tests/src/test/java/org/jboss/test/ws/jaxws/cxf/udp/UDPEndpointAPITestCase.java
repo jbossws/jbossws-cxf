@@ -72,7 +72,7 @@ public final class UDPEndpointAPITestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-cxf-udp-api-client.jar") { {
          archive
                .addManifest()

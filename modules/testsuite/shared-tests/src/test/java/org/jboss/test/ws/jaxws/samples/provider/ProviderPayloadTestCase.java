@@ -135,10 +135,10 @@ public class ProviderPayloadTestCase extends JBossWSTest
          soapHeader.detachNode();
 
       Node responseBody = DOMUtils.getFirstChildElement(resEnv.getBody());
-      assertEquals("wrong namespace: " + responseBody.getNamespaceURI(), "http://org.jboss.ws/provider", responseBody.getNamespaceURI());
-      assertEquals("wrong localPart: " + responseBody.getLocalName(), "somePayload", responseBody.getLocalName());
+      assertEquals("http://org.jboss.ws/provider", responseBody.getNamespaceURI(), "wrong namespace: " + responseBody.getNamespaceURI());
+      assertEquals("somePayload", responseBody.getLocalName(), "wrong localPart: " + responseBody.getLocalName());
       String responseString = DOMUtils.getTextContent(responseBody);
-      assertEquals("wrong content: " + responseString, "Hello:Inbound:LogicalSourceHandler:Outbound:LogicalSourceHandler", responseString);
+      assertEquals("Hello:Inbound:LogicalSourceHandler:Outbound:LogicalSourceHandler", responseString, "wrong content: " + responseString);
    }
 
    private Dispatch<Source> createDispatch(String target) throws MalformedURLException, JAXBException

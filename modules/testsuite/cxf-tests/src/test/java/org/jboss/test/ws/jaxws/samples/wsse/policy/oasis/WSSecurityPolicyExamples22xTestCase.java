@@ -80,7 +80,7 @@ public final class WSSecurityPolicyExamples22xTestCase extends JBossWSTest
    }
 
    @Override
-   protected String getClientJarPaths() {
+   public String getClientJarPaths() {
       return JBossWSTestHelper.writeToFile(new JBossWSTestHelper.JarDeployment("jaxws-samples-wsse-policy-oasis-22x-client.jar") { {
          archive
             .addManifest()

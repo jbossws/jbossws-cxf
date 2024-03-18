@@ -98,12 +98,12 @@ public class JBWS2960TestCase extends JBossWSTest
       Element policyReferenceElement = this.getRequiredElement(bindingExtElements, POLICY_REFERENCE_QNAME);
       String wsuIdAttrValue = policyElement.getAttributeNS("http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd", "Id");
       String uriAttrValue = policyReferenceElement.getAttribute("URI").substring(1);
-      assertEquals("WS Policy mapping error", wsuIdAttrValue, uriAttrValue);
+      assertEquals(wsuIdAttrValue, uriAttrValue, "WS Policy mapping error");
 
       Element addressingElement = DOMUtils.getFirstChildElement(policyElement, WSAM_ADDRESSING_QNAME);
       assertNotNull( addressingElement,"Addressing element not found");
       String optionalAttributeValue = addressingElement.getAttributeNS("http://www.w3.org/ns/ws-policy", "Optional");
-      assertEquals("Addressing should be optional", "true", optionalAttributeValue);
+      assertEquals("true", optionalAttributeValue, "Addressing should be optional");
       Element nestedPolicyElement = DOMUtils.getFirstChildElement(addressingElement, POLICY_QNAME);
       assertNotNull( nestedPolicyElement, "Nested Policy element not found");
       Element nonAnonymousResponsesElement = DOMUtils.getFirstChildElement(nestedPolicyElement, WSAM_NON_ANONYMOUS_RESPONSES_QNAME);
@@ -214,7 +214,7 @@ public class JBWS2960TestCase extends JBossWSTest
 
       log.debug("Validating input of operation " + operation.getName());
       assertNotNull(wsamValue,"No WSAM attr");
-      assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
+      assertEquals(expectedValue, wsamValue.getLocalPart(), "Wrong WSAM attr. value");
    }
 
    private void assertOutput(final Operation operation, final String expectedValue)
@@ -223,7 +223,7 @@ public class JBWS2960TestCase extends JBossWSTest
 
       log.debug("Validating output of operation " + operation.getName());
       assertNotNull(wsamValue,"No WSAM attr");
-      assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
+      assertEquals(expectedValue, wsamValue.getLocalPart(), "Wrong WSAM attr. value");
    }
 
    private void assertFault(final Operation operation, final String expectedValue, final String faultName)
@@ -232,7 +232,7 @@ public class JBWS2960TestCase extends JBossWSTest
 
       log.debug("Validating fault '" + faultName + "' of operation " + operation.getName());
       assertNotNull(wsamValue,"No WSAM attr");
-      assertEquals("Wrong WSAM attr. value", expectedValue, wsamValue.getLocalPart());
+      assertEquals(expectedValue, wsamValue.getLocalPart(), "Wrong WSAM attr. value");
    }
 
    private Definition getWSDLDefinition(final String wsdlLocation) throws Exception

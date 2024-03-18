@@ -106,7 +106,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       }
       else
       {
-         assertEquals("Invalid transport uri", "http://schemas.xmlsoap.org/soap/http", transport);
+         assertEquals("http://schemas.xmlsoap.org/soap/http", transport, "Invalid transport uri");
       }
    }
    @Test

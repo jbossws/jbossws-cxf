@@ -227,7 +227,7 @@ public final class JBWS2937TestCase extends JBossWSTest
 
    private void assertEquals(final UserType user1, final UserType user2)
    {
-      assertEquals("user.string differs", user1.getString(), user2.getString());
+      assertEquals(user1.getString(), user2.getString(), "user.string differs");
       assertEquals(user1.getQname(), user2.getQname(), "user.qname differs");
    }
 }
