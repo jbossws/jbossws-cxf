@@ -80,7 +80,7 @@ public class JBWS3628TestCase extends JBossWSTest
    
    private void checkPolicyReference(URL wsdlURL, String refId) throws Exception {
       final String wsdl = IOUtils.readAndCloseStream(wsdlURL.openStream());
-      assertTrue("WSDL does not contain policy reference to '" + refId + "'", wsdl.contains("<wsp:PolicyReference URI=\"#" + refId + "\"/>"));
+      assertTrue(wsdl.contains("<wsp:PolicyReference URI=\"#" + refId + "\"/>"), "WSDL does not contain policy reference to '" + refId + "'");
    }
    
 }

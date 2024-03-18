@@ -65,7 +65,7 @@ public class JBWS1190TestCase extends JBossWSTest
       MBeanServerConnection server = getServer();
       ObjectName oname = new ObjectName("jboss.ws:context=jaxws-jbws1190,endpoint=Endpoint");
       String address = (String)server.getAttribute(oname, "Address");
-      assertTrue("Expected http address, but got: " + address, address.startsWith("http://"));
+      assertTrue(address.startsWith("http://"), "Expected http address, but got: " + address);
    }
 
    @Test
@@ -75,6 +75,6 @@ public class JBWS1190TestCase extends JBossWSTest
       MBeanServerConnection server = getServer();
       ObjectName oname = new ObjectName("jboss.ws:context=jaxws-jbws1190,endpoint=ConfidentialEndpoint");
       String address = (String)server.getAttribute(oname, "Address");
-      assertTrue("Expected https address, but got: " + address, address.startsWith("https://"));
+      assertTrue(address.startsWith("https://"), "Expected https address, but got: " + address);
    }
 }

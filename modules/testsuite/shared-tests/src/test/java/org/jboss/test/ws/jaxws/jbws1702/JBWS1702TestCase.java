@@ -85,7 +85,7 @@ public class JBWS1702TestCase extends JBossWSTest
 
       SampleWSRpcSEI port = service.getPort(SampleWSRpcSEI.class);
       ClassB b = port.getClassCAsClassB();      
-      assertTrue("Should be an instance of ClassC, but was " + b, (b instanceof ClassC));
+      assertTrue((b instanceof ClassC), "Should be an instance of ClassC, but was " + b);
    }
 
    @Test
@@ -101,7 +101,7 @@ public class JBWS1702TestCase extends JBossWSTest
       bp.getRequestContext().put(BindingProvider.SOAPACTION_URI_PROPERTY, "getClassCAsClassB");
       ResponseWrapperB wrapper = port.getClassCAsClassB();
       ClassB b = wrapper.getData();
-      assertTrue("Should be an instance of ClassC, but was " + b, (b instanceof ClassC));
+      assertTrue((b instanceof ClassC), "Should be an instance of ClassC, but was " + b);
       bp.getRequestContext().put(BindingProvider.SOAPACTION_URI_PROPERTY, "getClassC");
       ResponseWrapperC wrapperC = port.getClassC();
       assertNotNull(wrapperC.getData()); 
@@ -117,7 +117,7 @@ public class JBWS1702TestCase extends JBossWSTest
 
       SampleWSWrappedSEI port = service.getPort(SampleWSWrappedSEI.class);
       ClassB b = port.getClassCAsClassB();
-      assertTrue("Should be an instance of ClassC, but was " + b, (b instanceof ClassC));
+      assertTrue((b instanceof ClassC), "Should be an instance of ClassC, but was " + b);
    }
 
 }

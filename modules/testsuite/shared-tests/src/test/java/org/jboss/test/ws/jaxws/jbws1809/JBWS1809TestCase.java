@@ -94,6 +94,6 @@ public class JBWS1809TestCase extends JBossWSTest
          }
       }
 
-      assertTrue("JAXBIntros should turn the 'docRequest.name' property into a XML attribute", foundAttributeDeclaration);
+      assertTrue(foundAttributeDeclaration, "JAXBIntros should turn the 'docRequest.name' property into a XML attribute");
    }
 }

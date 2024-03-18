@@ -119,19 +119,19 @@ public final class JBWS2937TestCase extends JBossWSTest
    public void testCreateDispatchUsingEPRAndSource() throws Exception
    {
       Dispatch<Source> dispatch = service.createDispatch(PORT_QNAME, Source.class, Mode.PAYLOAD);
-      assertNotNull("Dispatch is null", dispatch);
+      assertNotNull(dispatch,"Dispatch is null");
       this.invokeSourceDispatch(dispatch);
       epr = dispatch.getEndpointReference();
       printEPR(epr);
 
       dispatch = service.createDispatch(epr, Source.class, Service.Mode.PAYLOAD, ADDRESSING_ENABLED);
-      assertNotNull("Dispatch is null", dispatch);
+      assertNotNull(dispatch, "Dispatch is null");
       this.invokeSourceDispatch(dispatch);
       epr = dispatch.getEndpointReference();
       printEPR(epr);
 
       dispatch = service.createDispatch(epr, Source.class, Service.Mode.PAYLOAD, ADDRESSING_DISABLED);
-      assertNotNull("Dispatch is null", dispatch);
+      assertNotNull(dispatch,"Dispatch is null");
       this.invokeSourceDispatch(dispatch);
       epr = dispatch.getEndpointReference();
       printEPR(epr);
@@ -142,19 +142,19 @@ public final class JBWS2937TestCase extends JBossWSTest
    public void testCreateDispatchUsingEPRAndJAXBContext() throws Exception
    {
       Dispatch<Object> dispatch = service.createDispatch(PORT_QNAME, this.createJAXBContext(), Mode.PAYLOAD);
-      assertNotNull("Dispatch is null", dispatch);
+      assertNotNull( dispatch,"Dispatch is null");
       this.invokeObjectDispatch(dispatch);
       epr = dispatch.getEndpointReference();
       printEPR(epr);
 
       dispatch = service.createDispatch(epr, this.createJAXBContext(), Service.Mode.PAYLOAD, ADDRESSING_ENABLED);
-      assertNotNull("Dispatch is null", dispatch);
+      assertNotNull(dispatch, "Dispatch is null");
       this.invokeObjectDispatch(dispatch);
       epr = dispatch.getEndpointReference();
       printEPR(epr);
 
       dispatch = service.createDispatch(epr, this.createJAXBContext(), Service.Mode.PAYLOAD, ADDRESSING_DISABLED);
-      assertNotNull("Dispatch is null", dispatch);
+      assertNotNull( dispatch, "Dispatch is null");
       this.invokeObjectDispatch(dispatch);
       epr = dispatch.getEndpointReference();
       printEPR(epr);
@@ -200,19 +200,19 @@ public final class JBWS2937TestCase extends JBossWSTest
    {
       final Element echoResponseElement = DOMUtils.sourceToElement(result);
       Logger.getLogger(this.getClass()).info(DOMUtils.node2String(echoResponseElement));
-      assertNotNull("echoResponse element is null", echoResponseElement);
+      assertNotNull(echoResponseElement, "echoResponse element is null");
       // validate return element
       final Element returnElement = DOMUtils.getFirstChildElement(echoResponseElement);
-      assertNotNull("return element is null", returnElement);
+      assertNotNull( returnElement,"return element is null");
       assertEquals("return", returnElement.getNodeName());
       // validate string element
       final Element stringElement = DOMUtils.getFirstChildElement(returnElement, "string");
-      assertNotNull("string element is null", stringElement);
+      assertNotNull(stringElement,"string element is null");
       assertEquals("string", stringElement.getNodeName());
       assertEquals("Kermit", stringElement.getTextContent());
       // validate string element
       final Element qnameElement = DOMUtils.getFirstChildElement(returnElement, "qname");
-      assertNotNull("qname element is null", qnameElement);
+      assertNotNull(qnameElement,"qname element is null");
       assertEquals("qname", qnameElement.getNodeName());
       assertEquals("TheFrog", qnameElement.getTextContent());
    }
@@ -228,6 +228,6 @@ public final class JBWS2937TestCase extends JBossWSTest
    private void assertEquals(final UserType user1, final UserType user2)
    {
       assertEquals("user.string differs", user1.getString(), user2.getString());
-      assertEquals("user.qname differs", user1.getQname(), user2.getQname());
+      assertEquals(user1.getQname(), user2.getQname(), "user.qname differs");
    }
 }

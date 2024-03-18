@@ -74,7 +74,7 @@ public final class JBWS2268TestCase extends JBossWSTest
    private File createLogFile() throws Exception
    {
       File workDir = getResourceFile("target");
-      assertTrue("Work dir doesn't exist", workDir.exists());
+      assertTrue(workDir.exists(), "Work dir doesn't exist");
       String fileName = System.identityHashCode(this) + ".log";
       File retVal = new File(workDir, fileName);
       retVal.createNewFile();

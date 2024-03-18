@@ -111,8 +111,8 @@ public class FastInfosetTestCase extends JBossWSTest
          QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFIImplPort");
          HelloWorldFI port = (HelloWorldFI) service.getPort(portQName, HelloWorldFI.class);
          assertEquals("helloworld", port.echo("helloworld"));
-         assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
-         assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
+         assertTrue(out.toString().indexOf("application/fastinfoset") > -1, "request is expected fastinfoset");
+         assertTrue(in.toString().indexOf("application/fastinfoset") > -1, "response is expected fastinfoset");
       } finally {
          bus.shutdown(true);
          pwOut.close();
@@ -141,8 +141,8 @@ public class FastInfosetTestCase extends JBossWSTest
          QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/fastinfoset", "HelloWorldFeatureImplPort");
          HelloWorldFeature port = (HelloWorldFeature) service.getPort(portQName, HelloWorldFeature.class);
          assertEquals("helloworldFeature", port.echo("helloworldFeature"));
-         assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
-         assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
+         assertTrue(out.toString().indexOf("application/fastinfoset") > -1, "request is expected fastinfoset");
+         assertTrue(in.toString().indexOf("application/fastinfoset") > -1, "response is expected fastinfoset");
       } finally {
          bus.shutdown(true);
          pwOut.close();
@@ -192,8 +192,8 @@ public class FastInfosetTestCase extends JBossWSTest
          configurer.setConfigProperties(port, "META-INF/jaxws-client-config.xml", "Custom Client Config");
          
          assertEquals("helloworld", port.echo("helloworld"));
-         assertTrue("request is expected fastinfoset", out.toString().indexOf("application/fastinfoset") > -1);
-         assertTrue("response is expected fastinfoset", in.toString().indexOf("application/fastinfoset") > -1);
+         assertTrue(out.toString().indexOf("application/fastinfoset") > -1, "request is expected fastinfoset");
+         assertTrue(in.toString().indexOf("application/fastinfoset") > -1, "response is expected fastinfoset");
       } finally {
          bus.shutdown(true);
          pwOut.close();

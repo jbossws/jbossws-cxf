@@ -66,7 +66,7 @@ public class WSProvideScriptTestCase extends org.jboss.test.ws.jaxws.smoke.tools
 
       executeCommand(command, null, "wsprovide", env);
       File javaSource = new File(TEST_DIR, "wsprovide" + FS + "java" + FS + "org" + FS + "jboss" + FS + "test" + FS + "ws" + FS + "jaxws" + FS + "smoke" + FS + "tools" + FS + "jaxws" + FS + "AddResponse.java");
-      assertTrue("Response wrapper not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Response wrapper not generated");
    }
 
 }

@@ -52,10 +52,10 @@ public final class JBWS2917TestCase extends JBossWSTest
          "  </Metadata>\n" +
          "</EndpointReference>\n";
       
-      assertTrue("lost xmlns:wsns namespace declaration", this.getXML(XML_SOURCE).indexOf("xmlns:wsns") != -1);
+      assertTrue(this.getXML(XML_SOURCE).indexOf("xmlns:wsns") != -1, "lost xmlns:wsns namespace declaration");
       StreamSource source = new StreamSource(new StringReader(XML_SOURCE));
       EndpointReference epRef = EndpointReference.readFrom(source);
-      assertTrue("lost xmlns:wsns namespace declaration", epRef.toString().indexOf("xmlns:wsns") != -1);
+      assertTrue(epRef.toString().indexOf("xmlns:wsns") != -1, "lost xmlns:wsns namespace declaration");
    }
    
    private String getXML(final String s) throws Exception

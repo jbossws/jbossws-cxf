@@ -95,8 +95,8 @@ public class JBWS3516TestCase extends JBossWSTest
       greeter.pingMe();
       Thread.sleep(1000);
       String result = getTargetServletResult();
-      assertTrue("Expected FaultTo:", result.startsWith("FaultTo:"));
-      assertTrue("Expected PingMeFault:", result.indexOf("Intended PingMe Fault") > 0);
+      assertTrue(result.startsWith("FaultTo:"), "Expected FaultTo:");
+      assertTrue(result.indexOf("Intended PingMe Fault") > 0, "Expected PingMeFault:");
    }
 
    
@@ -129,14 +129,14 @@ public class JBWS3516TestCase extends JBossWSTest
       greeter.sayHi("hello");
       Thread.sleep(1000);
       String result = getTargetServletResult();
-      assertTrue("Expected Replyto:", result.startsWith("ReplyTo:"));
-      assertTrue("Expected sayHiResponse:", result.indexOf("sayHiResponse") > 0);
+      assertTrue(result.startsWith("ReplyTo:"), "Expected Replyto:");
+      assertTrue(result.indexOf("sayHiResponse") > 0, "Expected sayHiResponse:");
       
       greeter.sayHi("fault");
       Thread.sleep(1000);
       result = getTargetServletResult();
-      assertTrue("Expected FaultTo:", result.startsWith("FaultTo:"));
-      assertTrue("Expected sayHiFault:", result.indexOf("Intended SayHi Fault") > 0);
+      assertTrue(result.startsWith("FaultTo:"), "Expected FaultTo:");
+      assertTrue(result.indexOf("Intended SayHi Fault") > 0, "Expected sayHiFault:");
    }
   
    private Greeter initPort() throws Exception

@@ -119,9 +119,9 @@ public class JBWS3140TestCase extends JBossWSTest
          deployer.deploy("jbws3140-responses-server");
          deployer.deploy("jbws3140-client");
          String result = IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":" + getServerPort() + "/jbws3140-client/ServletTest" + "?mtom=small").openStream());
-         assertTrue("SOAPFaultException is expected but received: " + result, result.indexOf("SOAPFaultException") > -1);
+         assertTrue(result.indexOf("SOAPFaultException") > -1, "SOAPFaultException is expected but received: " + result);
          String expectedDetail = "A header representing a Message Addressing Property is not valid";
-         assertTrue("Expected message wasn't found in response: " + result, result.indexOf(expectedDetail) > -1);
+         assertTrue(result.indexOf(expectedDetail) > -1, "Expected message wasn't found in response: " + result);
       } finally {
          deployer.undeploy("jbws3140-responses-server");
          deployer.undeploy("jbws3140-client");
@@ -137,7 +137,7 @@ public class JBWS3140TestCase extends JBossWSTest
          deployer.deploy("jbws3140-client");
          String result = IOUtils.readAndCloseStream(new URL("http://" + getServerHost() + ":" + getServerPort() + "/jbws3140-client/ServletTest" + "?mtom=small").openStream());
          String expected ="--ClientMTOMEnabled--ServerMTOMEnabled--ServerAddressingEnabled--ClientAddressingEnabled";
-         assertTrue("Expected string wasn't found in response: " + result, result.indexOf(expected) > -1);
+         assertTrue(result.indexOf(expected) > -1, "Expected string wasn't found in response: " + result);
       } finally {
          deployer.undeploy("jbws3140-server");
          deployer.undeploy("jbws3140-client");

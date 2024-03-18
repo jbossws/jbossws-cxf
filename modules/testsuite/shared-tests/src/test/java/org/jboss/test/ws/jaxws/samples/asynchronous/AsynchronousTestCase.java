@@ -134,7 +134,7 @@ public class AsynchronousTestCase extends JBossWSTest
       if (handlerProxyException != null)
          throw handlerProxyException;
 
-      assertTrue("Async handler called", asyncHandlerProxyCalled);
+      assertTrue(asyncHandlerProxyCalled, "Async handler called");
    }
 
    private Endpoint createProxy() throws MalformedURLException
@@ -181,7 +181,7 @@ public class AsynchronousTestCase extends JBossWSTest
       if (handlerDispatchException != null)
          throw handlerDispatchException;
 
-      assertTrue("Async handler called", asyncHandlerDispatchCalled);
+      assertTrue(asyncHandlerDispatchCalled, "Async handler called");
    }
 
    private Dispatch<Source> createDispatch() throws MalformedURLException

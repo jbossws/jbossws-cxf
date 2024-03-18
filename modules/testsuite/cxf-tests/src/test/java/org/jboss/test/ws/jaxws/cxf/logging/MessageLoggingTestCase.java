@@ -116,7 +116,7 @@ public class MessageLoggingTestCase extends JBossWSTest
          String content = "foo";
          port.echo(content);
          String s = out.toString();
-         assertTrue("'" + content + "' not found in captured message: \n" + s, s.contains(content));
+         assertTrue(s.contains(content), "'" + content + "' not found in captured message: \n" + s);
       }
       finally
       {

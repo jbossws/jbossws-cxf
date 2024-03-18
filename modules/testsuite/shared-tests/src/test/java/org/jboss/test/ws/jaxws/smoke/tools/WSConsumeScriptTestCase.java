@@ -64,6 +64,6 @@ public class WSConsumeScriptTestCase extends org.jboss.test.ws.jaxws.smoke.tools
       env.put("JAVA_OPTS", securityManagerDesignator);
       executeCommand(command, null, "wsconsume", env);
       File javaSource = new File(TEST_DIR, "wsconsume" + FS + "java" + FS + "org" + FS + "openuri" + FS + "_2004" + FS + "_04" + FS + "helloworld" + FS + "EndpointInterface.java");
-      assertTrue("Service endpoint interface not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Service endpoint interface not generated");
    }
 }

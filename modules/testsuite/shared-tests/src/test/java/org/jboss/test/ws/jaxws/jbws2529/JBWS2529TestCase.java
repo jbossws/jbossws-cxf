@@ -112,8 +112,8 @@ public class JBWS2529TestCase extends JBossWSTest
          if ("helloWrappedResponse".equals(el.getAttribute("name")))
             foundResponse = true;
       }
-      assertTrue("helloWrapped element not found!", foundRequest);
-      assertTrue("helloWrappedResponse element not found!", foundResponse);
+      assertTrue(foundRequest, "helloWrapped element not found!");
+      assertTrue(foundResponse, "helloWrappedResponse element not found!");
    }
 
 }

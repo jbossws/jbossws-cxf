@@ -78,8 +78,8 @@ public class JBWS3773TestCase extends JBossWSTest
       greeter.sayHi("Foo");
       Thread.sleep(1500);
       String result = getTargetServletResult();
-      assertTrue("Expected ReplyTo:", result.startsWith("ReplyTo:"));
-      assertTrue("Expected <return>http</return>:", result.indexOf("<return>http</return>") > 0);
+      assertTrue(result.startsWith("ReplyTo:"), "Expected ReplyTo:");
+      assertTrue(result.indexOf("<return>http</return>") > 0, "Expected <return>http</return>:");
    }
   
    private Greeter initPort() throws Exception

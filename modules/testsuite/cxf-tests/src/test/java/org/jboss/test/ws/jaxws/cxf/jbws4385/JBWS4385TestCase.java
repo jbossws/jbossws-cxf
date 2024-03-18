@@ -48,7 +48,7 @@ public class JBWS4385TestCase extends JBossWSTest {
         Service service = Service.create(wsdlURL, serviceName);
         Hello proxy = (Hello) service.getPort(portName, Hello.class);
 
-        assertTrue("Xerces implementation is expected , but it is :" + proxy.hello("world"), proxy.hello("world").contains("WEB-INF/lib/xerces"));
+        assertTrue(proxy.hello("world").contains("WEB-INF/lib/xerces"), "Xerces implementation is expected , but it is :" + proxy.hello("world"));
     }
 
 

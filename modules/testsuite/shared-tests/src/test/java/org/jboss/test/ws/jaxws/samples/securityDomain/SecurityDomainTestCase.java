@@ -115,7 +115,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401"));
+         assertTrue(e.getCause().getMessage().contains("401"), "Exception Cause message: " + e.getCause().getMessage());
       }
       
       try {
@@ -124,7 +124,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401"));
+         assertTrue(e.getCause().getMessage().contains("401"), "Exception Cause message: " + e.getCause().getMessage());
       }
       
       try {
@@ -133,7 +133,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401"));
+         assertTrue(e.getCause().getMessage().contains("401"), "Exception Cause message: " + e.getCause().getMessage());
       }
    }
 
@@ -149,7 +149,7 @@ public class SecurityDomainTestCase extends JBossWSTest
        } catch (Exception e) {
           //expected web layer exception
           assertTrue(e.getMessage().contains("Could not send Message"));
-          assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401"));
+          assertTrue(e.getCause().getMessage().contains("401"), "Exception Cause message: " + e.getCause().getMessage());
        }
       ((BindingProvider)port2).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "john");
       ((BindingProvider)port2).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "bar");
@@ -158,7 +158,7 @@ public class SecurityDomainTestCase extends JBossWSTest
          fail("Authorization exception expected!");
       } catch (Exception e) {
          //expected EJB3 layer authorization exception
-         assertTrue("Exception message: " + e.getMessage(), e.getMessage().contains("not allowed"));
+         assertTrue(e.getMessage().contains("not allowed"), "Exception message: " + e.getMessage());
       }
    }
    
@@ -197,7 +197,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403"));
+         assertTrue(e.getCause().getMessage().contains("403"), "Exception Cause message: " + e.getCause().getMessage());
       }
       try {
          port.echo("Hello");
@@ -205,7 +205,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403"));
+         assertTrue(e.getCause().getMessage().contains("403"), "Exception Cause message: " + e.getCause().getMessage());
       }
       try {
          port.restrictedEcho("Hello");
@@ -213,7 +213,7 @@ public class SecurityDomainTestCase extends JBossWSTest
       } catch (Exception e) {
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("403"));
+         assertTrue(e.getCause().getMessage().contains("403"), "Exception Cause message: " + e.getCause().getMessage());
       }
    }
    @Test
@@ -241,7 +241,7 @@ public class SecurityDomainTestCase extends JBossWSTest
        } catch (Exception e) {
            //expected web layer exception
            assertTrue(e.getMessage().contains("Could not send Message"));
-           assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401"));
+           assertTrue(e.getCause().getMessage().contains("401"), "Exception Cause message: " + e.getCause().getMessage());
       }
       ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
       ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "foo");
@@ -251,7 +251,7 @@ public class SecurityDomainTestCase extends JBossWSTest
          fail("Authorization exception expected!");
       } catch (Exception e) {
           //expected EJB3 layer authorization exception
-          assertTrue("Exception message: " + e.getMessage(), e.getMessage().contains("not allowed"));
+          assertTrue(e.getMessage().contains("not allowed"), "Exception message: " + e.getMessage());
       }
       
       ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "kate");
@@ -285,7 +285,7 @@ public class SecurityDomainTestCase extends JBossWSTest
          e.printStackTrace();
          //expected web layer exception
          assertTrue(e.getMessage().contains("Could not send Message"));
-         assertTrue("Exception Cause message: " + e.getCause().getMessage(), e.getCause().getMessage().contains("401"));
+         assertTrue(e.getCause().getMessage().contains("401"), "Exception Cause message: " + e.getCause().getMessage());
       }
       ((BindingProvider)port).getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "bob");
       ((BindingProvider)port).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "foo");

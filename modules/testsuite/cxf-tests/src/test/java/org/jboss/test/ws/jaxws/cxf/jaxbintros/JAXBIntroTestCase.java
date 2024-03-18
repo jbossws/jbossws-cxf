@@ -109,7 +109,7 @@ public class JAXBIntroTestCase extends JBossWSTest
             attributeFound = true;
          }
       }
-      assertTrue("<xs:attribute name=\"string\" ..> not found in wsdl", attributeFound);
+      assertTrue(attributeFound, "<xs:attribute name=\"string\" ..> not found in wsdl");
    }
    
    private Helper getHelper() throws MalformedURLException

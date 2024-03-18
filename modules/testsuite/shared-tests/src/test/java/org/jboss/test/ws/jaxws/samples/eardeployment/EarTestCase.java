@@ -150,8 +150,8 @@ public class EarTestCase extends JBossWSTest
       File file = new File(getWsdlFileDir().getAbsolutePath() + File.separator + "jaxws-samples-eardeployment.ear" + File.separator
             + "jaxws-samples-eardeployment-ejb3.jar" + File.separator + "Endpoint.wsdl");
       
-      assertTrue("Wsdl file not found", file.exists());
-      assertTrue("Stale wsdl file found", file.lastModified() > testStart - 1000);
+      assertTrue(file.exists(), "Wsdl file not found");
+      assertTrue(file.lastModified() > testStart - 1000, "Stale wsdl file found");
       
       URL wsdlUrl = file.toURI().toURL();
       
@@ -176,8 +176,8 @@ public class EarTestCase extends JBossWSTest
       File file = new File(getWsdlFileDir().getAbsolutePath() + File.separator + "jaxws-samples-eardeployment.ear" + File.separator
             + "jaxws-samples-eardeployment-pojo.war" + File.separator + "Endpoint.wsdl");
       
-      assertTrue("Wsdl file not found", file.exists());
-      assertTrue("Stale wsdl file found", file.lastModified() > testStart - 1000);
+      assertTrue(file.exists(), "Wsdl file not found");
+      assertTrue(file.lastModified() > testStart - 1000, "Stale wsdl file found");
       
       URL wsdlUrl = file.toURI().toURL();
 
