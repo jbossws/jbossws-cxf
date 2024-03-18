@@ -107,8 +107,8 @@ public class InterceptorsTestCase extends JBossWSTest
       {
          //expect a runtime exception;
       }
-      assertTrue("FaultListener is not set propertly",
-            port.getException().contains("{http://org.jboss.ws.jaxws.cxf/interceptors}MyService#{http://org.jboss.ws.jaxws.cxf/interceptors}echoException")
-                  && port.getException().contains("Intended Exception"));
+      assertTrue(port.getException().contains("{http://org.jboss.ws.jaxws.cxf/interceptors}MyService#{http://org.jboss.ws.jaxws.cxf/interceptors}echoException")
+                        && port.getException().contains("Intended Exception"),
+              "FaultListener is not set propertly");
    }
 }

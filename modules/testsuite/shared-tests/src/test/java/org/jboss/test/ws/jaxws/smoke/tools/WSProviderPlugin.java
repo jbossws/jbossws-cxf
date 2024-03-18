@@ -118,22 +118,22 @@ public class WSProviderPlugin extends JBossWSTest
           FS + "org" + FS + "jboss" + FS + "test" + FS + "ws" + FS + "jaxws" + FS + "smoke" + FS + "tools" + FS + "jaxws" + FS + "AddResponse.java"
         );
 
-      assertTrue("Source not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Source not generated");
       
       javaSource = new File(directory.getAbsolutePath() + FS + "org" + FS + "jboss" + FS + "test" + FS + "ws" + FS + "jaxws" + FS + "smoke" + FS + "tools" + FS
             + "jaxws" + FS + "GetKeysResponse.java");
-      assertTrue("Source not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Source not generated");
       String contents = readFile(javaSource);
       
       //[JBWS-2477] check support for generics
       boolean bool = contents.contains("public Set<Integer> getReturn()") || contents.contains(" public java.util.Set<java.lang.Integer> getReturn()");
-      assertTrue("Didn't found method \"public Set<Integer> getReturn()\"", bool);
+      assertTrue(bool, "Didn't found method \"public Set<Integer> getReturn()\"");
       
       javaSource = new File(directory.getAbsolutePath() + FS + "org" + FS + "jboss" + FS + "test" + FS + "ws" + FS + "jaxws" + FS + "smoke" + FS + "tools" + FS
             + "jaxws" + FS + "ProcessListResponse.java");
-      assertTrue("Source not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Source not generated");
       contents = readFile(javaSource);
-      assertTrue("@XmlList not found", contents.contains("@XmlList"));
+      assertTrue(contents.contains("@XmlList"), "@XmlList not found");
       
    }
    
@@ -167,14 +167,14 @@ public class WSProviderPlugin extends JBossWSTest
       ClassLoader loader = getArtefactClassLoader();
       Class<?> responseWrapper = loader.loadClass("org.jboss.test.ws.jaxws.smoke.tools.jaxws.AddResponse");
       XmlRootElement rootElement = (XmlRootElement) responseWrapper.getAnnotation(XmlRootElement.class);
-      assertNotNull("@XmlRootElement missing from response wrapper", rootElement);
+      assertNotNull( rootElement,"@XmlRootElement missing from response wrapper");
       assertEquals("Wrong namespace", rootElement.namespace(), "http://foo.bar.com/calculator");
       responseWrapper = loader.loadClass("org.jboss.test.ws.jaxws.smoke.tools.jaxws.ProcessListResponse");
       XmlList xmlList = (XmlList) responseWrapper.getDeclaredField("_return").getAnnotation(XmlList.class);
-      assertNotNull("@XmlList missing from response wrapper's _return field", xmlList);
+      assertNotNull( xmlList,"@XmlList missing from response wrapper's _return field");
       responseWrapper = loader.loadClass("org.jboss.test.ws.jaxws.smoke.tools.jaxws.ProcessCustomResponse");
       XmlJavaTypeAdapter xmlJavaTypeAdapter = (XmlJavaTypeAdapter)responseWrapper.getDeclaredField("_return").getAnnotation(XmlJavaTypeAdapter.class);
-      assertNotNull("@XmlJavaTypeAdapter missing from response wrapper's _return field", xmlJavaTypeAdapter);
+      assertNotNull(xmlJavaTypeAdapter,"@XmlJavaTypeAdapter missing from response wrapper's _return field");
       assertEquals("org.jboss.test.ws.jaxws.smoke.tools.CustomAdapter", xmlJavaTypeAdapter.value().getName());
    }
 
@@ -205,7 +205,7 @@ public class WSProviderPlugin extends JBossWSTest
           FS + "CalculatorBeanService.wsdl"
       );
 
-      assertTrue("WSDL not generated", wsdl.exists());
+      assertTrue(wsdl.exists(), "WSDL not generated");
       Element root = DOMUtils.parse( new FileInputStream(wsdl));
       Element serviceElement = DOMUtils.getFirstChildElement(root, "service");
       assertEquals(serviceElement.getAttribute("name"), "CalculatorBeanService");
@@ -285,7 +285,7 @@ public class WSProviderPlugin extends JBossWSTest
 
       File wsdl = new File(outputDirectory.getAbsolutePath() + FS + "HelloWorldService.wsdl");
 
-      assertTrue("WSDL not generated", wsdl.exists());
+      assertTrue(wsdl.exists(), "WSDL not generated");
       Element root = DOMUtils.parse( new FileInputStream(wsdl));
       Element serviceElement = DOMUtils.getFirstChildElement(root, "service");
       assertEquals(serviceElement.getAttribute("name"), "HelloWorldService");
@@ -312,12 +312,12 @@ public class WSProviderPlugin extends JBossWSTest
 
       if (isIntegrationCXF())
       {
-         assertTrue("Provider messages not correctly redirected", messageOut.indexOf("java2ws -s") != -1 );
+         assertTrue(messageOut.indexOf("java2ws -s") != -1, "Provider messages not correctly redirected");
       }
       else
       {
-         assertTrue("Provider messages not correctly redirected",
-           messageOut.replace('\\', '/').indexOf("org/jboss/test/ws/jaxws/smoke/tools/jaxws/Add.class") != -1 );
+         assertTrue(messageOut.replace('\\', '/').indexOf("org/jboss/test/ws/jaxws/smoke/tools/jaxws/Add.class") != -1,
+                 "Provider messages not correctly redirected");
       }
    }
 

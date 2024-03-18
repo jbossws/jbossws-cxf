@@ -153,8 +153,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       Map<String, List<Record>> amazonRecords = (Map<String, List<Record>>)server.invoke(oname, "getRecordsByClientHost", new Object[] { "72.21.203.1" },
             new String[] { "java.lang.String" });
       
-      assertTrue("No records for " + host, localhostRecords.size() > 0);
-      assertTrue("There are records for 72.21.203.1", amazonRecords.size() == 0);
+      assertTrue(localhostRecords.size() > 0, "No records for " + host);
+      assertTrue(amazonRecords.size() == 0, "There are records for 72.21.203.1");
    }
 
    @Test
@@ -181,8 +181,8 @@ public class MemoryBufferRecorderTestCase extends JBossWSTest
       Map<String, List<Record>> stopRecords = (Map<String, List<Record>>)server.invoke(oname, "getMatchingRecords", new Object[] { filters }, new String[] { filters.getClass().getName() });
       Map<String, List<Record>> allRecords = (Map<String, List<Record>>) server.invoke(oname, "getMatchingRecords",
               new Object[] { new RecordFilter[]{ operationFilter } }, new String[] { filters.getClass().getName() });
-      assertTrue("No records for hosts " + l + ", all records found: " + dumpInboundRecordsInfo(allRecords), stopRecords.size() > 0);
-      assertEquals("There must be only 1 record for echo1 operation", 1, stopRecords.keySet().size() - startRecords.keySet().size());
+      assertTrue(stopRecords.size() > 0, "No records for hosts " + l + ", all records found: " + dumpInboundRecordsInfo(allRecords));
+      assertEquals(1, stopRecords.keySet().size() - startRecords.keySet().size(),"There must be only 1 record for echo1 operation");
    }
 
    @Test

@@ -99,7 +99,7 @@ public class JBWS2593TestCase extends JBossWSTest
 
       executeCommand(command, null, "wsconsume", env);
       File javaSource = new File(TEST_DIR, "wsconsume" + FS + "java" + FS + "org" + FS + "jbws2593_" + (rpc ? "rpc" : "doc") + FS + "ParameterModeTest.java");
-      assertTrue("Service endpoint interface not generated", javaSource.exists());
+      assertTrue(javaSource.exists(), "Service endpoint interface not generated");
       String contents = readFile(javaSource);
       assertEquals(2, countOccurrences(contents, "@XmlJavaTypeAdapter"));
       assertEquals(2, countOccurrences(contents, "HexBinaryAdapter.class"));

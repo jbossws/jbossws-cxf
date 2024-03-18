@@ -111,10 +111,9 @@ public class SWARefTestCase extends JBossWSTest
    {
       Service service = Service.create(new URL(baseURL+"/jaxws-swaref/WrappedEndpointService/WrappedEndpoint?wsdl"), wrappedServiceQName);
       WrappedEndpoint port = service.getPort(WrappedEndpoint.class);
-
       DataHandler response = port.parameterAnnotation(new DocumentPayload(data), "Wrapped test", data);
-      assertNotNull("Response as null", response);
-      assertTrue("Contents are not equal", response.getContent().equals("Server data"));
+      assertNotNull(response,"Response as null");
+      assertTrue(response.getContent().equals("Server data"), "Contents are not equal");
    }
 
    @Test
@@ -125,7 +124,7 @@ public class SWARefTestCase extends JBossWSTest
       RpcLitEndpoint port = service.getPort(RpcLitEndpoint.class);
 
       DocumentPayload response = port.beanAnnotation( new DocumentPayload(data));
-      assertNotNull("Response was null", response);
+      assertNotNull(response,"Response was null");
       assertTrue(response.getData().getContent().equals("Server data"));
    }
 

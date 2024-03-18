@@ -145,7 +145,7 @@ public class JBWS1581TestCase extends JBossWSTest
    {
       URL wsdlURL = new URL(baseURL + "/jaxws-jbws1581-pojo?wsdl");
       Definition wsdl = WSDLFactory.newInstance().newWSDLReader().readWSDL(wsdlURL.toString());
-      assertNotNull("wsdl expected", wsdl);
+      assertNotNull(wsdl,"wsdl expected");
    }
 
    private void internalTestEJBVehicle() throws Exception

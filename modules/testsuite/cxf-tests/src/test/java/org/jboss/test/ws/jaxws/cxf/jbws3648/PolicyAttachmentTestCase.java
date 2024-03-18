@@ -108,8 +108,8 @@ public class PolicyAttachmentTestCase extends JBossWSTest
          
          assertEquals("Foo3", proxy.echo("Foo3"));
          final String m = bos.toString();
-         assertTrue("WS-Addressing was not enabled!", m.contains("http://www.w3.org/2005/08/addressing") && m.contains("http://www.w3.org/2005/08/addressing/anonymous"));
-         assertTrue("WS-Security was not enabled!", m.contains("http://www.w3.org/2001/04/xmlenc#rsa-1_5") && m.contains("http://www.w3.org/2001/04/xmlenc#tripledes-cbc"));
+         assertTrue(m.contains("http://www.w3.org/2005/08/addressing") && m.contains("http://www.w3.org/2005/08/addressing/anonymous"), "WS-Addressing was not enabled!");
+         assertTrue(m.contains("http://www.w3.org/2001/04/xmlenc#rsa-1_5") && m.contains("http://www.w3.org/2001/04/xmlenc#tripledes-cbc"), "WS-Security was not enabled!");
       } finally {
          bus.shutdown(true);
          pw.close();
@@ -140,8 +140,8 @@ public class PolicyAttachmentTestCase extends JBossWSTest
             throw CryptoCheckHelper.checkAndWrapException(e);
          }
          final String m = bos.toString();
-         assertTrue("WS-Addressing was not enabled!", m.contains("http://www.w3.org/2005/08/addressing") && m.contains("http://www.w3.org/2005/08/addressing/anonymous"));
-         assertTrue("WS-Security was not enabled!", m.contains("http://www.w3.org/2001/04/xmlenc#rsa-1_5") && m.contains("http://www.w3.org/2001/04/xmlenc#aes256-cbc"));
+         assertTrue(m.contains("http://www.w3.org/2005/08/addressing") && m.contains("http://www.w3.org/2005/08/addressing/anonymous"), "WS-Addressing was not enabled!");
+         assertTrue(m.contains("http://www.w3.org/2001/04/xmlenc#rsa-1_5") && m.contains("http://www.w3.org/2001/04/xmlenc#aes256-cbc"), "WS-Security was not enabled!");
       } finally {
          bus.shutdown(true);
          pw.close();

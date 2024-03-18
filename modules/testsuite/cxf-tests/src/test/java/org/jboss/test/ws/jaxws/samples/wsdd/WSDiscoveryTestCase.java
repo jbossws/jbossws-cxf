@@ -93,17 +93,17 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          final String serverHost = getServerHost().replace("127.0.0.1", "localhost");
          final int serverPort = getServerPort();
          List<ProbeMatchType> pmts = client.probe(pt, TIMEOUT).getProbeMatch();
-         assertFalse("There must be some services discovered, check that you have allowed UDP broadcast on port 3072", pmts.isEmpty());
+         assertFalse(pmts.isEmpty(), "There must be some services discovered, check that you have allowed UDP broadcast on port 3072");
          
          List<ProbeMatchType> pmtsForHost = filterProbeMatchesForHost(pmts, serverHost);
-         assertFalse("There must be some services discovered for current host " + serverHost
-                 + ", found only " + dbgProbeMatchTypeList(pmts), pmtsForHost.isEmpty());
+         assertFalse(pmtsForHost.isEmpty(), "There must be some services discovered for current host " + serverHost
+                          + ", found only " + dbgProbeMatchTypeList(pmts));
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmtsForHost) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
-            assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
+            assertNotNull(rmt,"Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr);
             rmts.add(rmt);
          }
          
@@ -159,17 +159,17 @@ public final class WSDiscoveryTestCase extends JBossWSTest
          pt.setScopes(scopes);
          final String serverHost = getServerHost().replace("127.0.0.1", "localhost");
          List<ProbeMatchType> pmts = client.probe(pt, TIMEOUT).getProbeMatch();
-         assertFalse("There must be some services discovered, check that you have allowed UDP broadcast on port 3072", pmts.isEmpty());
+         assertFalse(pmts.isEmpty(), "There must be some services discovered, check that you have allowed UDP broadcast on port 3072");
          
          List<ProbeMatchType> pmtsForHost = filterProbeMatchesForHost(pmts, serverHost.replace("127.0.0.1", "localhost"));
          
-         assertFalse("There must be some services discovered for current host " + serverHost, pmtsForHost.isEmpty());
+         assertFalse(pmtsForHost.isEmpty(), "There must be some services discovered for current host " + serverHost);
          
          List<ResolveMatchType> rmts = new LinkedList<ResolveMatchType>();
          for (ProbeMatchType pmt : pmtsForHost) {
             W3CEndpointReference epr = pmt.getEndpointReference();
             ResolveMatchType rmt = client.resolve(epr, TIMEOUT);
-            assertNotNull("Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr, rmt);
+            assertNotNull(rmt,"Could not resolve (timeout = " + TIMEOUT  + " ms) reference: " + epr);
             rmts.add(rmt);
          }
          
@@ -191,8 +191,8 @@ public final class WSDiscoveryTestCase extends JBossWSTest
    private void checkResolveMatches(List<ResolveMatchType> rmts, String address, QName type) {
       List<ResolveMatchType> rmtList = getByAddress(rmts, address);
 
-      assertEquals("There must be exactly one webservice of type " + type + " available at " + address + ", "
-            + "these where discovered: " + dbgDumpList(rmtList), 1, rmtList.size());
+      assertEquals( 1, rmtList.size(),"There must be exactly one webservice of type " + type + " available at " + address + ", "
+              + "these where discovered: " + dbgDumpList(rmtList));
       assertEquals(type, rmtList.get(0).getTypes().iterator().next());
    }
 

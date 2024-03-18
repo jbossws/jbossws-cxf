@@ -82,7 +82,7 @@ public class JBWS2183TestCase extends JBossWSTest
             else if (extElement instanceof SOAPBinding)
                fail("SOAP 1.1 Binding found!");
          }
-         assertTrue("SOAP 1.2 Binding not found!",found);
+         assertTrue(found, "SOAP 1.2 Binding not found!");
       }
    }
 }

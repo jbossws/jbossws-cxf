@@ -99,7 +99,7 @@ public class RetailSampleTestCase extends JBossWSTest {
       order.getItems().add( new OrderItem("Introduction to Web Services", 39.99) );
 
       OrderStatus result = getPort().prepareOrder(order);
-      assertNotNull("Result was null", result);
+      assertNotNull(result,"Result was null");
       assertEquals("Prepared", result.getStatus());
    }
 }

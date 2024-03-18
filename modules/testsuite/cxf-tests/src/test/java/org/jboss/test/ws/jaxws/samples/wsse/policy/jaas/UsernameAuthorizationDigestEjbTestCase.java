@@ -110,7 +110,7 @@ public final class UsernameAuthorizationDigestEjbTestCase extends JBossWSTest
       {
          passed = passed && future.get().equals("Secure Hello World!");
       }
-      assertTrue("Unexpected response from concurrent invocation", passed);
+      assertTrue(passed, "Unexpected response from concurrent invocation");
 
    }
 

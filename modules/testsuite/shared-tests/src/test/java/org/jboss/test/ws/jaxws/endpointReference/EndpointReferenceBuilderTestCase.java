@@ -109,7 +109,7 @@ public final class EndpointReferenceBuilderTestCase extends JBossWSTest
    private static void assertRefParam(final Node root, final QName nodeName, final String refParamValue)
    {
       Element e = (Element)DOMUtils.getFirstChildElement(root, nodeName, true);
-      assertNotNull("Reference parameter " + nodeName + " not found", e);
+      assertNotNull(e,"Reference parameter " + nodeName + " not found");
       String actual = DOMUtils.getTextContent(e);
       if ((actual == null) || (!actual.equals(refParamValue)))
       {

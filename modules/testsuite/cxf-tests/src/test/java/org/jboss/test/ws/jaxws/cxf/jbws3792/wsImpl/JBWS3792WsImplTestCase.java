@@ -96,9 +96,9 @@ public class JBWS3792WsImplTestCase extends JBossWSTest {
       while (it.hasNext()) {
          cnt++;
          QName qn = (QName)it.next();
-         assertTrue("qname: " + qn.toString(), "{http://test.jbws3792/}JBWS3792WSPort".equals(qn.toString()));
+         assertTrue("{http://test.jbws3792/}JBWS3792WSPort".equals(qn.toString()), "qname: " + qn.toString());
       }
-      assertTrue("Expected cnt to be 1 but cnt is " + cnt, cnt == 1);
+      assertTrue(cnt == 1, "Expected cnt to be 1 but cnt is " + cnt);
    }
 
 }

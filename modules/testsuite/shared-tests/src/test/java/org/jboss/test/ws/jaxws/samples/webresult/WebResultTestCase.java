@@ -115,6 +115,6 @@ public class WebResultTestCase extends JBossWSTest
       QName qname = new QName(targetNS, "locateCustomerResponse");
       SOAPElement soapElement = (SOAPElement)resMsg.getSOAPBody().getChildElements(qname).next();
       soapElement = (SOAPElement)soapElement.getChildElements(new QName("CustomerRecord")).next();
-      assertNotNull("Expected CustomerRecord", soapElement);
+      assertNotNull( soapElement, "Expected CustomerRecord");
    }
 }

@@ -81,7 +81,7 @@ public class PolicyAttachmentWSDLTestCase extends JBossWSTest
    private void checkPolicyAttachments(URL wsdlURL, String[] refIds) throws Exception {
       final String wsdl = IOUtils.readAndCloseStream(wsdlURL.openStream());
       for (String refId : refIds) {
-         assertTrue("WSDL does not contain '" + refId + "'", wsdl.contains(refId));
+         assertTrue(wsdl.contains(refId), "WSDL does not contain '" + refId + "'");
       }
    }
    

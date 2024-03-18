@@ -135,10 +135,10 @@ public class WebMethodTestCase extends JBossWSTest
       URL epURL = new URL(baseURL + "/TestService");
       SOAPMessage resMsg = con.call(reqMsg, epURL);
       SOAPFault soapFault = resMsg.getSOAPBody().getFault();
-      assertNotNull("Expected SOAPFault", soapFault);
+      assertNotNull(soapFault,"Expected SOAPFault");
 
       String faultString = soapFault.getFaultString();
-      assertTrue(faultString, faultString.indexOf("noWebMethod") > 0);
+      assertTrue(faultString.indexOf("noWebMethod") > 0, faultString);
    }
 
    @Test

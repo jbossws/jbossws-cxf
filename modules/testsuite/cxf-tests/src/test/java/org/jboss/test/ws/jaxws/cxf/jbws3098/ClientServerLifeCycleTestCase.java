@@ -69,7 +69,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
    {
       Bus bus = BusFactory.newInstance().createBus();
       try {
-         assertNotNull("Cannot find ClientLifeCycleManager impl in current bus", bus.getExtension(ClientLifeCycleManager.class));
+         assertNotNull(bus.getExtension(ClientLifeCycleManager.class),"Cannot find ClientLifeCycleManager impl in current bus");
       } finally {
          bus.shutdown(true);
       }
@@ -81,7 +81,7 @@ public class ClientServerLifeCycleTestCase extends JBossWSTest
    {
       Bus bus = BusFactory.newInstance().createBus();
       try {
-         assertNotNull("Cannot find ServerLifeCycleManager impl in current bus", bus.getExtension(ServerLifeCycleManager.class));
+         assertNotNull(bus.getExtension(ServerLifeCycleManager.class),"Cannot find ServerLifeCycleManager impl in current bus");
       } finally {
          bus.shutdown(true);
       }

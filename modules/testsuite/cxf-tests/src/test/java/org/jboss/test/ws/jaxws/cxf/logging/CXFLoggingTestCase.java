@@ -39,7 +39,7 @@ public class CXFLoggingTestCase extends JBossWSTest
 
       //After CXF 3.4.0 , the logg4j is removed:https://issues.apache.org/jira/browse/CXF-8264
       //It now uses j.u.l.Logger
-      assertTrue("Expected an instance of java.util.logging.Logger , but it is " + log.getClass().getName(),
-              log instanceof Logger);
+      assertTrue(log instanceof Logger,
+              "Expected an instance of java.util.logging.Logger , but it is " + log.getClass().getName());
    }
 }

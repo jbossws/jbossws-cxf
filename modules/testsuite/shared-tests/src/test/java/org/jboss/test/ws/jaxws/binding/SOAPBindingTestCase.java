@@ -83,7 +83,7 @@ public class SOAPBindingTestCase extends JBossWSTest
       String port = "SOAPEndpointPort";
       QName serviceQName = new QName("http://org.jboss.ws/jaxws/binding", "SOAPEndpointService");
       Binding wsdlBinding = wsdl.getService(serviceQName).getPort(port).getBinding();
-      assertNotNull("Cannot find binding for port: " + port, wsdlBinding);
+      assertNotNull( wsdlBinding, "Cannot find binding for port: " + port);
 
       String transport = null;
       @SuppressWarnings("unchecked")
