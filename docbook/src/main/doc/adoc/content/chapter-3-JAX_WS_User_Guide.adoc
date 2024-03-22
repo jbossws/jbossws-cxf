@@ -521,6 +521,25 @@ public void testConfigureTimeout() throws Exception
 }
 ....
 
+==== HTTP/2 Support
+
+Starting from JBossWS 7.1.0, the new default CXF HTTP client transport supports HTTP/2 by default.
+The client automatically uses HTTP/2 if the HTTP/2 is supported by server. Otherwise, it falls back to
+HTTP/1.1.
+The client http version can be defined with the `org.apache.cxf.transport.http.forceVersion` property.
+This property can be set to system or bus property. Below is an example illustrating how
+to enforce http version to 1.1:
+```
+ BusFactory.getDefaultBus().setProperty("org.apache.cxf.transport.http.forceVersion", "1");
+ HelloWorld port = getPort();
+ String response = port.echo("hello");
+```
+CXF offers the contextual property `force.urlconnection.http.conduit"` to switch to the old cxf
+client that is using java.net.HttpURLConnection/javax.net.ssl.HttpsURLConnection. It supports
+HTTP/1.1 by default and has better performance. If client performance is a priority and HTTP/2 support is unnecessary,
+this option provides a means to switch back to the previous default client.
+For more information, please check out [CXF documentation](https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=49941#ClientHTTPTransport(includingSSLsupport)-DefaultClientTransport).
+
 
 === Common API
 
