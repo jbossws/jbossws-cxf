@@ -46,7 +46,7 @@ import org.jboss.wsf.stack.cxf.client.injection.JBossWSResourceInjectionResolver
 public class JBossWSBusFactory extends CXFBusFactory
 {
    private static final Map<ClassLoader, Bus> classLoaderBusses = new WeakHashMap<ClassLoader, Bus>();
-   private final boolean forceURLConnectionConduit = Boolean.getBoolean(Constants.FORCE_URL_CONNECTION_CONDUIT);
+
    @Override
    public Bus createBus(Map<Class<?>, Object> extensions, Map<String, Object> properties) {
       if (extensions == null)
@@ -76,7 +76,12 @@ public class JBossWSBusFactory extends CXFBusFactory
       final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
       SecurityProviderConfig.setup(bus);
-      if (forceURLConnectionConduit) {
+
+      String forceURLConnection = System.getProperty(Constants.FORCE_URL_CONNECTION_CONDUIT);
+      Object busForceURLconnection = bus.getProperty(Constants.FORCE_URL_CONNECTION_CONDUIT);
+      if (busForceURLconnection == null && (forceURLConnection == null | Boolean.parseBoolean(forceURLConnection))) {
+         //Set force.urlconnection.http.conduit as the default value
+         //Explicitly set this to true when it needs HTTP/2 support
          bus.setProperty(Constants.FORCE_URL_CONNECTION_CONDUIT, true);
       }
    }
