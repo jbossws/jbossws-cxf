@@ -34,7 +34,7 @@
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
     <port-offset.perf-tests.jboss>30000</port-offset.perf-tests.jboss>
 
-    <!---test server ports-->
+    <!-- test server ports -->
     <cxf-tests.jboss_8080>8080</cxf-tests.jboss_8080>
     <cxf-tests.jboss_8443>8443</cxf-tests.jboss_8443>
     <cxf-tests.jboss_9990>9990</cxf-tests.jboss_9990>
