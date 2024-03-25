@@ -33,6 +33,7 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.junit.jupiter.api.Assertions;
@@ -56,6 +57,7 @@ public class Http2EndpointTestCaseForked extends JBossWSTest {
     @Test
     @RunAsClient
     public void testHttp2() throws Exception {
+        System.setProperty(Constants.FORCE_URL_CONNECTION_CONDUIT, "false");
         BusFactory.setDefaultBus(null);
         BusFactory.getDefaultBus().setProperty("org.apache.cxf.transport.http.forceVersion", "2");
         //enable jdk httpclient debug and it prints debug log message to system.err
@@ -82,6 +84,7 @@ public class Http2EndpointTestCaseForked extends JBossWSTest {
         System.setProperty("jdk.internal.httpclient.debug", "true");
         BusFactory.setDefaultBus(null);
         BusFactory.getDefaultBus().setProperty("org.apache.cxf.transport.http.forceVersion", "1.1");
+        BusFactory.getDefaultBus().setProperty(Constants.FORCE_URL_CONNECTION_CONDUIT, false);
         PrintStream old = System.err;
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
