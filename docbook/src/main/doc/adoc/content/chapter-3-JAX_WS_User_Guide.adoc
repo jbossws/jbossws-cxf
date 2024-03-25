@@ -523,23 +523,26 @@ public void testConfigureTimeout() throws Exception
 
 ==== HTTP/2 Support
 
-Starting from JBossWS 7.1.0, the new default CXF HTTP client transport supports HTTP/2 by default.
-The client automatically uses HTTP/2 if the HTTP/2 is supported by server. Otherwise, it falls back to
-HTTP/1.1.
-The client http version can be defined with the `org.apache.cxf.transport.http.forceVersion` property.
-This property can be set to system or bus property. Below is an example illustrating how
-to enforce http version to 1.1:
+Starting from JBossWS 7.1.0,the new CXF HTTP client transport has been created to better support HTTP/2.
+This client which is using java.net.http.HttpClient now seamlessly upgrades to HTTP/2 if supported by the server.
+Otherwise, it falls back to HTTP/1.1. To enable this new client, you must ensure that the
+contextual property `force.urlconnection.http.conduit` is explicitly set to false, either in the System
+properties or the Bus. Otherwise, the default(old) client which based on java.net.HttpURLConnection/javax.net.ssl.HttpsURLConnection
+is enabled.
+
+To http version for the new client can be defined with the `org.apache.cxf.transport.http.forceVersion` property.
+This property can be set to system or bus property. Below is an example illustrating how to enable this new client
+and enforce the http version to 1.1:
 ```
- BusFactory.getDefaultBus().setProperty("org.apache.cxf.transport.http.forceVersion", "1");
+ BusFactory.getDefaultBus().setProperty("force.urlconnection.http.conduit", false);
+ BusFactory.getDefaultBus().setProperty("org.apache.cxf.transport.http.forceVersion", "1.1");
  HelloWorld port = getPort();
  String response = port.echo("hello");
 ```
-CXF offers the contextual property `force.urlconnection.http.conduit"` to switch to the old cxf
-client that is using java.net.HttpURLConnection/javax.net.ssl.HttpsURLConnection. It supports
-HTTP/1.1 by default and has better performance. If client performance is a priority and HTTP/2 support is unnecessary,
-this option provides a means to switch back to the previous default client.
-For more information, please check out [CXF documentation](https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=49941#ClientHTTPTransport(includingSSLsupport)-DefaultClientTransport).
 
+But from our tests, this new http client is a bit slower than the old client. Therefore, it's only recommended to consider using it when the client performance
+isn't critical and HTTP/2 support is required.
+For more information, please check out [CXF documentation](https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=49941#ClientHTTPTransport(includingSSLsupport)-DefaultClientTransport).
 
 === Common API
 
