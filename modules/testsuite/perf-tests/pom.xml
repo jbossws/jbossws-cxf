@@ -9,7 +9,7 @@
   <parent>
     <groupId>org.jboss.ws.cxf</groupId>
     <artifactId>jbossws-cxf-testsuite</artifactId>
-    <version>7.1.0-SNAPSHOT</version>
+    <version>7.1.0.Final</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   
@@ -308,7 +308,7 @@
                 <configuration>
                   <!-- TODO revisit the values here... -->
 <!--                  <jvmArgs>-server -agentpath:/home/alessio/jprofiler7/bin/linux-x64/libjprofilerti.so=offline,id=106 -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</jvmArgs> -->
-                  <javaOpts>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</javaOpts>>
+                  <javaOpts>-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.perf-tests.jboss} ${additionalJvmArgs}</javaOpts>&gt;
                   <serverConfig>jbws-testsuite-perf.xml</serverConfig>
                   <jbossHome>${jboss.home}</jbossHome>
                   <!-- TODO: add serverArgs section to use a custom bind address (requires wildfly-maven-plugin 1.1.0 +)
