@@ -108,7 +108,7 @@
     <wss4j.version>2.3.3</wss4j.version>
     <wstx.version>6.0.3</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
-    <derby.version>10.14.2.0</derby.version>
+    <derby.version>10.17.1.0</derby.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <arquillian-wildfly-container.version>2.2.0.Final</arquillian-wildfly-container.version>
     <version.commons.validator>1.6</version.commons.validator>
