@@ -86,7 +86,7 @@
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
     <commons-lang3.version>3.11</commons-lang3.version>
-    <commons.logging.version>1.2</commons.logging.version>
+    <commons.logging.version>99.0-does-not-exist</commons.logging.version>
     <slf4j.jboss.logging.version>1.2.1.Final</slf4j.jboss.logging.version>
     <neethi.version>3.2.0</neethi.version>
     <fastinfoset.version>2.1.0</fastinfoset.version>
