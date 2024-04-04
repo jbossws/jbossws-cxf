@@ -1247,12 +1247,17 @@
   </profiles>
   <repositories>
     <repository>
-      <id>shibboleth-repo</id>
-      <name>opensaml</name>
-      <url>https://build.shibboleth.net/nexus/content/groups/public</url>
+      <id>jboss-public-repository-group</id>
+      <name>JBoss Public Repository Group</name>
+      <url>https://repository.jboss.org/nexus/content/groups/public/</url>
+      <layout>default</layout>
       <releases>
         <enabled>true</enabled>
+        <updatePolicy>never</updatePolicy>
       </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
     </repository>
   </repositories>
 </project>
