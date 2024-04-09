@@ -255,6 +255,11 @@
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-databinding-aegis</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-databinding-jaxb</artifactId>
         <version>${cxf.version}</version>
       </dependency>
@@ -271,6 +276,16 @@
       <dependency>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-management</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-security</artifactId>
+        <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-security-saml</artifactId>
         <version>${cxf.version}</version>
       </dependency>
       <dependency>
@@ -382,6 +397,17 @@
       </dependency>
       <dependency>
         <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-tools-common</artifactId>
+        <version>${cxf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-tools-java2ws</artifactId>
         <version>${cxf.version}</version>
         <exclusions>
@@ -396,6 +422,17 @@
           <exclusion>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-javascript</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-tools-validator</artifactId>
+        <version>${cxf.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>*</groupId>
+            <artifactId>*</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
