@@ -133,8 +133,8 @@
     <jboss.marshalling.version>2.1.3.Final</jboss.marshalling.version>
     <jboss.marshalling.river.version>${jboss.marshalling.version}</jboss.marshalling.river.version>
     <jboss.ejb.client.version>5.0.1.Final</jboss.ejb.client.version>
-    <org.jboss.galleon.plugin.version>6.0.0.Beta4</org.jboss.galleon.plugin.version>
-    <org.wildfly.galleon.plugin.version>7.0.0.Beta5</org.wildfly.galleon.plugin.version>
+    <org.jboss.galleon.plugin.version>6.0.0.Beta6</org.jboss.galleon.plugin.version>
+    <org.wildfly.galleon.plugin.version>7.0.0.Beta7</org.wildfly.galleon.plugin.version>
     <testcontainer.version>1.18.0</testcontainer.version>
     <jib.version>3.3.1</jib.version>
   </properties>
@@ -1026,13 +1026,6 @@
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>${wildfly.plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.wildfly.core</groupId>
-            <artifactId>wildfly-controller-client</artifactId>
-            <version>${wildfly.controller.client.version}</version>
-          </dependency>
-        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.jboss.galleon</groupId>
