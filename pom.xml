@@ -65,7 +65,6 @@
     <jbossws.common.version>5.0.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>2.1.0.Final</jbossws.common.tools.version>
     <wildfly.version>31.0.0.Final</wildfly.version>
-    <wildfly.dev.version>32.0.0.Beta1-SNAPSHOT</wildfly.dev.version>
     <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
     <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
     <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
@@ -108,7 +107,7 @@
     <org.easymock.version>3.2</org.easymock.version>
     <org.junit.version>5.10.2</org.junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <wildfly.plugin.version>5.0.0.Beta3</wildfly.plugin.version>
+    <wildfly.plugin.version>5.0.0.Beta4</wildfly.plugin.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
     <wildfly.controller.client.version>19.0.0.Beta18</wildfly.controller.client.version>
     <wildfly.elytron.version>2.2.2.Final</wildfly.elytron.version>
@@ -1090,21 +1089,6 @@
       <properties>
         <jboss.home>${server.home}</jboss.home>
         <jboss.version>${wildfly.version}</jboss.version>
-        <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
-      </properties>
-      <modules>
-        <module>modules/dist</module>
-        <module>modules/testsuite</module>
-      </modules>
-    </profile>
-    <!--
-     Name:  wildfly-dev
-     Descr: Test with WFLY upstream version -->
-    <profile>
-      <id>wildflydev</id>
-      <properties>
-        <jboss.home>${server.home}</jboss.home>
-        <jboss.version>${wildfly.dev.version}</jboss.version>
         <additionalJvmArgs>${ipVerArgs} ${modular.jdk.props} ${modular.jdk.args}</additionalJvmArgs>
       </properties>
       <modules>

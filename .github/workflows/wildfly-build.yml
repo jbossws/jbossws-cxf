@@ -3,6 +3,12 @@
 name: WildFly Test Build
 
 on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
   schedule:
     - cron: '30 0 * * *' # Every day at 00:30 UTC
 
@@ -18,8 +24,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest]
-        java: [ '17']
+        os: [ ubuntu-latest, windows-latest ]
+        java: [ '17', '21' ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
@@ -37,7 +43,7 @@ jobs:
           cache: 'maven'
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{needs.wildfly-build.outputs.wildfly-version}}
         run: |
-          mvn -s ./.m2-settings.xml -B -V -fae -Pwildflydev clean install
+          mvn -s ./.m2-settings.xml -B -V -fae clean install '-Dwildfly.version=${{needs.wildfly-build.outputs.wildfly-version}}'
       - name: Upload surefire reports
         uses: actions/upload-artifact@v4
         if: failure()
