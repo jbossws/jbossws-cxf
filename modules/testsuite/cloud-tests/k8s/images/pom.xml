@@ -24,7 +24,7 @@
                             <location>org.wildfly:wildfly-galleon-pack:${jboss.version}</location>
                         </feature-pack>
                         <feature-pack>
-                            <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:2.0.0.Final</location>
+                            <location>org.wildfly.cloud:wildfly-cloud-galleon-pack:${org.wildfly.cloud.galleon-pack.version}</location>
                         </feature-pack>
                         <!--feature-pack>
                             <location>org.jboss.ws.cxf:jbossws-cxf-feature-pack:${project.version}</location>
