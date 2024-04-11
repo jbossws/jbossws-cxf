@@ -111,7 +111,7 @@
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <arquillian-wildfly-container.version>2.2.0.Final</arquillian-wildfly-container.version>
-    <version.commons.validator>1.6</version.commons.validator>
+    <version.commons.validator>1.8.0</version.commons.validator>
     <interceptor.api.version>2.0.0.Final</interceptor.api.version>
     <version.org.jboss.openjdk-orb>8.1.5.Final</version.org.jboss.openjdk-orb>
     <jaspi.api.version>1.0.2.Final</jaspi.api.version>
