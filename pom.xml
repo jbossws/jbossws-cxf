@@ -59,7 +59,7 @@
 
   <!-- Properties -->
   <properties>
-    <jboss.modules.version>2.1.0.Final</jboss.modules.version>
+    <jboss.modules.version>2.1.5.Final</jboss.modules.version>
     <jbossws.api.version>3.0.0.Final</jbossws.api.version>
     <jbossws.spi.version>5.0.0.Final</jbossws.spi.version>
     <jbossws.common.version>5.0.0.Final</jbossws.common.version>
