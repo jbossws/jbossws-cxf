@@ -72,7 +72,7 @@
     <jakarta.angus.activation.version>2.0.2</jakarta.angus.activation.version>
     <jakarta.angus.mail.version>2.0.3</jakarta.angus.mail.version>
     <cxf.version>4.0.4</cxf.version>
-    <cxf.asm.version>9.6</cxf.asm.version>
+    <cxf.asm.version>9.7</cxf.asm.version>
     <cxf.xjcplugins.version>4.0.0</cxf.xjcplugins.version>
     <jboss-logging.version>3.5.3.Final</jboss-logging.version>
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
