@@ -88,7 +88,7 @@
     <commons.logging.version>1.2</commons.logging.version>
     <slf4j.jboss.logging.version>1.2.1.Final</slf4j.jboss.logging.version>
     <neethi.version>3.2.0</neethi.version>
-    <fastinfoset.version>2.1.0</fastinfoset.version>
+    <fastinfoset.version>2.1.1</fastinfoset.version>
     <opensaml.version>4.3.0</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0</saaj.impl.version>
