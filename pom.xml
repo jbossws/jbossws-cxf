@@ -93,7 +93,7 @@
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0</saaj.impl.version>
     <velocity.version>2.3</velocity.version>
-    <xmlsec.version>3.0.4</xmlsec.version>
+    <xmlsec.version>4.0.2</xmlsec.version>
     <wss4j.version>3.0.3</wss4j.version>
     <wstx.version>6.6.2</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
