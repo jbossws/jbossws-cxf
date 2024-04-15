@@ -133,7 +133,7 @@
     <jboss.marshalling.river.version>${jboss.marshalling.version}</jboss.marshalling.river.version>
     <jboss.ejb.client.version>5.0.6.Final</jboss.ejb.client.version>
     <org.jboss.galleon.plugin.version>6.0.0.Beta4</org.jboss.galleon.plugin.version>
-    <org.wildfly.galleon.plugin.version>7.0.0.Beta5</org.wildfly.galleon.plugin.version>
+    <org.wildfly.galleon.plugin.version>7.0.0.Final</org.wildfly.galleon.plugin.version>
     <org.wildfly.cloud.galleon-pack.version>6.0.0.Final</org.wildfly.cloud.galleon-pack.version>
     <testcontainer.version>1.18.0</testcontainer.version>
     <jib.version>3.3.1</jib.version>
