@@ -20,7 +20,7 @@
     </modules>
     <properties>
         <!-- TODO: Move this to the parent pom-->
-        <version.io.fabric8.kubernetes>6.8.1</version.io.fabric8.kubernetes>
+        <version.io.fabric8.kubernetes>6.12.0</version.io.fabric8.kubernetes>
         <version.docker.maven.plugin>0.44.0</version.docker.maven.plugin>
         <version.rest.assured>5.4.0</version.rest.assured>
     </properties>
