@@ -158,7 +158,7 @@
           <plugin>
             <groupId>org.wildfly.plugins</groupId>
             <artifactId>wildfly-maven-plugin</artifactId>
-            <version>5.0.0.Alpha2</version>
+            <version>5.0.0.Final</version>
             <executions>
               <execution>
                 <id>jbws-testsuite-shared-default config-server</id>
