@@ -101,7 +101,7 @@
     <arquillian.version>1.8.0.Final</arquillian.version>
     <arquillian-wildfly-container.version>5.1.0.Beta1</arquillian-wildfly-container.version>
     <artemis.client.version>2.33.0</artemis.client.version>
-    <version.commons.validator>1.7</version.commons.validator>
+    <version.commons.validator>1.8.0</version.commons.validator>
     <jakarta.interceptor.api.version>2.2.0</jakarta.interceptor.api.version>
     <version.org.jboss.openjdk-orb>10.1.0.Final</version.org.jboss.openjdk-orb>
     <org.easymock.version>3.2</org.easymock.version>
