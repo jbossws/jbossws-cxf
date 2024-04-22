@@ -56,8 +56,8 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.jboss.galleon</groupId>
-            <artifactId>galleon-maven-plugin</artifactId>
+            <groupId>org.wildfly.plugins</groupId>
+            <artifactId>wildfly-maven-plugin</artifactId>
             <executions>
                 <execution>
                     <id>server-provisioning</id>
@@ -66,12 +66,12 @@
                     </goals>
                     <phase>generate-test-resources</phase>
                     <configuration>
-                        <install-dir>${project.build.directory}/wildfly-${jboss.version}</install-dir>
-                        <record-state>false</record-state>
-                        <offline>false</offline>
-                        <plugin-options>
-                             <jboss-fork-embedded>true</jboss-fork-embedded>
-                        </plugin-options>
+                        <provisioning-dir>${project.build.directory}/wildfly-${jboss.version}</provisioning-dir>
+                        <record-provisioning-state>false</record-provisioning-state>
+                        <offline-provisioning>false</offline-provisioning>
+                        <galleon-options>
+                            <jboss-fork-embedded>true</jboss-fork-embedded>
+                        </galleon-options>
                         <feature-packs>
                             <feature-pack>
                                 <groupId>org.wildfly</groupId>
