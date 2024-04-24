@@ -94,7 +94,7 @@
     <org.slf4j.version>1.7.32</org.slf4j.version>
     <activation.version>1.1.1</activation.version>
     <fastinfoset.version>1.2.16</fastinfoset.version>
-    <neethi.version>3.1.1</neethi.version>
+    <neethi.version>3.2.0</neethi.version>
     <opensaml.version>3.3.1</opensaml.version>
     <annotation.api.version>2.0.1.Final</annotation.api.version>
     <saaj.api.version>1.0.2.Final</saaj.api.version>
