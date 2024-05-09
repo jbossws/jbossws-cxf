@@ -152,5 +152,6 @@ echo key-store conf
 ## Add a system property for JBWS-3628 testcase
 echo system property for JBWS-3628 
 /system-property=org.jboss.wsf.test.JBWS3628TestCase.policy:add(value=WS-Addressing_policy)
-
+## Enable webservice statistics
+ ./subsystem=webservices:write-attribute(name=statistics-enabled,value=true)
 stop-embedded-server

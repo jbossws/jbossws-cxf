@@ -101,6 +101,11 @@
           <artifactId>artemis-jakarta-client</artifactId>
           <scope>test</scope>
       </dependency>
+      <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-features-throttling</artifactId>
+          <scope>test</scope>
+      </dependency>
   </dependencies>
   <!-- Profiles -->
   <profiles>
