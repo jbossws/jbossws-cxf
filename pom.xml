@@ -134,7 +134,7 @@
     <jboss.ejb.client.version>5.0.6.Final</jboss.ejb.client.version>
     <org.wildfly.galleon.plugin.version>7.0.0.Final</org.wildfly.galleon.plugin.version>
     <org.wildfly.cloud.galleon-pack.version>6.0.0.Final</org.wildfly.cloud.galleon-pack.version>
-    <testcontainer.version>1.19.7</testcontainer.version>
+    <testcontainer.version>1.19.8</testcontainer.version>
     <jib.version>3.3.1</jib.version>
   </properties>
 
