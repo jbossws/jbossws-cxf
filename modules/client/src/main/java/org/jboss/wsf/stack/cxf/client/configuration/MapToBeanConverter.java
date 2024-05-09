@@ -18,6 +18,7 @@
  */
 package org.jboss.wsf.stack.cxf.client.configuration;
 
+import java.security.PrivilegedActionException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,7 +96,12 @@ public class MapToBeanConverter
    protected Object newInstance(String className) throws Exception {
       ClassLoader loader = SecurityActions.createDelegateClassLoader(ClassLoaderProvider.getDefaultProvider()
             .getServerIntegrationClassLoader(), SecurityActions.getContextClassLoader());
-      Class<?> clazz = SecurityActions.loadClass(loader, className);
+      Class<?> clazz = null;
+      try {
+         clazz = SecurityActions.loadClass(loader, className);
+      } catch (ClassNotFoundException e) {
+         clazz = SecurityActions.loadClass(Thread.currentThread().getContextClassLoader(), className);
+      }
       return clazz.newInstance();
    }
    
