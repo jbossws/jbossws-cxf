@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+  xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
+
+  <endpoint-config>
+    <config-name>org.jboss.test.ws.jaxws.cxf.throttling.HelloWorldImpl</config-name>
+    <property>
+      <property-name>cxf.features</property-name>
+      <property-value>##throttlingFeature</property-value>
+    </property>
+    <property>
+      <property-name>##throttlingFeature</property-name>
+      <property-value>org.jboss.wsf.stack.cxf.JBossWSThrottlingFeature</property-value>
+    </property>
+    <property>
+      <property-name>##throttlingFeature.throttlingManager</property-name>
+      <property-value>##throttlingManager</property-value>
+    </property>
+    <property>
+      <property-name>##throttlingManager</property-name>
+      <property-value>org.jboss.wsf.stack.cxf.EndpointMetricsThrottlingManager</property-value>
+    </property>
+    <property>
+      <property-name>##throttlingManager.requestCountThreshold</property-name>
+      <property-value>5</property-value>
+    </property>
+  </endpoint-config>
+
+</jaxws-config>
