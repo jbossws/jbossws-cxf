@@ -23,5 +23,5 @@ import jakarta.jws.WebService;
 @WebService(targetNamespace = "http://org.jboss.ws/jaxws/cxf/throttling")
 public interface HelloWorld
 {
-   String echo(String input) throws InterruptedException;
+   String echo(String input);
 }
