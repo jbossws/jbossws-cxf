@@ -1,4 +1,4 @@
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.features.throttling;
 
 import java.security.AccessController;
 import java.util.Collections;

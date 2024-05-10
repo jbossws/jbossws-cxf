@@ -1,4 +1,4 @@
-package org.jboss.wsf.stack.cxf;
+package org.jboss.wsf.stack.cxf.features.throttling;
 
 import org.apache.cxf.Bus;
 import org.apache.cxf.feature.AbstractPortableFeature;

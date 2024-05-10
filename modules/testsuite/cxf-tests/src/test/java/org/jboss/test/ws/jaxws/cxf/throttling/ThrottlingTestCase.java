@@ -34,6 +34,7 @@ import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.FileAsset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.stack.cxf.client.Constants;
@@ -51,23 +52,29 @@ public class ThrottlingTestCase extends JBossWSTest {
     @Deployment(testable = false)
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-throttling.war")
+                .setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                        + "Dependencies: org.apache.cxf.impl\n"))
                 .addClass(HelloWorld.class)
                 .addClass(HelloWorldImpl.class)
+                .addClass(Hello.class)
+                .addClass(HelloImpl.class)
+                .addClass(TestThrottlingManager.class)
                 .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/throttling/WEB-INF/web.xml"))
                 .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/throttling/WEB-INF/jaxws-endpoint-config.xml")), "jaxws-endpoint-config.xml");
         return archive;
     }
 
 
+
     @Test
     @RunAsClient
-    public void testThrottling() throws Exception {
+    public void testThrottlingWithDefaultManager() throws Exception {
         //Throttling feature only allows 5 invocations and getPort access wsdl already
         //called for once.
-        HelloWorld port = getPort();
+        HelloWorld port = getHelloWorldPort();
         for (int i = 0; i < 4; i++) {
             String response = port.echo("hello");
-            Assertions.assertEquals("hello", response, "hello is expected and i:" + i);
+            Assertions.assertEquals("hello", response, "hello is expected");
         }
 
         try {
@@ -76,17 +83,53 @@ public class ThrottlingTestCase extends JBossWSTest {
         } catch (jakarta.xml.ws.WebServiceException e) {
             Assertions.assertEquals(((BindingProvider)port).getResponseContext().get("jakarta.xml.ws.http.response.code"), 429);
         }
+    }
 
+    @Test
+    @RunAsClient
+    public void testThrottlingWithTestManager() throws Exception {
+        Hello port = getHelloPort();
+        String response = port.sayHello("hello");
+        Assertions.assertEquals("hello", response, "hello is expected");
+
+
+        for (int i=0; i < 3; i++) {
+            try {
+                String res = port.sayHello("error");
+                fail("Exception not thrown");
+            } catch (jakarta.xml.ws.WebServiceException e) {
+                //expected
+            }
+        }
+
+        try {
+            String res = port.sayHello("hello");
+            fail("Exception not thrown");
+        } catch (jakarta.xml.ws.WebServiceException e) {
+            Assertions.assertEquals(((BindingProvider)port).getResponseContext().get("jakarta.xml.ws.http.response.code"), 429);
+        }
 
     }
 
-    private HelloWorld getPort() throws MalformedURLException
+
+    private HelloWorld getHelloWorldPort() throws MalformedURLException
     {
-        URL wsdlURL = new URL(baseURL.toString() + "/jaxws-cxf-throttling?wsdl");
+        URL wsdlURL = new URL(baseURL.toString() + "/helloworld?wsdl");
         QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/throttling", "HelloWorldService");
         Service service = Service.create(wsdlURL, serviceName);
         QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/throttling", "HelloWorldImplPort");
         HelloWorld port = (HelloWorld) service.getPort(portQName, HelloWorld.class);
         return port;
     }
+
+    private Hello getHelloPort() throws MalformedURLException
+    {
+        URL wsdlURL = new URL(baseURL.toString() + "/hello?wsdl");
+        QName serviceName = new QName("http://org.jboss.ws/jaxws/cxf/throttling/hello", "HelloService");
+        Service service = Service.create(wsdlURL, serviceName);
+        QName portQName = new QName("http://org.jboss.ws/jaxws/cxf/throttling/hello", "HelloImplPort");
+        Hello port = (Hello) service.getPort(portQName, Hello.class);
+        return port;
+    }
+
 }

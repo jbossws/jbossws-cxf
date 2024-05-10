@@ -6,12 +6,20 @@
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
   
   <servlet>
-    <servlet-name>HelloService</servlet-name>
+    <servlet-name>HelloWorldService</servlet-name>
     <servlet-class>org.jboss.test.ws.jaxws.cxf.throttling.HelloWorldImpl</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>HelloService</servlet-name>
+    <servlet-class>org.jboss.test.ws.jaxws.cxf.throttling.HelloImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
+    <servlet-name>HelloWorldService</servlet-name>
+    <url-pattern>/helloworld</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>HelloService</servlet-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>/hello</url-pattern>
   </servlet-mapping>
 </web-app>
