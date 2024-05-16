@@ -118,7 +118,7 @@
     <jakarta.xml.ws-api.version>4.0.1</jakarta.xml.ws-api.version>
     <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
     <jakarta.mail.version>2.1.0</jakarta.mail.version>
-    <jakarta.xml.soap-api.version>3.0.1</jakarta.xml.soap-api.version>
+    <jakarta.xml.soap-api.version>3.0.2</jakarta.xml.soap-api.version>
     <jakarta-client-webservices.version>3.0.3.Final</jakarta-client-webservices.version>
     <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
     <gnu.getopt.version>1.0.13</gnu.getopt.version>
