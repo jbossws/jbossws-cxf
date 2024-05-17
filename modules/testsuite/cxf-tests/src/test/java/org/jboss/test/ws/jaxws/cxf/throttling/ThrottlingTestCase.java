@@ -58,7 +58,7 @@ public class ThrottlingTestCase extends JBossWSTest {
                 .addClass(HelloWorldImpl.class)
                 .addClass(Hello.class)
                 .addClass(HelloImpl.class)
-                .addClass(TestThrottlingManager.class)
+                .addClass(RateLimitThorttlingManager.class)
                 .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/throttling/WEB-INF/web.xml"))
                 .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/throttling/WEB-INF/jaxws-endpoint-config.xml")), "jaxws-endpoint-config.xml");
         return archive;
@@ -89,17 +89,8 @@ public class ThrottlingTestCase extends JBossWSTest {
     @RunAsClient
     public void testThrottlingWithTestManager() throws Exception {
         Hello port = getHelloPort();
-        String response = port.sayHello("hello");
-        Assertions.assertEquals("hello", response, "hello is expected");
-
-
-        for (int i=0; i < 3; i++) {
-            try {
-                String res = port.sayHello("error");
-                fail("Exception not thrown");
-            } catch (jakarta.xml.ws.WebServiceException e) {
-                //expected
-            }
+        for (int i=0; i < 4; i++) {
+            port.sayHello("hello");
         }
 
         try {
