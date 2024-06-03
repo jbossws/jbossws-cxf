@@ -79,6 +79,9 @@
                                 <version>${jboss.version}</version>
                                 <inherit-configs>true</inherit-configs>
                             </feature-pack>
+                            <!--As there is cxf module dependency change. Use feature pack
+                             to upgrade cxf modules
+                             -->
                             <feature-pack>
                                 <groupId>org.jboss.ws.cxf</groupId>
                                 <artifactId>jbossws-cxf-feature-pack</artifactId>
@@ -86,6 +89,15 @@
                                 <inherit-configs>false</inherit-configs>
                             </feature-pack>
                         </feature-packs>
+                        <channels>
+                            <channel>
+                                <manifest>
+                                    <groupId>org.jboss.ws.cxf</groupId>
+                                    <artifactId>jbossws-manifest</artifactId>
+                                    <version>${project.version}</version>
+                                </manifest>
+                            </channel>
+                        </channels>
                     </configuration>
                 </execution>
             </executions>
