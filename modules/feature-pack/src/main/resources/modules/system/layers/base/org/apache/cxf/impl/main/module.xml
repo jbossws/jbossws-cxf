@@ -29,7 +29,6 @@
     </properties>
 
     <resources>
-        <artifact name="${org.jboss.ws.cxf:jbossws-cxf-server}"/>
         <artifact name="${org.apache.cxf:cxf-rt-bindings-coloc}"/>
         <artifact name="${org.apache.cxf:cxf-rt-bindings-soap}"/>
         <artifact name="${org.apache.cxf:cxf-rt-bindings-xml}"/>

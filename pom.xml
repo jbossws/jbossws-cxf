@@ -55,6 +55,7 @@
     <module>modules/addons</module>
     <module>modules/test-utils</module>
     <module>modules/feature-pack</module>
+    <module>modules/channel</module>
   </modules>
 
   <!-- Properties -->
