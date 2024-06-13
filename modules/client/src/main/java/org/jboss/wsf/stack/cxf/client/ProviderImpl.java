@@ -577,7 +577,14 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       @Override
       protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface,
             WebServiceFeature... features) {
-         T port = super.createPort(portName, epr, serviceEndpointInterface, features);
+         ClassLoader origClassLoader = getContextClassLoader();
+         T port = null;
+         try {
+            setContextClassLoader(createDelegateClassLoader(origClassLoader, ServiceImpl.class.getClassLoader()));
+            port = super.createPort(portName, epr, serviceEndpointInterface, features);
+         } finally {
+            setContextClassLoader(origClassLoader);
+         }
          setupClient(port, serviceEndpointInterface, features);
          return port;
       }
