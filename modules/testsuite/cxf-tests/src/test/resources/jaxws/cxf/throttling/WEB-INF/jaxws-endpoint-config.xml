@@ -42,7 +42,7 @@
     </property>
     <property>
       <property-name>##throttlingManager</property-name>
-      <property-value>org.jboss.test.ws.jaxws.cxf.throttling.RateLimitThorttlingManager</property-value>
+      <property-value>org.jboss.wsf.stack.cxf.features.throttling.RateLimitThorttlingManager</property-value>
     </property>
     <property>
       <property-name>##throttlingManager.requestsPerMin</property-name>
