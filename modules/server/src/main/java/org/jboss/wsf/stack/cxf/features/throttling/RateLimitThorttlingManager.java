@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.test.ws.jaxws.cxf.throttling;
+package org.jboss.wsf.stack.cxf.features.throttling;
 
 import java.util.Collections;
 import java.util.List;
