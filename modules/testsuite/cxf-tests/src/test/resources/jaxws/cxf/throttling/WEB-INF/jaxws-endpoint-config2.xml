@@ -2,30 +2,6 @@
 
 <jaxws-config xmlns="urn:jboss:jbossws-jaxws-config:4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
   xsi:schemaLocation="urn:jboss:jbossws-jaxws-config:4.0 schema/jbossws-jaxws-config_4_0.xsd">
-
-  <endpoint-config>
-    <config-name>org.jboss.test.ws.jaxws.cxf.throttling.HelloWorldImpl</config-name>
-    <property>
-      <property-name>cxf.features</property-name>
-      <property-value>##throttlingFeature</property-value>
-    </property>
-    <property>
-      <property-name>##throttlingFeature</property-name>
-      <property-value>org.jboss.wsf.stack.cxf.features.throttling.JBossWSThrottlingFeature</property-value>
-    </property>
-    <property>
-      <property-name>##throttlingFeature.throttlingManager</property-name>
-      <property-value>##throttlingManager</property-value>
-    </property>
-    <property>
-      <property-name>##throttlingManager</property-name>
-      <property-value>org.jboss.wsf.stack.cxf.features.throttling.EndpointMetricsThrottlingManager</property-value>
-    </property>
-    <property>
-      <property-name>##throttlingManager.requestCountThreshold</property-name>
-      <property-value>5</property-value>
-    </property>
-  </endpoint-config>
   <endpoint-config>
     <config-name>org.jboss.test.ws.jaxws.cxf.throttling.HelloImpl</config-name>
     <property>
@@ -45,7 +21,11 @@
       <property-value>org.jboss.wsf.stack.cxf.features.throttling.RateLimitThorttlingManager</property-value>
     </property>
     <property>
-      <property-name>##throttlingManager.permitsPerMin</property-name>
+      <property-name>##throttlingManager.period</property-name>
+      <property-value>30</property-value>
+    </property>
+    <property>
+      <property-name>##throttlingManager.permitsPerPeriod</property-name>
       <property-value>5</property-value>
     </property>
   </endpoint-config>
