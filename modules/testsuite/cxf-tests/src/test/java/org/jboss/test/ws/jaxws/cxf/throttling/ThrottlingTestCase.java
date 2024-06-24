@@ -25,6 +25,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit5.ArquillianExtension;
 import org.jboss.arquillian.test.api.ArquillianResource;
@@ -39,10 +40,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 @ExtendWith(ArquillianExtension.class)
 public class ThrottlingTestCase extends JBossWSTest {
+    private static final String  THROTTLING = "jaxws-cxf-throttling";
+
+    private static final String  PERIOD = "jaxws-cxf-throttling-peroid";
     @ArquillianResource
     private URL baseURL;
 
-    @Deployment(testable = false)
+    @Deployment(name=THROTTLING, testable = false)
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-throttling.war")
                 .addClass(HelloWorld.class)
@@ -54,10 +58,20 @@ public class ThrottlingTestCase extends JBossWSTest {
         return archive;
     }
 
+    @Deployment(name=PERIOD, testable = false)
+    public static WebArchive createPeriodDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, "jaxws-cxf-throttling-period.war")
+                .addClass(Hello.class)
+                .addClass(HelloImpl.class)
+                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/throttling/WEB-INF/web2.xml"))
+                .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/throttling/WEB-INF/jaxws-endpoint-config2.xml")), "jaxws-endpoint-config.xml");
+        return archive;
+    }
 
 
     @Test
     @RunAsClient
+    @OperateOnDeployment(THROTTLING)
     public void testThrottlingWithDefaultManager() throws Exception {
         //Throttling feature only allows 5 invocations and getPort access wsdl already
         //called for once.
@@ -77,21 +91,35 @@ public class ThrottlingTestCase extends JBossWSTest {
 
     @Test
     @RunAsClient
+    @OperateOnDeployment(THROTTLING)
     public void testThrottlingWithTestManager() throws Exception {
         Hello port = getHelloPort();
         for (int i=0; i < 4; i++) {
             port.sayHello("hello");
         }
-
         try {
-            String res = port.sayHello("error");
+            String res = port.sayHello("hello");
             fail("Exception not thrown");
         } catch (jakarta.xml.ws.WebServiceException e) {
             Assertions.assertEquals(((BindingProvider)port).getResponseContext().get("jakarta.xml.ws.http.response.code"), 429);
         }
-
     }
 
+    @Test
+    @RunAsClient
+    @OperateOnDeployment(PERIOD)
+    public void testThrottlingWithPeriodConfig() throws Exception {
+        Hello port = getHelloPort();
+        for (int i=0; i < 4; i++) {
+            port.sayHello("hello");
+        }
+        try {
+            String res = port.sayHello("hello");
+            fail("Exception not thrown");
+        } catch (jakarta.xml.ws.WebServiceException e) {
+            Assertions.assertEquals(((BindingProvider)port).getResponseContext().get("jakarta.xml.ws.http.response.code"), 429);
+        }
+    }
 
     private HelloWorld getHelloWorldPort() throws MalformedURLException
     {

@@ -36,18 +36,39 @@ public class RateLimitThorttlingManager extends ThrottleResponse implements Thro
 
     private AtomicBoolean firstMessage = new AtomicBoolean(false);
 
-    private int requestsPerMin = Integer.MAX_VALUE;
+    private int permitsPerMin = Integer.MAX_VALUE;
+    private int period = 60;
+    private int permitsPerPeriod = Integer.MAX_VALUE;
 
-    public int getRequestsPerMin() {
-        return requestsPerMin;
+
+    public void setPeriod(int seconds) {
+        this.period = seconds;
     }
 
-    public void setRequestsPerMin(int requestsPerMin) {
-        this.requestsPerMin = requestsPerMin;
+    public void setPermitsPerPeriod(int permitsPerPeriod) {
+        this.permitsPerPeriod = permitsPerPeriod;
+    }
+
+
+    public int getPermitsPerMin() {
+        return permitsPerMin;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public int getPermitsPerPeriod() {
+        return permitsPerPeriod;
+    }
+
+    public void setPermitsPerMin(int permitsPerMin) {
+        this.period = 60;
+        this.permitsPerPeriod = permitsPerMin;
     }
     public RateLimitThorttlingManager() {
         super();
-        for (int i = 0; i < 60; i++) {
+        for (int i = 0; i < this.getPeriod(); i++) {
             requestTime[i] = new AtomicLong(0);
             requestCount[i] = new AtomicInteger(0);
         }
@@ -61,22 +82,22 @@ public class RateLimitThorttlingManager extends ThrottleResponse implements Thro
     @Override
     public ThrottleResponse getThrottleResponse(String phase, Message m) {
         long currentTime = System.currentTimeMillis();
-        int currentIndex = (int) ((currentTime / 1000) % 60);
+        int currentIndex = (int) ((currentTime / 1000) % this.getPeriod());
         requestTime[currentIndex].set(currentTime);
         requestCount[currentIndex].incrementAndGet();
         if (firstMessage.compareAndSet(false, true)) {
             return null;
         } else {
             //reset the count for the previous minutes
-            for (int i = 0 ; i < 60 ; i++) {
+            for (int i = 0 ; i < this.getPeriod() ; i++) {
                 AtomicLong item = requestTime[i];
-                if (item.get() > 0 && (currentTime -item.get()) > 60000) {
+                if (item.get() > 0 && (currentTime -item.get()) > this.getPeriod() * 1000) {
                     requestTime[i].set(0);
                     requestCount[i].set(0);
                 }
             }
             int sum = Stream.of(requestCount).mapToInt(AtomicInteger::get).sum();
-            if (sum > requestsPerMin) {
+            if (sum > this.permitsPerPeriod) {
                 this.setResponseCode(429);
                 return this;
             }
