@@ -22,7 +22,7 @@
       <property-value>org.jboss.wsf.stack.cxf.features.throttling.EndpointMetricsThrottlingManager</property-value>
     </property>
     <property>
-      <property-name>##throttlingManager.requestCountThreshold</property-name>
+      <property-name>##throttlingManager.requestPermit</property-name>
       <property-value>5</property-value>
     </property>
   </endpoint-config>

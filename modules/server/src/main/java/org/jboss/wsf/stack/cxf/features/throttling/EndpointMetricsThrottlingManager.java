@@ -29,17 +29,17 @@ import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.ws.common.management.AbstractServerConfig;
 public class EndpointMetricsThrottlingManager extends ThrottleResponse implements ThrottlingManager {
-    private long faultCountThreshold = Integer.MAX_VALUE;
-    private long requestCountThreshold = Integer.MAX_VALUE;
-    private long averageProcessingTimeThreshold = Long.MAX_VALUE;
-    private long maxProcessingTimeThreshold = Long.MAX_VALUE;
-    private long minProcessingTimeThreshold = Long.MAX_VALUE;
+    private long faultPermit = Integer.MAX_VALUE;
+    private long requestPermit = Integer.MAX_VALUE;
+    private long averageProcessingTimePermit = Long.MAX_VALUE;
+    private long maxProcessingTimePermit = Long.MAX_VALUE;
+    private long minProcessingTimePermit = Long.MAX_VALUE;
 
-    private long totalProcessingTimeThreshold = Long.MAX_VALUE;
+    private long totalProcessingTimePermit = Long.MAX_VALUE;
 
-    private int responseStausCode = 429;
+    private int responseStatusCode = 429;
 
-    private long delayTime = 200;
+    private long delayTime = 0;
 
     private String message = "";
 
@@ -53,30 +53,32 @@ public class EndpointMetricsThrottlingManager extends ThrottleResponse implement
     public ThrottleResponse getThrottleResponse(String phase, Message m) {
         Endpoint endpoint = m.getExchange().get(Endpoint.class);
         if (endpoint != null && getServerConfig().isStatisticsEnabled()) {
-            if (endpoint.getEndpointMetrics().getFaultCount() > this.getFaultCountThreshold()
-                    || endpoint.getEndpointMetrics().getRequestCount() > this.getRequestCountThreshold()
-                    || endpoint.getEndpointMetrics().getMaxProcessingTime() > this.getMaxProcessingTimeThreshold()
-                    || endpoint.getEndpointMetrics().getMinProcessingTime() > this.getMinProcessingTimeThreshold()
-                    || endpoint.getEndpointMetrics().getAverageProcessingTime() > this.getAverageProcessingTimeThreshold()
-                    || endpoint.getEndpointMetrics().getTotalProcessingTime() > this.getTotalProcessingTimeThreshold()) {
+            if (endpoint.getEndpointMetrics().getFaultCount() > this.getFaultPermit()
+                    || endpoint.getEndpointMetrics().getRequestCount() > this.getRequestPermit()
+                    || endpoint.getEndpointMetrics().getMaxProcessingTime() > this.getMaxProcessingTimePermit()
+                    || endpoint.getEndpointMetrics().getMinProcessingTime() > this.getMinProcessingTimePermit()
+                    || endpoint.getEndpointMetrics().getAverageProcessingTime() > this.getAverageProcessingTimePermit()
+                    || endpoint.getEndpointMetrics().getTotalProcessingTime() > this.getTotalProcessingTimePermit()) {
                 if (!getMessage().isEmpty()) {
-                    this.setResponseCode(this.getResponseStausCode(), this.getMessage());
+                    this.setResponseCode(this.getResponseStatusCode(), this.getMessage());
                 } else {
-                    this.setResponseCode(this.getResponseStausCode());
+                    this.setResponseCode(this.getResponseStatusCode());
                 }
-                this.setDelay(this.getDelayTime());
+                if (this.getDelayTime() > 0) {
+                    this.setDelay(this.getDelayTime());
+                }
                 return this;
             }
         }
         return null;
     }
 
-    public int getResponseStausCode() {
-        return responseStausCode;
+    public int getResponseStatusCode() {
+        return responseStatusCode;
     }
 
-    public void setResponseStausCode(int responseStausCode) {
-        this.responseStausCode = responseStausCode;
+    public void setResponseStatusCode(int responseStatusCode) {
+        this.responseStatusCode = responseStatusCode;
     }
 
     public String getMessage() {
@@ -88,53 +90,53 @@ public class EndpointMetricsThrottlingManager extends ThrottleResponse implement
     }
 
 
-    public long getFaultCountThreshold() {
-        return faultCountThreshold;
+    public long getFaultPermit() {
+        return faultPermit;
     }
 
-    public void setFaultCountThreshold(long faultCountThreshold) {
-        this.faultCountThreshold = faultCountThreshold;
+    public void setFaultPermit(long faultPermit) {
+        this.faultPermit = faultPermit;
     }
 
-    public long getRequestCountThreshold() {
-        return requestCountThreshold;
+    public long getRequestPermit() {
+        return requestPermit;
     }
 
-    public void setRequestCountThreshold(long requestCountThreshold) {
-        this.requestCountThreshold = requestCountThreshold;
+    public void setRequestPermit(long requestPermit) {
+        this.requestPermit = requestPermit;
     }
 
-    public long getMaxProcessingTimeThreshold() {
-        return maxProcessingTimeThreshold;
+    public long getMaxProcessingTimePermit() {
+        return maxProcessingTimePermit;
     }
 
-    public void setMaxProcessingTimeThreshold(long maxProcessingTimeThreshold) {
-        this.maxProcessingTimeThreshold = maxProcessingTimeThreshold;
+    public void setMaxProcessingTimePermit(long maxProcessingTimePermit) {
+        this.maxProcessingTimePermit = maxProcessingTimePermit;
     }
 
-    public long getMinProcessingTimeThreshold() {
-        return minProcessingTimeThreshold;
+    public long getMinProcessingTimePermit() {
+        return minProcessingTimePermit;
     }
 
-    public void setMinProcessingTimeThreshold(long minProcessingTimeThreshold) {
-        this.minProcessingTimeThreshold = minProcessingTimeThreshold;
+    public void setMinProcessingTimePermit(long minProcessingTimePermit) {
+        this.minProcessingTimePermit = minProcessingTimePermit;
     }
 
-    public long getTotalProcessingTimeThreshold() {
-        return totalProcessingTimeThreshold;
+    public long getTotalProcessingTimePermit() {
+        return totalProcessingTimePermit;
     }
 
-    public void setTotalProcessingTimeThreshold(long totalProcessingTimeThreshold) {
-        this.totalProcessingTimeThreshold = totalProcessingTimeThreshold;
+    public void setTotalProcessingTimePermit(long totalProcessingTimePermit) {
+        this.totalProcessingTimePermit = totalProcessingTimePermit;
     }
 
 
-    public long getAverageProcessingTimeThreshold() {
-        return averageProcessingTimeThreshold;
+    public long getAverageProcessingTimePermit() {
+        return averageProcessingTimePermit;
     }
 
-    public void setAverageProcessingTimeThreshold(long averageProcessingTimeThreshold) {
-        this.averageProcessingTimeThreshold = averageProcessingTimeThreshold;
+    public void setAverageProcessingTimePermit(long averageProcessingTimePermit) {
+        this.averageProcessingTimePermit = averageProcessingTimePermit;
     }
 
     public long getDelayTime() {
