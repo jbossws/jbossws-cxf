@@ -35,6 +35,8 @@ import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -47,8 +49,7 @@ public class EarSchemaImportTestCase extends JBossWSTest
    private String dataDir;
    private File wsdlDir;
 
-   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
-   //@BeforeEach
+   @BeforeEach
    public void setup() throws Exception {
       deployer.deploy(EAR_DEPLOYMENT);
       ObjectName serverEnviroment = new ObjectName("jboss.as:core-service=server-environment");
@@ -58,8 +59,8 @@ public class EarSchemaImportTestCase extends JBossWSTest
       assertTrue(wsdlDir.exists(), wsdlDir.getAbsolutePath() + "is expected");
    }
 
-   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @AfterEach method
-   //@AfterEach
+
+   @AfterEach
    public void cleanup() throws Exception {
       deployer.undeploy(EAR_DEPLOYMENT);
       //JBWS-3992:check wsdl directory is removed
@@ -99,17 +100,11 @@ public class EarSchemaImportTestCase extends JBossWSTest
    @RunAsClient
    public void testSchemaImport() throws Exception
    {
-      try {
-         setup();
-         HelloWs port = getPort("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3655/HelloService");
-         HelloRequest request = new HelloRequest();
-         request.setInput("hello");
-         HelloResponse response = port.doHello(request);
-         assertEquals(2, response.getMultiHello().size());
-      } finally {
-         cleanup();
-      }
-
+      HelloWs port = getPort("http://" + getServerHost() + ":" + getServerPort() + "/jaxws-cxf-jbws3655/HelloService");
+      HelloRequest request = new HelloRequest();
+      request.setInput("hello");
+      HelloResponse response = port.doHello(request);
+      assertEquals(2, response.getMultiHello().size());
    }
 
    private HelloWs getPort(String publishURL) throws Exception
