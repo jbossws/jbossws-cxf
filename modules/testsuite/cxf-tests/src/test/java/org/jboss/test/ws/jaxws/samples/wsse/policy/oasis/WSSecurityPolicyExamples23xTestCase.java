@@ -42,6 +42,7 @@ import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -108,9 +109,8 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
          }
       });
    }
-
-   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
-   //@BeforeEach
+   
+   @BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
          containerController.start(SSL_MUTUAL_AUTH_SERVER);
@@ -129,7 +129,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @OperateOnDeployment(DEPLOYMENT)
    public void test2311() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2311?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2311Port"), ServiceIface.class);
       ((BindingProvider)proxy).getRequestContext().put(SecurityConstants.SAML_CALLBACK_HANDLER, new SamlCallbackHandler());
@@ -147,7 +146,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @OperateOnDeployment(DEPLOYMENT)
    public void test2312() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2312?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2312Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
@@ -166,7 +164,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2313() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2313?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2313Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -190,7 +187,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2314() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2314?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2314Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -219,7 +215,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2315() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2315?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2315Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -249,7 +244,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2321() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2321?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2321Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
@@ -275,7 +269,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2322() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2322?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2322Port"), ServiceIface.class);
       SamlCallbackHandler cbh = new SamlCallbackHandler();
@@ -295,7 +288,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2323() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURLHttps + "SecurityService2323?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2323Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();
@@ -320,7 +312,6 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    @WrapThreadContextClassLoader
    public void test2324() throws Exception
    {
-      startContainerAndDeploy();
       Service service = Service.create(new URL(serviceURL + "SecurityService2324?wsdl"), serviceName);
       ServiceIface proxy = (ServiceIface)service.getPort(new QName(NS, "SecurityService2324Port"), ServiceIface.class);
       Map<String, Object> reqCtx = ((BindingProvider) proxy).getRequestContext();

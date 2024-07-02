@@ -34,6 +34,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -78,9 +79,8 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
             .addAsManifestResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/clientConfig/META-INF/default-client-permissions.xml"), "permissions.xml");
       return archive;
    }
-
-   //TODO: After https://issues.redhat.com/browse/ARQ-2231 is fixed. Moved this BeforeEach method
-   //@BeforeEach
+   
+   @BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(DEFAULT_CONFIG_TESTS_SERVER)) {
          containerController.start(DEFAULT_CONFIG_TESTS_SERVER);
@@ -96,7 +96,6 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testDefaultClientConfigurationInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testDefaultClientConfiguration"));
    }
    
@@ -104,7 +103,6 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testDefaultClientConfigurationOnDispatchInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testDefaultClientConfigurationOnDispatch"));
    }
    
@@ -117,7 +115,6 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfiguration"));
    }
    
@@ -125,7 +122,6 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationOnDispatchInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatch"));
    }
    
@@ -133,7 +129,6 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationUsingFeatureInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationUsingFeature"));
    }
    
@@ -141,7 +136,6 @@ public class CXFDefaultClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(CLIENT_DEP)
    public void testCustomClientConfigurationOnDispatchUsingFeatureInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatchUsingFeature"));
    }
    
