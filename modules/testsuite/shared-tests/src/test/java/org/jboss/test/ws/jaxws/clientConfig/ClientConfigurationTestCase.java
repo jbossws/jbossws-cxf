@@ -36,6 +36,7 @@ import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -94,8 +95,7 @@ public class ClientConfigurationTestCase extends JBossWSTest
       return archive;
    }
 
-   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
-   //@BeforeEach
+   @BeforeEach
    public void startContainerAndDeploy() {
       if (!containerController.isStarted(DEFAULT_CONFIG_TESTS_SERVER)) {
          containerController.start(DEFAULT_CONFIG_TESTS_SERVER);
@@ -108,7 +108,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig")
    public void testClientConfigurer() {
-      startContainerAndDeploy();
       if (isIntegrationCXF()) {
          assertTrue(getHelper().testClientConfigurer());
       }
@@ -118,7 +117,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(value = "jaxws-clientConfig-inContainer-client")
    public void testClientConfigurerInContainer() throws Exception {
-      startContainerAndDeploy();
       if (isIntegrationCXF()) {
          assertEquals("1", runTestInContainer("testClientConfigurer"));
       }
@@ -134,7 +132,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-clientConfig")
    @WrapThreadContextClassLoader
    public void testCustomClientConfigurationFromFile() throws Exception {
-      startContainerAndDeploy();
       assertTrue(getHelper().testCustomClientConfigurationFromFile());
    }
 
@@ -143,7 +140,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-clientConfig")
    @WrapThreadContextClassLoader
    public void testCustomClientConfigurationOnDispatchFromFile() throws Exception {
-      startContainerAndDeploy();
       assertTrue(getHelper().testCustomClientConfigurationOnDispatchFromFile());
    }
 
@@ -151,7 +147,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(value = "jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationFromFileInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationFromFile"));
    }
 
@@ -159,7 +154,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(value = "jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationOnDispatchFromFileInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatchFromFile"));
    }
 
@@ -168,7 +162,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-clientConfig")
    @WrapThreadContextClassLoader
    public void testCustomClientConfigurationFromFileUsingFeature() throws Exception {
-      startContainerAndDeploy();
       assertTrue(getHelper().testCustomClientConfigurationFromFileUsingFeature());
    }
 
@@ -177,7 +170,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-clientConfig")
    @WrapThreadContextClassLoader
    public void testCustomClientConfigurationFromFileUsingFeatureOnDispatch() throws Exception {
-      startContainerAndDeploy();
       assertTrue(getHelper().testCustomClientConfigurationFromFileUsingFeatureOnDispatch());
    }
 
@@ -185,7 +177,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(value = "jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationFromFileUsingFeatureInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationFromFileUsingFeature"));
    }
 
@@ -193,7 +184,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment(value = "jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationFromFileUsingFeatureOnDispatchInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationFromFileUsingFeatureOnDispatch"));
    }
    
@@ -207,7 +197,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-clientConfig")
    @WrapThreadContextClassLoader
    public void testConfigurationChange() throws Exception {
-      startContainerAndDeploy();
       assertTrue(getHelper().testConfigurationChange());
    }
 
@@ -217,7 +206,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @OperateOnDeployment("jaxws-clientConfig")
    @WrapThreadContextClassLoader
    public void testConfigurationChangeOnDispatch() throws Exception {
-      startContainerAndDeploy();
       assertTrue(getHelper().testConfigurationChangeOnDispatch());
    }
 
@@ -225,7 +213,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testConfigurationChangeInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testConfigurationChange"));
    }
 
@@ -233,7 +220,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testConfigurationChangeOnDispatchInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testConfigurationChangeOnDispatch"));
    }
    
@@ -248,7 +234,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testDefaultClientConfigurationInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testDefaultClientConfiguration"));
    }
 
@@ -256,7 +241,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testDefaultClientConfigurationOnDispatchInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testDefaultClientConfigurationOnDispatch"));
    }
    
@@ -269,7 +253,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testSEIClassDefaultClientConfigurationInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testSEIClassDefaultClientConfiguration"));
    }
    //no corresponding test on Dispatch, as that has no SEI
@@ -283,7 +266,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testSEIClassDefaultFileClientConfigurationInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testSEIClassDefaultFileClientConfiguration"));
    }
    //no corresponding test on Dispatch, as that has no SEI
@@ -297,7 +279,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfiguration"));
    }
 
@@ -305,7 +286,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationOnDispatchInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatch"));
    }
 
@@ -313,7 +293,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationUsingFeatureInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationUsingFeature"));
    }
 
@@ -321,7 +300,6 @@ public class ClientConfigurationTestCase extends JBossWSTest
    @RunAsClient
    @OperateOnDeployment("jaxws-clientConfig-inContainer-client")
    public void testCustomClientConfigurationOnDispatchUsingFeatureInContainer() throws Exception {
-      startContainerAndDeploy();
       assertEquals("1", runTestInContainer("testCustomClientConfigurationOnDispatchUsingFeature"));
    }
    

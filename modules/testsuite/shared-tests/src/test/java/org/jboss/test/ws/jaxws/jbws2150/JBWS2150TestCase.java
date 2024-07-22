@@ -54,6 +54,8 @@ import org.jboss.ws.common.ObjectNameFactory;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -143,9 +145,8 @@ public final class JBWS2150TestCase extends JBossWSTest
                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/jbws2150/WEB-INF/web-sec.xml"));
       return archive;
    }
-
-   //TODO: After https://issues.redhat.com/browse/ARQ-2231 is fixed. Moved this BeforeEach method
-   //@BeforeEach
+   
+   @BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(ADDRESS_REWRITE_SERVER)) {
          containerController.start(ADDRESS_REWRITE_SERVER);
@@ -158,8 +159,7 @@ public final class JBWS2150TestCase extends JBossWSTest
       webServicePath = (String) getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "WebServicePathRewriteRule");
       webServiceUriScheme = (String) getServer().getAttribute(SERVER_CONFIG_OBJECT_NAME, "WebServiceUriScheme");
    }
-   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @AfterEach method
-   //@AfterEach
+   @AfterEach
    public void cleanup() throws Exception
    {
       Attribute attr = new Attribute("ModifySOAPAddress", modifySOAPAddress);
@@ -189,7 +189,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewrite() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       deployer.deploy(DEP);
 
@@ -252,7 +251,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
    
@@ -265,7 +263,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteLoadBalancer() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String testWebServiceHost = "myloadbalancer.com";
       setWebServiceHost(testWebServiceHost);
@@ -321,7 +318,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -334,7 +330,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testAutoRewrite() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       setWebServiceHost(ServerConfig.UNDEFINED_HOSTNAME);
       deployer.deploy(DEP);
@@ -387,7 +382,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -400,7 +394,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testSecureRewrite() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       deployer.deploy(DEP_SEC);
       try
@@ -453,7 +446,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_SEC);
-         cleanup();
       }
    }
 
@@ -466,7 +458,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testSecureRewriteLoadBalancer() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String testWebServiceHost = "myloadbalancer.com";
       setWebServiceHost(testWebServiceHost);
@@ -521,7 +512,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_SEC);
-         cleanup();
       }
    }
 
@@ -534,7 +524,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testNoRewrite() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(false);
       deployer.deploy(DEP);
       try
@@ -587,7 +576,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -600,7 +588,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteCodeFirst() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       deployer.deploy(DEP_CODEFIRST);
       try
@@ -613,7 +600,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -626,7 +612,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testNoRewriteCodeFirst() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(false);
       deployer.deploy(DEP_CODEFIRST);
       try
@@ -639,7 +624,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -652,7 +636,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteLoadBalancerCodeFirst() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String testWebServiceHost = "myloadbalancer.com";
       setWebServiceHost(testWebServiceHost);
@@ -667,7 +650,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -680,7 +662,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteLoadBalancerCodeFirstForceHttps() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String testWebServiceHost = "myloadbalancer.com";
       setWebServiceHost(testWebServiceHost);
@@ -696,7 +677,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -710,7 +690,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testNoRewriteLoadBalancerCodeFirst() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(false);
       final String testWebServiceHost = "myloadbalancer2.com";
       setWebServiceHost(testWebServiceHost);
@@ -725,7 +704,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -738,7 +716,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testAutoRewriteCodeFirst() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       setWebServiceHost(ServerConfig.UNDEFINED_HOSTNAME);
       deployer.deploy(DEP_CODEFIRST);
@@ -752,7 +729,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -765,7 +741,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteWithPathRule() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String expectedContext = "xx/jaxws-jbws2150";
       final String sedCmd = "s/jaxws-jbws2150/xx\\/jaxws-jbws2150/g";
@@ -812,7 +787,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -825,7 +799,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteCodeFirstPathRule() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String expectedContext = "xx/jaxws-jbws2150-codefirst";
       final String sedCmd = "s/jaxws-jbws2150-codefirst/xx\\/jaxws-jbws2150-codefirst/g";
@@ -844,7 +817,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -858,7 +830,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testAutoRewriteCodeFirstPathRule() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String expectedContext = "xx/jaxws-jbws2150-codefirst";
       final String sedCmd = "s/jaxws-jbws2150-codefirst/xx\\/jaxws-jbws2150-codefirst/g";
@@ -883,7 +854,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
    }
 
@@ -896,7 +866,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testAutoRewritePathRule() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String expectedContext = "xx/jaxws-jbws2150";
       final String sedCmd = "s/jaxws-jbws2150/xx\\/jaxws-jbws2150/g";
@@ -954,7 +923,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -967,7 +935,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteForceHttpsSchemeAndPorts() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       setWebServiceUriScheme("https");
       setWebServiceSecurePort(8192);
@@ -1022,7 +989,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -1035,7 +1001,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteLoadBalancerForceHttps() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String testWebServiceHost = "myloadbalancer.com";
       setWebServiceHost(testWebServiceHost);
@@ -1091,7 +1056,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -1104,7 +1068,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testAutoRewriteForceHttp() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       setWebServiceHost(ServerConfig.UNDEFINED_HOSTNAME);
       deployer.deploy(DEP);
@@ -1156,7 +1119,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -1169,7 +1131,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testSecureRewriteOverriddenByForcedHttp() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       setWebServiceUriScheme("http");
       setWebServicePort(80);
@@ -1223,7 +1184,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_SEC);
-         cleanup();
       }
    }
 
@@ -1236,7 +1196,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testRewriteWithPathRuleAndForcedHttps() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String expectedContext = "xx/jaxws-jbws2150";
       final String sedCmd = "s/jaxws-jbws2150/xx\\/jaxws-jbws2150/g";
@@ -1284,7 +1243,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP);
-         cleanup();
       }
    }
 
@@ -1298,7 +1256,6 @@ public final class JBWS2150TestCase extends JBossWSTest
    @RunAsClient
    public void testAutoRewriteCodeFirstPathRuleAndForcedHttps() throws Exception
    {
-      startContainerAndDeploy();
       setModifySOAPAddress(true);
       final String expectedContext = "xx/jaxws-jbws2150-codefirst";
       final String sedCmd = "s/jaxws-jbws2150-codefirst/xx\\/jaxws-jbws2150-codefirst/g";
@@ -1325,7 +1282,6 @@ public final class JBWS2150TestCase extends JBossWSTest
       finally
       {
          deployer.undeploy(DEP_CODEFIRST);
-         cleanup();
       }
 
    }

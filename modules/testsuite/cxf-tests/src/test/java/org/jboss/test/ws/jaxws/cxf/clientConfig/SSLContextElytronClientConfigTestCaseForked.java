@@ -32,6 +32,7 @@ import org.jboss.test.ws.jaxws.samples.wsse.policy.basic.ElytronClientTestUtils;
 import org.jboss.wsf.stack.cxf.client.configuration.CXFClientConfigurer;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.wildfly.security.auth.client.AuthenticationContext;
@@ -76,9 +77,8 @@ public class SSLContextElytronClientConfigTestCaseForked extends JBossWSTest {
               .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/httpauth/WEB-INF/wsdl/helloMutualSSLport.wsdl"), "wsdl/hello.wsdl");
       return archive;
    }
-
-   //TODO:After https://issues.redhat.com/browse/ARQ-2231 is fixed, restore this @BeforeEach method
-   //@BeforeEach
+   
+   @BeforeEach
    public void startContainerAndDeploy() throws Exception {
       if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
          containerController.start(SSL_MUTUAL_AUTH_SERVER);
@@ -93,7 +93,6 @@ public class SSLContextElytronClientConfigTestCaseForked extends JBossWSTest {
    @Test
    @RunAsClient
    public void testConfiguredSSLContext() throws Exception {
-      startContainerAndDeploy();
       AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
       SSLContext previousDefaultSSLContext = SSLContext.getDefault();
       try {
@@ -118,8 +117,7 @@ public class SSLContextElytronClientConfigTestCaseForked extends JBossWSTest {
 
    @Test
    @RunAsClient
-   public void testNotConfiguredSSLContext() throws Exception {
-      startContainerAndDeploy();
+   public void testNotConfiguredSSLContext() throws Exception {;
       AuthenticationContext previousAuthContext = AuthenticationContext.getContextManager().getGlobalDefault();
       SSLContext previousDefaultSSLContext = SSLContext.getDefault();
       try {
