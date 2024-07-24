@@ -96,7 +96,7 @@
     <velocity.version>2.3</velocity.version>
     <xmlsec.version>3.0.4</xmlsec.version>
     <wss4j.version>3.0.3</wss4j.version>
-    <wstx.version>6.6.2</wstx.version>
+    <wstx.version>7.0.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.9.0.Final</arquillian.version>
