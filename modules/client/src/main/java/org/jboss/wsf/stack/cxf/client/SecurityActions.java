@@ -76,6 +76,26 @@ class SecurityActions
          });
       }
    }
+
+   static ClassLoader getClassLoader(Class clazz)
+   {
+      SecurityManager sm = System.getSecurityManager();
+      if (sm == null)
+      {
+         return clazz.getClassLoader();
+      }
+      else
+      {
+         return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>()
+         {
+            public ClassLoader run()
+            {
+               return clazz.getClassLoader();
+            }
+         });
+      }
+   }
+
    
    /**
     * Return the current value of the specified system property
