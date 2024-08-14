@@ -580,7 +580,7 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          ClassLoader origClassLoader = getContextClassLoader();
          T port = null;
          try {
-            setContextClassLoader(createDelegateClassLoader(origClassLoader, ServiceImpl.class.getClassLoader()));
+            setContextClassLoader(createDelegateClassLoader(origClassLoader, SecurityActions.getClassLoader(ServiceImpl.class)));
             port = super.createPort(portName, epr, serviceEndpointInterface, features);
          } finally {
             setContextClassLoader(origClassLoader);
