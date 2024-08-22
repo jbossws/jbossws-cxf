@@ -219,4 +219,7 @@ public interface Messages {
 
     @Message(id = 24113, value = "Invalid endpoint URI: %s")
     IllegalArgumentException invalidEndpointURI(String endpoint);
+
+    @Message(id = 24118, value = "BindingOperation is missing for authorization")
+    IllegalArgumentException missingBindingOperationForAuthorization();
 }
