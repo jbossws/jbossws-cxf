@@ -46,8 +46,21 @@ public class ServiceImpl implements ServiceIface
       Map<String, List<String>> reqHeaders = (Map<String, List<String>>) context.getMessageContext().get(
             MessageContext.HTTP_REQUEST_HEADERS);
 
-      boolean chunkedEncodingDisabled = reqHeaders.get("transfer-encoding-disabled") != null;
+      boolean chunkedDisabled = reqHeaders.get("Content-Length") != null;
 
+      if (chunkedDisabled) {
+         Map<String, List<String>> respHeaders = (Map<String, List<String>>) context.getMessageContext().get(
+                 MessageContext.HTTP_RESPONSE_HEADERS);
+         if (respHeaders == null)
+         {
+            respHeaders = new HashMap<String, List<String>>();
+            context.getMessageContext().put(MessageContext.HTTP_RESPONSE_HEADERS, respHeaders);
+         }
+         respHeaders.put("Transfer-Encoding", Arrays.asList("disabled"));
+      }
+
+      /*
+      boolean chunkedEncodingDisabled = reqHeaders.get("transfer-encoding-disabled") != null;
       List<String> transferEncHeader = reqHeaders.get("transfer-encoding");
 
       if (!chunkedEncodingDisabled)
@@ -76,7 +89,7 @@ public class ServiceImpl implements ServiceIface
          }
          respHeaders.put("Transfer-Encoding-Disabled", Arrays.asList("true"));
       }
-
+      */
       Map<String, DataHandler> dataHandlers = (Map<String, DataHandler>) context.getMessageContext().get(
             MessageContext.INBOUND_MESSAGE_ATTACHMENTS);
 
