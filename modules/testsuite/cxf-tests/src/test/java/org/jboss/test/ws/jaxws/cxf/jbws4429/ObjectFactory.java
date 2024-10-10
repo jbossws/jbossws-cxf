@@ -17,9 +17,9 @@
  * under the License.
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4429;
-import jakarta.xml.bind.JAXBElement;
-import jakarta.xml.bind.annotation.XmlElementDecl;
-import jakarta.xml.bind.annotation.XmlRegistry;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlElementDecl;
+import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
 
