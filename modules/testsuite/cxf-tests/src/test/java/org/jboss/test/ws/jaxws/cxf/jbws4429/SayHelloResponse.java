@@ -18,7 +18,7 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4429;
 
-import jakarta.xml.bind.annotation.*;
+import javax.xml.bind.annotation.*;
 
 
 /**

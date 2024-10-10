@@ -50,7 +50,7 @@
 </wsdl:binding>
 <wsdl:service name="HelloServiceService">
     <wsdl:port binding="tns:HelloServiceServiceSoapBinding" name="HelloServicePort">
-        <soap:address location="http://@jboss.bind.address@:@cxf-tests.jboss_8080@/jaxws-cxf-jbws4429/HelloServiceImpl"/>
+        <soap:address location="http://@jboss.bind.address@:@add_int(port-offset.cxf-tests.jboss,8080)@/jaxws-cxf-jbws4429/HelloServiceImpl"/>
     </wsdl:port>
 </wsdl:service>
 </wsdl:definitions>

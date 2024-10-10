@@ -18,10 +18,10 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4429;
 
-import jakarta.ejb.Stateless;
-import jakarta.jws.HandlerChain;
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebService;
+import javax.ejb.Stateless;
+import javax.jws.HandlerChain;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 @Stateless
 //@WebService(targetNamespace ="http://com.redhat.gss.example.soap/") // correct targetNamespace
