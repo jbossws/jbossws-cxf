@@ -146,11 +146,11 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
          {
             SecurityContext secCtx = message.get(SecurityContext.class);
             BindingOperationInfo bop = exchange.getBindingOperationInfo();
-            MethodDispatcher md = (MethodDispatcher) exchange.getService().get(MethodDispatcher.class.getName());
             if (bop == null)
             {
                throw MESSAGES.missingBindingOperationForAuthorization();
             }
+            MethodDispatcher md = (MethodDispatcher) exchange.getService().get(MethodDispatcher.class.getName());
             Method method = md.getMethod(bop);
 
             EJBMethodSecurityAttribute attributes = attributeProvider.getSecurityAttributes(method);
