@@ -120,7 +120,7 @@
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.13.2</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <gmavenplus.version>1.5</gmavenplus.version>
+    <gmavenplus.version>4.0.1</gmavenplus.version>
     <groovy.version>2.4.15</groovy.version>
     <jdocbook.plugin.version>2.3.10</jdocbook.plugin.version>
     <jdocbook.style.version>1.1.1</jdocbook.style.version>
