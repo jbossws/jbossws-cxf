@@ -85,7 +85,7 @@
     <jboss.jaxbintros.version>2.0.1</jboss.jaxbintros.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
     <commons-collections.version>3.2.2</commons-collections.version>
-    <commons-lang3.version>3.14.0</commons-lang3.version>
+    <commons-lang3.version>3.17.0</commons-lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
     <slf4j.jboss.logging.version>1.2.1.Final</slf4j.jboss.logging.version>
     <neethi.version>3.2.0</neethi.version>
