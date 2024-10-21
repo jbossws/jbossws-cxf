@@ -104,4 +104,7 @@ public class JAXPDelegateClassLoader extends DelegateClassLoader
         }
         return (is == null && !skipSps.contains(name)) ? delegate.getResourceAsStream(name) : is;
     }
+    public ClassLoader getDelegate() {
+        return this.delegate;
+    }
 }
