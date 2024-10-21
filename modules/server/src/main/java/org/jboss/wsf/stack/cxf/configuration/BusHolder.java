@@ -367,6 +367,8 @@ public class BusHolder
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
       if ((p == null || (!"true".equalsIgnoreCase(p) && !"1".equalsIgnoreCase(p))) && !Boolean.getBoolean(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS)) {
          bus.getInInterceptors().add(new HandlerAuthInterceptor());
+      } else {
+         bus.getInInterceptors().add(new HandlerAuthInterceptor(true));
       }
       
       final SOAPAddressRewriteMetadata sarm = dep.getAttachment(SOAPAddressRewriteMetadata.class);
