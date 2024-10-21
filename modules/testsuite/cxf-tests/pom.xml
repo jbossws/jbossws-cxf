@@ -102,6 +102,11 @@
         <version>${wildfly.elytron.version}</version>
         <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>jakarta.enterprise</groupId>
+      <artifactId>jakarta.enterprise.cdi-api</artifactId>
+      <scope>test</scope>
+  </dependency>
   </dependencies>
 
   <!-- Profiles -->

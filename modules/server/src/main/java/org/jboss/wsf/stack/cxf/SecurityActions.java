@@ -23,7 +23,6 @@ package org.jboss.wsf.stack.cxf;
 
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import org.jboss.ws.common.utils.DelegateClassLoader;
 
 /**
  * 
@@ -79,21 +78,21 @@ class SecurityActions
          });
       }
    }
-   static DelegateClassLoader createDelegateClassLoader(final ClassLoader delegate, final ClassLoader parent)
+   static JAXPDelegateClassLoader createDelegateClassLoader(final ClassLoader delegate, final ClassLoader parent)
    {
       SecurityManager sm = System.getSecurityManager();
       if (sm == null)
       {
-         return new DelegateClassLoader(delegate, parent);
+         return new JAXPDelegateClassLoader(delegate, parent);
       }
       else
       {
-         return AccessController.doPrivileged(new PrivilegedAction<DelegateClassLoader>()
+         return AccessController.doPrivileged(new PrivilegedAction<JAXPDelegateClassLoader>()
          {
             @Override
-            public DelegateClassLoader run()
+            public JAXPDelegateClassLoader run()
             {
-               return new DelegateClassLoader(delegate, parent);
+               return new JAXPDelegateClassLoader(delegate, parent);
             }
          });
       }

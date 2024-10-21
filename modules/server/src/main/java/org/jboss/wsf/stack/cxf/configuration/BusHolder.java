@@ -90,7 +90,7 @@ import org.jboss.wsf.stack.cxf.i18n.Loggers;
 import org.jboss.wsf.stack.cxf.i18n.Messages;
 import org.jboss.wsf.stack.cxf.interceptor.EndpointAssociationInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.GracefulShutdownInterceptor;
-import org.jboss.wsf.stack.cxf.interceptor.HandlerAuthInterceptor;
+import org.jboss.wsf.stack.cxf.interceptor.HandlerConfigInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.NsCtxSelectorStoreInterceptor;
 import org.jboss.wsf.stack.cxf.interceptor.WSDLSoapAddressRewriteInterceptor;
 import org.jboss.wsf.stack.cxf.management.InstrumentationManagerExtImpl;
@@ -369,7 +369,9 @@ public class BusHolder
       
       final String p = (props != null) ? props.get(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS) : null;
       if ((p == null || (!"true".equalsIgnoreCase(p) && !"1".equalsIgnoreCase(p))) && !Boolean.getBoolean(Constants.JBWS_CXF_DISABLE_HANDLER_AUTH_CHECKS)) {
-         bus.getInInterceptors().add(new HandlerAuthInterceptor());
+         bus.getInInterceptors().add(new HandlerConfigInterceptor());
+      } else {
+         bus.getInInterceptors().add(new HandlerConfigInterceptor(true));
       }
       
       final SOAPAddressRewriteMetadata sarm = dep.getAttachment(SOAPAddressRewriteMetadata.class);
