@@ -20,20 +20,21 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4430;
+import org.apache.cxf.interceptor.Fault;
+import org.apache.cxf.message.Message;
+import org.apache.cxf.message.MessageUtils;
+import org.apache.cxf.phase.Phase;
+import org.jboss.wsf.stack.cxf.interceptor.AbstractTCCLPhaseInterceptor;
 
-import javax.jws.HandlerChain;
-import org.apache.cxf.interceptor.OutInterceptors;
+public class CDIOutInterceptor extends AbstractTCCLPhaseInterceptor<Message> {
+   public CDIOutInterceptor() {
+      super(Phase.PRE_STREAM);
+   }
 
-@javax.jws.WebService(targetNamespace = "http://test.ws.jboss.org/",
-        wsdlLocation = "WEB-INF/wsdl/HelloWorld.wsdl")
-@HandlerChain(file = "/handlers.xml")
-@OutInterceptors(interceptors = {"org.jboss.test.ws.jaxws.cxf.jbws4430.CDIOutInterceptor"})
-public class HelloBean {
-    public HelloBean() {
-    }
-
-    @javax.jws.WebMethod
-    public String hello(String name) {
-        return "Hello " + name;
-    }
+   @Override
+   public void handleMessageWithTCCL(Message message) throws Fault {
+      if (!MessageUtils.isRequestor(message)) {
+         DelegateBean bean = new DelegateBean();
+      }
+   }
 }
