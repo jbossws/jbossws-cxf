@@ -47,8 +47,8 @@ public class JBWS4430TestCase extends JBossWSTest {
     public static WebArchive createDeployment() {
         WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP + ".war");
         archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
-                        + "Dependencies: org.apache.cxf\n"))
-                .addClasses(HelloBean.class, DelegateBean.class, EmptyBean.class, LoggingHandler.class)
+                        + "Dependencies: org.jboss.ws.cxf.jbossws-cxf-server\n"))
+                .addClasses(HelloBean.class, DelegateBean.class, EmptyBean.class, CDIOutInterceptor.class, LoggingHandler.class)
                 .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/WEB-INF/wsdl/HelloWorld.wsdl"), "wsdl/HelloWorld.wsdl")
                 .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/handlers.xml")), "WEB-INF/classes/handlers.xml")
                 .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/WEB-INF/web.xml"));
