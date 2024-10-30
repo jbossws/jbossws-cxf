@@ -29,7 +29,7 @@ $ git pull --rebase upstream main
 ```
 
 ## Issues
-JBssWS project uses JIRA to manage issues. All issues can be found [here](https://issues.redhat.com/projects/JBWS/issues).
+JBossWS project uses JIRA to manage issues. All issues can be found [here](https://issues.redhat.com/projects/JBWS/issues).
 
 To create a new issue, comment on an existing issue, or assign an issue to yourself, you'll need to first [create a JIRA account](https://issues.redhat.com/).
 
