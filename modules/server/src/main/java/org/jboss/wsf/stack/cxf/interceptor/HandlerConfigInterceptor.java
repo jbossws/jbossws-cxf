@@ -50,38 +50,39 @@ import org.jboss.wsf.spi.security.EJBMethodSecurityAttribute;
 import org.jboss.wsf.spi.security.EJBMethodSecurityAttributeProvider;
 
 /**
- * Interceptor which checks the current principal is authorized to
- * call a given handler
- *
+ * Interceptor that configures a jbossws handler chain and can skip authentication.
+ * It set {@code JBossWSHandlerChainInvoker} to use correct Thread Context Class Loader
+ * and perform security checks before invoking the handlers.
  * @author alessio.soldano@jboss.com
+ * @author ema@redhat.com
  * @since 23-Sep-2013
  */
-public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
+public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
 {
-   private static final String KEY = HandlerAuthInterceptor.class.getName() + ".SECURITY_EXCEPTION";
+   private static final String KEY = HandlerConfigInterceptor.class.getName() + ".SECURITY_EXCEPTION";
 
-   private final boolean skip;
-   public HandlerAuthInterceptor()
+   private final boolean skipAuth;
+   public HandlerConfigInterceptor()
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
       addBefore(LogicalHandlerInInterceptor.class.getName());
-      skip = false;
+      skipAuth = false;
    }
    /**
-    * Create a {@code HandlerAuthInterceptor} that can optionally skip authentication.
+    * Create a {@code HandlerConfigInterceptor} that can optionally skip authentication.
     * When the authentication is skipped, it added a customized {@code JBossWSHandlerChainInvoker}
     * which set the correct TCCL to allow the handler to access CDI
-    * Please see
+    * Please see https://issues.redhat.com/browse/JBWS-4430
     * This interceptor will be added to CXF interceptor chain
     * @param skipAuth a boolean flag indicating whether to skip authentication.
     **/
-   public HandlerAuthInterceptor(boolean skipAuth)
+   public HandlerConfigInterceptor(boolean skipAuth)
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
       addBefore(LogicalHandlerInInterceptor.class.getName());
-      skip = skipAuth;
+      this.skipAuth = skipAuth;
    }
 
    @Override
@@ -97,7 +98,7 @@ public class HandlerAuthInterceptor extends AbstractPhaseInterceptor<Message>
             @SuppressWarnings("rawtypes")
             final List<Handler> handlerChain = ep.getJaxwsBinding().getHandlerChain();
             if (handlerChain != null && !handlerChain.isEmpty()) { //save
-               invoker = new JBossWSHandlerChainInvoker(handlerChain, isOutbound(message, ex), skip);
+               invoker = new JBossWSHandlerChainInvoker(handlerChain, isOutbound(message, ex), skipAuth);
                ex.put(HandlerChainInvoker.class, invoker);
             }
          }

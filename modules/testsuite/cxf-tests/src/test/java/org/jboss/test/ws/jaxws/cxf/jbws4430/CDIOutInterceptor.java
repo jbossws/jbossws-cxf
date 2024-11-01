@@ -23,6 +23,7 @@ package org.jboss.test.ws.jaxws.cxf.jbws4430;
 import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
+import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
 import org.jboss.wsf.stack.cxf.interceptor.AbstractTCCLPhaseInterceptor;
 
