@@ -1374,6 +1374,63 @@ A new instance of each specified interceptor class will be added to the
 client or endpoint the configuration is assigned to. The interceptor
 classes must have a no-argument constructor.
 
+When using CXF interceptors that access CDI beans in the WildFly environment, you need to ensure that
+the Thread Context ClassLoader (TCCL) is correctly set to make sure the CDI beans are loaded/read properly.
+
+To do this, CXF interceptors with CDI access should extend `org.jboss.wsf.stack.cxf.interceptor.AbstractTCCLPhaseInterceptor`
+and override the method `handleMessageWithTCCL(Message message)` to ensure the proper classloader is set before execution
+:
+
+```
+public class CDIOutInterceptor extends AbstractTCCLPhaseInterceptor<Message> {
+public CDIOutInterceptor() {
+super(Phase.PRE_STREAM);
+}
+
+   @Override
+   public void handleMessageWithTCCL(Message message) throws Fault {
+      if (!MessageUtils.isRequestor(message)) {
+         DelegateBean bean = new DelegateBean();
+      }
+   }
+}
+```
+
+```
+import jakarta.enterprise.context.Dependent;
+import jakarta.enterprise.inject.spi.CDI;
+
+@Dependent
+public class DelegateBean {
+    EmptyBean logic = CDI.current().select(EmptyBean.class).get();
+}
+```
+
+```
+@Dependent
+public class EmptyBean {
+}
+```
+The `AbstractTCCLPhaseInterceptor` can set the deployment classloader to thread context classloader before the
+handleMessage() method is called, and it restores the previous classloader afterward.
+
+Since AbstractTCCLPhaseInterceptor was introduced in version 7.3.0.Final and is included in
+'org.jboss.ws.cxf.jbossws-cxf-server' WildFly module dependency, you must add this necessary dependency to the MANIFEST.MF file of your deployment artifact.
+Additionally, don't forget to include the `org.apache.cxf` dependency for importing the cxf interceptor apis. Here is the package example code with Arquillian to
+add these two dependencies to the user's deployment artifact. Please use the same dependency adding format when
+including these dependencies to the MANIFEST.MF file:
+```
+    public static WebArchive createDeployment() {
+        WebArchive archive = ShrinkWrap.create(WebArchive.class, DEP + ".war");
+        archive.setManifest(new StringAsset("Manifest-Version: 1.0\n"
+                        + "Dependencies: org.apache.cxf,org.jboss.ws.cxf.jbossws-cxf-server\n"))
+                .addClasses(HelloBean.class, DelegateBean.class, EmptyBean.class, CDIOutInterceptor.class, LoggingHandler.class)
+                .addAsWebInfResource(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/WEB-INF/wsdl/HelloWorld.wsdl"), "wsdl/HelloWorld.wsdl")
+                .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/handlers.xml")), "WEB-INF/classes/handlers.xml")
+                .setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/WEB-INF/web.xml"));
+        return archive;
+    }
+```
 
 ==== Apache CXF features
 
