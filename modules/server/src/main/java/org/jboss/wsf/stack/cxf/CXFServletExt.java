@@ -53,6 +53,7 @@ import org.jboss.wsf.stack.cxf.transport.ServletHelper;
 public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegate
 {
    private static final long serialVersionUID = -1820187716558491952L;
+   private ClassLoader delegateClassLoader;
    protected Endpoint endpoint;
    protected Bus bus;
 
@@ -60,6 +61,8 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
    public void init(ServletConfig sc) throws ServletException {
        super.init(sc);
        loadBus(sc);
+       delegateClassLoader = SecurityActions.createDelegateClassLoader(SecurityActions.getContextClassLoader(),
+              CXFServletExt.class.getClassLoader());
    }
 
    protected void loadBus(ServletConfig servletConfig) throws ServletException
@@ -160,7 +163,7 @@ public class CXFServletExt extends AbstractHTTPServlet implements ServletDelegat
    private ClassLoader pushServerCL()
    {
       ClassLoader current = SecurityActions.getContextClassLoader();
-      SecurityActions.setContextClassLoader(SecurityActions.createDelegateClassLoader(current, CXFServletExt.class.getClassLoader()));
+      SecurityActions.setContextClassLoader(this.delegateClassLoader);
       return current;
    }
 
