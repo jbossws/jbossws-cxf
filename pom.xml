@@ -101,7 +101,7 @@
     <derby.version>10.14.2.0</derby.version>
     <arquillian.version>1.9.0.Final</arquillian.version>
     <arquillian-wildfly-container.version>5.1.0.Beta6</arquillian-wildfly-container.version>
-    <artemis.client.version>2.35.0</artemis.client.version>
+    <artemis.client.version>2.39.0</artemis.client.version>
     <version.commons.validator>1.9.0</version.commons.validator>
     <jakarta.interceptor.api.version>2.2.0</jakarta.interceptor.api.version>
     <version.org.jboss.openjdk-orb>10.1.0.Final</version.org.jboss.openjdk-orb>
