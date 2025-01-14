@@ -1204,6 +1204,15 @@
       <dependencies>
       </dependencies>
     </profile>
+    <profile>
+      <id>jdk11</id>
+      <activation>
+        <jdk>(,17)</jdk>
+      </activation>
+      <properties>
+        <wildfly.version>34.0.1.Final</wildfly.version>
+      </properties>
+    </profile>
     <!-- [JBWS-3666] -->
     <profile>
       <id>eclipse-m2e</id>
