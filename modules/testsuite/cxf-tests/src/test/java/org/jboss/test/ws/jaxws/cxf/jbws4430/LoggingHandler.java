@@ -37,16 +37,19 @@ public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
 
     @Override
     public Set<QName> getHeaders() {
+        new DelegateBean();
         return Collections.emptySet();
     }
 
     @Override
     public boolean handleFault(SOAPMessageContext soapMessageContext) {
+        new DelegateBean();
         return true;
     }
 
     @Override
     public void close(MessageContext messageContext) {
         // no-operation
+        new DelegateBean();
     }
 }

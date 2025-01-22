@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import org.apache.cxf.annotations.UseAsyncMethod;
 import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.jaxws.handler.soap.SOAPHandlerInterceptor;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.service.ServiceImpl;
@@ -43,6 +44,7 @@ import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.interceptor.JBossWSSOAPHandlerInterceptor;
 import org.jboss.wsf.stack.cxf.security.authentication.SubjectCreatingPolicyInterceptor;
 import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
@@ -64,6 +66,16 @@ public class ServerBeanCustomizer extends BeanCustomizer
       {
          configureEndpoint((EndpointImpl) beanInstance);
       }
+
+      if (beanInstance instanceof JaxWsEndpointImpl)
+      {
+         JaxWsEndpointImpl jaxwsEndpoint = (JaxWsEndpointImpl)beanInstance;
+         jaxwsEndpoint.getInInterceptors().removeIf(item ->item instanceof SOAPHandlerInterceptor);
+         jaxwsEndpoint.getOutInterceptors().removeIf(item ->item instanceof SOAPHandlerInterceptor);
+         jaxwsEndpoint.getInInterceptors().add(new JBossWSSOAPHandlerInterceptor(jaxwsEndpoint.getJaxwsBinding()));
+         jaxwsEndpoint.getOutInterceptors().add(new JBossWSSOAPHandlerInterceptor(jaxwsEndpoint.getJaxwsBinding()));
+      }
+
       if (beanInstance instanceof ServerFactoryBean)
       {
          ServerFactoryBean factory = (ServerFactoryBean) beanInstance;
