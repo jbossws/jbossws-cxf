@@ -31,6 +31,9 @@ public class HelloBean {
 
     @jakarta.jws.WebMethod
     public String hello(String name) {
+        if (name.isEmpty()) {
+            throw new IllegalArgumentException("Empty name");
+        }
         return "Hello " + name;
     }
 }

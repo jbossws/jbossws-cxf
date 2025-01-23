@@ -23,8 +23,10 @@ import static org.jboss.wsf.stack.cxf.i18n.Messages.MESSAGES;
 import java.lang.reflect.Method;
 import java.security.Principal;
 import java.util.List;
+import java.util.logging.Level;
 
 import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.handler.LogicalHandler;
 import jakarta.xml.ws.handler.LogicalMessageContext;
 import jakarta.xml.ws.handler.MessageContext;
 
@@ -63,6 +65,7 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
+      addBefore(JBossWSSOAPHandlerInterceptor.class.getName());
       addBefore(LogicalHandlerInInterceptor.class.getName());
       skipAuth = false;
    }
@@ -78,6 +81,7 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
+      addBefore(JBossWSSOAPHandlerInterceptor.class.getName());
       addBefore(LogicalHandlerInInterceptor.class.getName());
       this.skipAuth = skipAuth;
    }
@@ -195,6 +199,20 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
             SecurityActions.setContextClassLoader(original);
          }
       }
+
+      public void mepComplete(Message message) {
+         ClassLoader original = SecurityActions.getContextClassLoader();
+         try {
+            if (original instanceof JAXPDelegateClassLoader) {
+               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+            }
+            super.mepComplete(message);
+         } finally {
+            SecurityActions.setContextClassLoader(original);
+         }
+      }
+
 
       protected void checkAuthorization(MessageContext ctx)
       {
