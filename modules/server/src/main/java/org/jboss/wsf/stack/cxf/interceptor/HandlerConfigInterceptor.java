@@ -65,6 +65,7 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
+      addBefore(JBossWSSOAPHandlerInterceptor.class.getName());
       addBefore(LogicalHandlerInInterceptor.class.getName());
       skipAuth = false;
    }
@@ -80,6 +81,7 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
    {
       super(Phase.PRE_PROTOCOL_FRONTEND);
       addBefore(SOAPHandlerInterceptor.class.getName());
+      addBefore(JBossWSSOAPHandlerInterceptor.class.getName());
       addBefore(LogicalHandlerInInterceptor.class.getName());
       this.skipAuth = skipAuth;
    }

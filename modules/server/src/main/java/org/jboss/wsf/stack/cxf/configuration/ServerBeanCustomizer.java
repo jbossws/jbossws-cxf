@@ -24,16 +24,15 @@ import java.util.Locale;
 
 import org.apache.cxf.annotations.UseAsyncMethod;
 import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.jaxws.handler.logical.LogicalHandlerInInterceptor;
 import org.apache.cxf.jaxws.handler.soap.SOAPHandlerInterceptor;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.service.ServiceImpl;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
-import org.apache.cxf.wsdl.service.factory.ReflectionServiceFactoryBean;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.configuration.BasicConfigResolver;
-import org.jboss.ws.common.deployment.DefaultHttpEndpoint;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
@@ -70,10 +69,16 @@ public class ServerBeanCustomizer extends BeanCustomizer
       if (beanInstance instanceof JaxWsEndpointImpl)
       {
          JaxWsEndpointImpl jaxwsEndpoint = (JaxWsEndpointImpl)beanInstance;
-         jaxwsEndpoint.getInInterceptors().removeIf(item ->item instanceof SOAPHandlerInterceptor);
-         jaxwsEndpoint.getOutInterceptors().removeIf(item ->item instanceof SOAPHandlerInterceptor);
-         jaxwsEndpoint.getInInterceptors().add(new JBossWSSOAPHandlerInterceptor(jaxwsEndpoint.getJaxwsBinding()));
-         jaxwsEndpoint.getOutInterceptors().add(new JBossWSSOAPHandlerInterceptor(jaxwsEndpoint.getJaxwsBinding()));
+         if (jaxwsEndpoint.getInInterceptors().removeIf(item ->item instanceof SOAPHandlerInterceptor)) {
+            jaxwsEndpoint.getInInterceptors().add(new JBossWSSOAPHandlerInterceptor(jaxwsEndpoint.getJaxwsBinding()));
+         }
+
+         if(jaxwsEndpoint.getOutInterceptors().removeIf(item ->item instanceof SOAPHandlerInterceptor)) {
+            jaxwsEndpoint.getOutInterceptors().add(new JBossWSSOAPHandlerInterceptor(jaxwsEndpoint.getJaxwsBinding()));
+         }
+         jaxwsEndpoint.getInInterceptors().forEach(n -> { if (n instanceof LogicalHandlerInInterceptor) {
+            ((LogicalHandlerInInterceptor)n).addAfter(JBossWSSOAPHandlerInterceptor.class.getName());
+         }});
       }
 
       if (beanInstance instanceof ServerFactoryBean)
