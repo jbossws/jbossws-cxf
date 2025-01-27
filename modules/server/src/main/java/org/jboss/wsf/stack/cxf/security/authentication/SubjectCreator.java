@@ -182,7 +182,11 @@ public class SubjectCreator
             }
             if (isDigest && created != null && nonce != null) { // username token profile is using digest
                // verify client's digest
-               TwoWayPassword recoveredTwoWayPassword = identity.getCredential(PasswordCredential.class).getPassword(TwoWayPassword.class);
+               PasswordCredential passwordCredential = identity.getCredential(PasswordCredential.class);
+               if (passwordCredential == null) {
+                  throw MESSAGES.authenticationFailed(principal.getName());
+               }
+               TwoWayPassword recoveredTwoWayPassword = passwordCredential.getPassword(TwoWayPassword.class);
                if (recoveredTwoWayPassword == null) {
                   SECURITY_LOGGER.plainTextPasswordMustBeRecoverable(principal.getName(), null);
                   throw MESSAGES.authenticationFailed(principal.getName());
