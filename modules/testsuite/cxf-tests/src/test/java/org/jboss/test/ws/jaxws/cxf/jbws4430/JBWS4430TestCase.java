@@ -25,6 +25,8 @@ import javax.xml.ws.Service;
 import java.io.File;
 import java.net.URL;
 import javax.xml.namespace.QName;
+import javax.xml.ws.soap.SOAPFaultException;
+
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -68,6 +70,15 @@ public class JBWS4430TestCase extends JBossWSTest {
         Service service = Service.create(wsdlURL, serviceName);
         Hello proxy = (Hello) service.getPort(portName, Hello.class);
         assertEquals("Hello jbossws", proxy.hello("jbossws"));
+
+        try {
+            proxy.hello("");
+            fail("An exception is expected to test the LoggingHandler.handleFault()");
+        } catch(Exception e) {
+            if (!(e instanceof SOAPFaultException)) {
+                fail("unexpected exception " + e);
+            }
+        }
 
     }
 

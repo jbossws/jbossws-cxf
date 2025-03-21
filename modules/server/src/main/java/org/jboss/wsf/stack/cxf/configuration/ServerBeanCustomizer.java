@@ -24,18 +24,23 @@ package org.jboss.wsf.stack.cxf.configuration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
+import java.util.function.UnaryOperator;
 
+import javax.xml.ws.Binding;
+
+import org.apache.cxf.Bus;
+import org.apache.cxf.BusFactory;
 import org.apache.cxf.annotations.UseAsyncMethod;
 import org.apache.cxf.frontend.ServerFactoryBean;
+import org.apache.cxf.interceptor.Interceptor;
 import org.apache.cxf.jaxws.support.JaxWsEndpointImpl;
 import org.apache.cxf.message.Message;
+import org.apache.cxf.service.Service;
 import org.apache.cxf.service.ServiceImpl;
 import org.apache.cxf.transport.http.DestinationRegistry;
 import org.apache.cxf.transport.http.HTTPTransportFactory;
-import org.apache.cxf.wsdl.service.factory.ReflectionServiceFactoryBean;
 import org.jboss.ws.api.util.ServiceLoader;
 import org.jboss.ws.common.configuration.BasicConfigResolver;
-import org.jboss.ws.common.deployment.DefaultHttpEndpoint;
 import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.deployment.AnnotationsInfo;
 import org.jboss.wsf.spi.deployment.ArchiveDeployment;
@@ -46,12 +51,14 @@ import org.jboss.wsf.stack.cxf.client.configuration.BeanCustomizer;
 import org.jboss.wsf.stack.cxf.deployment.EndpointImpl;
 import org.jboss.wsf.stack.cxf.deployment.WSDLFilePublisher;
 import org.jboss.wsf.stack.cxf.i18n.Loggers;
+import org.jboss.wsf.stack.cxf.interceptor.TCCLAwareInterceptorReplacer;
 import org.jboss.wsf.stack.cxf.security.authentication.AuthenticationMgrSubjectCreatingInterceptor;
 import org.jboss.wsf.stack.cxf.transport.JBossWSDestinationRegistryImpl;
 
 /**
  *
  * @author alessio.soldano@jboss.com
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @since 16-Jun-2010
  */
 public class ServerBeanCustomizer extends BeanCustomizer
@@ -67,6 +74,41 @@ public class ServerBeanCustomizer extends BeanCustomizer
       {
          configureEndpoint((EndpointImpl) beanInstance);
       }
+
+      if (beanInstance instanceof JaxWsEndpointImpl)
+      {
+         final JaxWsEndpointImpl jaxwsEndpoint = (JaxWsEndpointImpl)beanInstance;
+         final Binding jaxwsBinding = jaxwsEndpoint.getJaxwsBinding();
+         final UnaryOperator<Interceptor<? extends Message>> interceptorReplacer = new TCCLAwareInterceptorReplacer(jaxwsBinding);
+
+         // Endpoint interceptors
+         jaxwsEndpoint.getInInterceptors().replaceAll(interceptorReplacer);
+         jaxwsEndpoint.getOutInterceptors().replaceAll(interceptorReplacer);
+         jaxwsEndpoint.getInFaultInterceptors().replaceAll(interceptorReplacer);
+         jaxwsEndpoint.getOutFaultInterceptors().replaceAll(interceptorReplacer);
+
+         // Service interceptors
+         final Service service = jaxwsEndpoint.getService();
+         service.getInInterceptors().replaceAll(interceptorReplacer);
+         service.getOutInterceptors().replaceAll(interceptorReplacer);
+         service.getInFaultInterceptors().replaceAll(interceptorReplacer);
+         service.getOutFaultInterceptors().replaceAll(interceptorReplacer);
+
+         // Bus interceptors
+         final Bus bus = BusFactory.getThreadDefaultBus(false);
+         bus.getInInterceptors().replaceAll(interceptorReplacer);
+         bus.getOutInterceptors().replaceAll(interceptorReplacer);
+         bus.getInFaultInterceptors().replaceAll(interceptorReplacer);
+         bus.getOutFaultInterceptors().replaceAll(interceptorReplacer);
+
+         // Binding interceptors
+         final org.apache.cxf.binding.Binding binding = jaxwsEndpoint.getBinding();
+         binding.getInInterceptors().replaceAll(interceptorReplacer);
+         binding.getOutInterceptors().replaceAll(interceptorReplacer);
+         binding.getInFaultInterceptors().replaceAll(interceptorReplacer);
+         binding.getOutFaultInterceptors().replaceAll(interceptorReplacer);
+      }
+
       if (beanInstance instanceof ServerFactoryBean)
       {
          ServerFactoryBean factory = (ServerFactoryBean) beanInstance;

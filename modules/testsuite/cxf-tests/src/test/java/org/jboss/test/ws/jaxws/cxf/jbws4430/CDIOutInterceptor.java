@@ -25,15 +25,14 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.message.MessageUtils;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 import org.apache.cxf.phase.Phase;
-import org.jboss.wsf.stack.cxf.interceptor.AbstractTCCLPhaseInterceptor;
 
-public class CDIOutInterceptor extends AbstractTCCLPhaseInterceptor<Message> {
+public class CDIOutInterceptor extends AbstractPhaseInterceptor<Message> {
    public CDIOutInterceptor() {
       super(Phase.PRE_STREAM);
    }
 
    @Override
-   public void handleMessageWithTCCL(Message message) throws Fault {
+   public void handleMessage(Message message) throws Fault {
       if (!MessageUtils.isRequestor(message)) {
          DelegateBean bean = new DelegateBean();
       }
