@@ -23,6 +23,7 @@ import org.apache.cxf.interceptor.Fault;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
 
+@Deprecated
 public abstract class AbstractTCCLPhaseInterceptor<T extends Message> extends AbstractPhaseInterceptor<T> {
     public AbstractTCCLPhaseInterceptor(String phase) {
         super(null, phase, false);
