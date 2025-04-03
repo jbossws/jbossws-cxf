@@ -196,6 +196,20 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          }
       }
 
+      public void mepComplete(Message message) {
+         ClassLoader original = SecurityActions.getContextClassLoader();
+         try {
+            if (original instanceof JAXPDelegateClassLoader) {
+               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+            }
+            super.mepComplete(message);
+         } finally {
+            SecurityActions.setContextClassLoader(original);
+         }
+      }
+
+
       protected void checkAuthorization(MessageContext ctx)
       {
          if ((Boolean) ctx.get(MessageContext.MESSAGE_OUTBOUND_PROPERTY))

@@ -16,22 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.test.ws.jaxws.cxf.jbws4430;
-import org.apache.cxf.interceptor.Fault;
+package org.jboss.wsf.stack.cxf.interceptor;
+
 import org.apache.cxf.message.Message;
-import org.apache.cxf.message.MessageUtils;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.Phase;
+import org.apache.cxf.phase.PhaseInterceptor;
 
-public class CDIOutInterceptor extends AbstractPhaseInterceptor<Message> {
-   public CDIOutInterceptor() {
-      super(Phase.PRE_STREAM);
-   }
-
-   @Override
-   public void handleMessage(Message message) throws Fault {
-      if (!MessageUtils.isRequestor(message)) {
-         DelegateBean bean = new DelegateBean();
-      }
-   }
+/**
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
+ */
+final class TCCLAwarePhaseInterceptor extends AbstractTCCLAwarePhaseInterceptor<Message> {
+    TCCLAwarePhaseInterceptor(final PhaseInterceptor<Message> delegate) {
+        super(delegate);
+    }
 }
