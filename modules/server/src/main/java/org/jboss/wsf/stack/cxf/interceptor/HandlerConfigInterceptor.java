@@ -41,10 +41,10 @@ import org.apache.cxf.phase.Phase;
 import org.apache.cxf.security.SecurityContext;
 import org.apache.cxf.service.invoker.MethodDispatcher;
 import org.apache.cxf.service.model.BindingOperationInfo;
+import org.jboss.ws.common.utils.DelegateClassLoader;
 import org.jboss.wsf.spi.deployment.Endpoint;
 import org.jboss.wsf.spi.security.EJBMethodSecurityAttribute;
 import org.jboss.wsf.spi.security.EJBMethodSecurityAttributeProvider;
-import org.jboss.wsf.stack.cxf.JAXPDelegateClassLoader;
 
 /**
  * Interceptor that configures a jbossws handler chain and can skip authentication.
@@ -131,9 +131,9 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          }
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
-           if (original instanceof JAXPDelegateClassLoader) {
-               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+           if (original instanceof DelegateClassLoader) {
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeLogicalHandlers(requestor, context);
          } finally {
@@ -149,9 +149,9 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          }
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
-            if (original instanceof JAXPDelegateClassLoader) {
-               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+            if (original instanceof DelegateClassLoader) {
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeProtocolHandlers(requestor, context);
          } finally {
@@ -168,9 +168,9 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          }
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
-            if (original instanceof JAXPDelegateClassLoader) {
-               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+            if (original instanceof DelegateClassLoader) {
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeLogicalHandlersHandleFault(requestor, context);
          } finally {
@@ -186,9 +186,9 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          }
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
-            if (original instanceof JAXPDelegateClassLoader) {
-               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+            if (original instanceof DelegateClassLoader) {
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeProtocolHandlersHandleFault(requestor, context);
          } finally {
@@ -199,9 +199,9 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
       public void mepComplete(Message message) {
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
-            if (original instanceof JAXPDelegateClassLoader) {
-               JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+            if (original instanceof DelegateClassLoader) {
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             super.mepComplete(message);
          } finally {

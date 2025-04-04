@@ -32,7 +32,7 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.SoapInterceptor;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.phase.PhaseInterceptor;
-import org.jboss.wsf.stack.cxf.JAXPDelegateClassLoader;
+import org.jboss.ws.common.utils.DelegateClassLoader;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
@@ -55,9 +55,9 @@ final class TCCLAwareSoapPhaseInterceptor extends AbstractTCCLAwarePhaseIntercep
             if (h instanceof SOAPHandler) {
                 final ClassLoader original = SecurityActions.getContextClassLoader();
                 try {
-                    if (original instanceof JAXPDelegateClassLoader) {
-                        JAXPDelegateClassLoader jaxpLoader = (JAXPDelegateClassLoader)original;
-                        SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+                    if (original instanceof DelegateClassLoader) {
+                        DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+                        SecurityActions.setContextClassLoader(delegateCL.getDelegate());
                     }
                     final Set<QName> headers = CastUtils.cast(((SOAPHandler<?>) h).getHeaders());
                     if (headers != null) {
