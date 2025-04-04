@@ -56,8 +56,8 @@ final class TCCLAwareSoapPhaseInterceptor extends AbstractTCCLAwarePhaseIntercep
                 final ClassLoader original = SecurityActions.getContextClassLoader();
                 try {
                     if (original instanceof DelegateClassLoader) {
-                        DelegateClassLoader jaxpLoader = (DelegateClassLoader)original;
-                        SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+                        DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+                        SecurityActions.setContextClassLoader(delegateCL.getDelegate());
                     }
                     final Set<QName> headers = CastUtils.cast(((SOAPHandler<?>) h).getHeaders());
                     if (headers != null) {

@@ -49,6 +49,7 @@ import javax.xml.ws.EndpointContext;
 import javax.xml.ws.EndpointReference;
 import javax.xml.ws.Service.Mode;
 import javax.xml.ws.WebServiceFeature;
+import javax.xml.ws.handler.HandlerResolver;
 import javax.xml.ws.spi.Invoker;
 import javax.xml.ws.spi.ServiceDelegate;
 
@@ -587,6 +588,11 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
          }
          setupClient(port, serviceEndpointInterface, features);
          return port;
+      }
+
+      @Override
+      public void setHandlerResolver(final HandlerResolver hr) {
+         super.setHandlerResolver(new TCCLAwareHandlerResolver(hr));
       }
 
       @Override

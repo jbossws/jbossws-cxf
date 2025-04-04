@@ -134,9 +134,9 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          }
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
-            if (original instanceof DelegateClassLoader) {
-               DelegateClassLoader delegateClassLoader = (DelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(delegateClassLoader.getDelegate());
+           if (original instanceof DelegateClassLoader) {
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
            return super.invokeLogicalHandlers(requestor, context);
          } finally {
@@ -153,8 +153,8 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
             if (original instanceof DelegateClassLoader) {
-               DelegateClassLoader delegateClassLoader = (DelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(delegateClassLoader.getDelegate());
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeProtocolHandlers(requestor, context);
          } finally {
@@ -172,8 +172,8 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
             if (original instanceof DelegateClassLoader) {
-               DelegateClassLoader delegateClassLoader = (DelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(delegateClassLoader.getDelegate());
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeLogicalHandlersHandleFault(requestor, context);
          } finally {
@@ -190,8 +190,8 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
             if (original instanceof DelegateClassLoader) {
-               DelegateClassLoader delegateClassLoader = (DelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(delegateClassLoader.getDelegate());
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return super.invokeProtocolHandlersHandleFault(requestor, context);
          } finally {
@@ -203,8 +203,8 @@ public class HandlerConfigInterceptor extends AbstractPhaseInterceptor<Message>
          ClassLoader original = SecurityActions.getContextClassLoader();
          try {
             if (original instanceof DelegateClassLoader) {
-               DelegateClassLoader jaxpLoader = (DelegateClassLoader)original;
-               SecurityActions.setContextClassLoader(jaxpLoader.getDelegate());
+               DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+               SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             super.mepComplete(message);
          } finally {
