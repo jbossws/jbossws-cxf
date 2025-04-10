@@ -18,60 +18,58 @@
  */
 package org.jboss.test.ws.jaxws.cxf.jbws4430;
 
-import jakarta.xml.ws.handler.MessageContext;
-import jakarta.xml.ws.handler.soap.SOAPHandler;
-import jakarta.xml.ws.handler.soap.SOAPMessageContext;
-import java.util.Collections;
-import java.util.logging.Logger;
-import java.util.Set;
+import java.net.URL;
+
 import javax.xml.namespace.QName;
 
-import jakarta.enterprise.inject.spi.CDI;
+import org.jboss.logging.Logger;
 
-public class LoggingHandler implements SOAPHandler<SOAPMessageContext> {
-    
-    private static final Logger logger = Logger.getLogger(LoggingHandler.class.getName());
-    
+import jakarta.enterprise.inject.spi.CDI;
+import jakarta.xml.ws.Service;
+
+@jakarta.jws.WebService(targetNamespace = "http://test.ws.jboss.org/", wsdlLocation = "WEB-INF/wsdl/ClientBeanService.wsdl", serviceName = "ClientBeanService")
+public class ClientBean {
+
+    private static final Logger logger = Logger.getLogger(ClientBean.class.getName());
+
+    public ClientBean() {
+    }
+
     private void testDelegateBean() {
-        
+
         CDI cdi = CDI.current();
-        if(cdi == null)
+        if (cdi == null)
             throw new RuntimeException("Unable to get CDI.current");
-        
+
         DelegateBean delegateBean = (DelegateBean) cdi.select(DelegateBean.class).get();
-        if(delegateBean == null)
+        if (delegateBean == null)
             throw new RuntimeException("Unable to get DelegateBean via CDI");
-        
+
         logger.info("delegateBean = " + delegateBean);
     }
-    
-    @Override
-    public boolean handleMessage(SOAPMessageContext soapMessageContext) {
-        boolean isOutBound = (boolean) soapMessageContext.get(SOAPMessageContext.MESSAGE_OUTBOUND_PROPERTY);
-        if (isOutBound) {
+
+    @jakarta.jws.WebMethod
+    public String hello(URL baseURL, String name) throws Exception {
+
+        try {
+
             testDelegateBean();
-            //new DelegateBean();
+
+            QName serviceName = new QName("http://test.ws.jboss.org/", "HelloBeanService");
+            QName portName = new QName("http://test.ws.jboss.org/", "HelloBeanPort");
+
+            URL wsdlURL = new URL(baseURL + "HelloBean?wsdl");
+
+            logger.info("");
+            Service service = Service.create(wsdlURL, serviceName);
+            service.setHandlerResolver(new AccessTokenClientHandlerResolver("x", "y"));
+            Hello proxy = service.getPort(portName, Hello.class);
+
+            return proxy.hello(name);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
         }
-        return true;
-    }
 
-    @Override
-    public Set<QName> getHeaders() {
-        testDelegateBean();
-        //new DelegateBean();
-        return Collections.emptySet();
-    }
-
-    @Override
-    public boolean handleFault(SOAPMessageContext soapMessageContext) {
-        testDelegateBean();
-        //new DelegateBean();
-        return true;
-    }
-
-    @Override
-    public void close(MessageContext messageContext) {
-        testDelegateBean();
-        //new DelegateBean();
     }
 }

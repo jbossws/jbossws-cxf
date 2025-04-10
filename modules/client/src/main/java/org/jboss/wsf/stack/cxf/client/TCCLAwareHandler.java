@@ -16,83 +16,64 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.jboss.wsf.stack.cxf.interceptor;
+package org.jboss.wsf.stack.cxf.client;
 
-import java.util.Collection;
-
-import org.apache.cxf.interceptor.Fault;
-import org.apache.cxf.message.Message;
-import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.cxf.phase.PhaseInterceptor;
+import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.handler.MessageContext;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
-abstract class AbstractTCCLAwarePhaseInterceptor<M extends Message> extends AbstractPhaseInterceptor<M> {
+@SuppressWarnings({"rawtypes", "unchecked"})
+final class TCCLAwareHandler implements Handler {
 
-    final PhaseInterceptor<M> delegate;
+    private final Handler delegate;
 
-    AbstractTCCLAwarePhaseInterceptor(final PhaseInterceptor<M> delegate) {
-        super(delegate.getId(), delegate.getPhase());
+    TCCLAwareHandler(final Handler delegate) {
         this.delegate = delegate;
-        this.addBefore(delegate.getBefore());
-        this.addAfter(delegate.getAfter());
     }
 
-    // TCCL aware methods
-
     @Override
-    public void handleFault(final M message) {
+    public boolean handleMessage(final MessageContext messageContext) {
         final ClassLoader original = SecurityActions.getContextClassLoader();
         try {
             if (original instanceof DelegateClassLoader) {
                 DelegateClassLoader delegateCL = (DelegateClassLoader) original;
                 SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
-            delegate.handleFault(message);
+            return delegate.handleMessage(messageContext);
         } finally {
             SecurityActions.setContextClassLoader(original);
         }
     }
 
     @Override
-    public void handleMessage(M message) throws Fault {
+    public boolean handleFault(final MessageContext messageContext) {
         final ClassLoader original = SecurityActions.getContextClassLoader();
         try {
             if (original instanceof DelegateClassLoader) {
                 DelegateClassLoader delegateCL = (DelegateClassLoader) original;
                 SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
-            delegate.handleMessage(message);
+            return delegate.handleFault(messageContext);
         } finally {
             SecurityActions.setContextClassLoader(original);
         }
     }
 
-    // TCCL unaware methods
-
     @Override
-    public Collection<PhaseInterceptor<? extends Message>> getAdditionalInterceptors() {
-        return delegate.getAdditionalInterceptors();
+    public void close(final MessageContext messageContext) {
+        final ClassLoader original = SecurityActions.getContextClassLoader();
+        try {
+            if (original instanceof DelegateClassLoader) {
+                DelegateClassLoader delegateCL = (DelegateClassLoader) original;
+                SecurityActions.setContextClassLoader(delegateCL.getDelegate());
+            }
+            delegate.close(messageContext);
+        } finally {
+            SecurityActions.setContextClassLoader(original);
+        }
     }
 
-    // SoapInterceptor implementation methods - optional for this wrapper
-
-    @Override
-    public String toString() {
-        return getClass().getName() + " --- delegating to ---> " + delegate.toString();
-    }
-
-    @Override
-    public int hashCode() {
-        return delegate.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj) {
-        if (obj == this) return true;
-        if (!(obj instanceof AbstractTCCLAwarePhaseInterceptor)) return false;
-        return delegate.equals(((AbstractTCCLAwarePhaseInterceptor) obj).delegate);
-    }
 }
