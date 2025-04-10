@@ -35,7 +35,6 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.asset.StringAsset;
-import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
@@ -68,11 +67,6 @@ public class JBWS4430TestCase extends JBossWSTest {
                         "wsdl/ClientBeanService.wsdl")
                 .add(new FileAsset(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/handlers.xml")),
                         "WEB-INF/classes/handlers.xml");
-                //.setWebXML(new File(JBossWSTestHelper.getTestResourcesDir() + "/jaxws/cxf/jbws4430/WEB-INF/web.xml"));
-
-        archive.as(ZipExporter.class).exportTo(
-                new File(JBossWSTestHelper.getTestResourcesDir() + "/" + DEP + ".war"), true);
-
         return archive;
     }
 
