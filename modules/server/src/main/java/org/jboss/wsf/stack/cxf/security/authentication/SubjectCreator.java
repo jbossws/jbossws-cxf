@@ -95,12 +95,16 @@ public class SubjectCreator
             return null;
          }
          RealmIdentity identity = securityDomain.getIdentity(principal.getName());
-         if (identity.equals(RealmIdentity.NON_EXISTENT) || identity.getCredential(PasswordCredential.class) == null) {
+         if (identity.equals(RealmIdentity.NON_EXISTENT)) {
             throw MESSAGES.authenticationFailed(principal.getName());
          }
          if (isDigest && created != null && nonce != null) { // username token profile is using digest
             // verify client's digest
-            TwoWayPassword recoveredTwoWayPassword = identity.getCredential(PasswordCredential.class).getPassword(TwoWayPassword.class);
+            PasswordCredential passwordCredential = identity.getCredential(PasswordCredential.class);
+            if (passwordCredential == null) {
+               throw MESSAGES.authenticationFailed(principal.getName());
+            }
+            TwoWayPassword recoveredTwoWayPassword = passwordCredential.getPassword(TwoWayPassword.class);
             if (recoveredTwoWayPassword == null) {
                SECURITY_LOGGER.plainTextPasswordMustBeRecoverable(principal.getName(), null);
                throw MESSAGES.authenticationFailed(principal.getName());

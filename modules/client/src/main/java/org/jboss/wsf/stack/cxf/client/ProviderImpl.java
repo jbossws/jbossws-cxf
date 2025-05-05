@@ -28,11 +28,16 @@ import static org.jboss.wsf.stack.cxf.client.SecurityActions.setContextClassLoad
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 
 import jakarta.xml.bind.JAXBContext;
@@ -46,6 +51,7 @@ import jakarta.xml.ws.EndpointContext;
 import jakarta.xml.ws.EndpointReference;
 import jakarta.xml.ws.Service.Mode;
 import jakarta.xml.ws.WebServiceFeature;
+import jakarta.xml.ws.handler.HandlerResolver;
 import jakarta.xml.ws.spi.Invoker;
 import jakarta.xml.ws.spi.ServiceDelegate;
 
@@ -166,8 +172,8 @@ import org.jboss.logging.Logger;
  * implementation classes by default)
  *
  * @author alessio.soldano@jboss.com
+ * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  * @since 27-Aug-2010
- *
  */
 public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
 
@@ -563,27 +569,47 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
    /**
     * An extension of the org.apache.cxf.jaxws.ServiceImpl allowing for
     * setting JBossWS client default config handlers.
-    *
     */
    static final class JBossWSServiceImpl extends ServiceImpl {
+
+      private final ConcurrentMap<Integer, SoftReference<Object>> portsCache = new ConcurrentHashMap<>();
 
       public JBossWSServiceImpl(Bus b, URL url, QName name, Class<?> cls, WebServiceFeature ... f) {
          super(b, url, name, cls, f);
       }
 
       @Override
-      protected <T> T createPort(QName portName, EndpointReferenceType epr, Class<T> serviceEndpointInterface,
-            WebServiceFeature... features) {
-         ClassLoader origClassLoader = getContextClassLoader();
-         T port = null;
-         try {
-            setContextClassLoader(createDelegateClassLoader(origClassLoader, SecurityActions.getClassLoader(ServiceImpl.class)));
-            port = super.createPort(portName, epr, serviceEndpointInterface, features);
-         } finally {
-            setContextClassLoader(origClassLoader);
+      protected <T> T createPort(final QName portName, final EndpointReferenceType epr, final Class<T> serviceEndpointInterface, final WebServiceFeature... features) {
+         final int key = Objects.hash(portName, epr, serviceEndpointInterface, Arrays.hashCode(features));
+         final SoftReference<Object> ref = portsCache.get(key);
+         Object port = ref != null ? ref.get() : null;
+
+         if (port == null) {
+            final ClassLoader origCL = getContextClassLoader();
+            final ClassLoader newCL = createDelegateClassLoader(origCL, SecurityActions.getClassLoader(ServiceImpl.class));
+            Object newPort;
+            try {
+               setContextClassLoader(newCL);
+               newPort = super.createPort(portName, epr, serviceEndpointInterface, features);
+            } finally {
+               setContextClassLoader(origCL);
+            }
+            setupClient(newPort, serviceEndpointInterface, features);
+
+            final SoftReference<Object> newRef = new SoftReference<>(newPort);
+            final SoftReference<Object> existingRef = portsCache.putIfAbsent(key, newRef);
+            port = existingRef != null ? existingRef.get() : null;
+            if (port == null) {
+               if (existingRef != null) portsCache.put(key, newRef);
+               port = newPort;
+            }
          }
-         setupClient(port, serviceEndpointInterface, features);
-         return port;
+         return (T) port;
+      }
+
+      @Override
+      public void setHandlerResolver(final HandlerResolver hr) {
+         super.setHandlerResolver(new TCCLAwareHandlerResolver(hr));
       }
 
       @Override

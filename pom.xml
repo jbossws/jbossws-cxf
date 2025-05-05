@@ -29,7 +29,7 @@
   <description>JBossWS CXF stack jakarta</description>
 
 
-  <version>7.3.0-SNAPSHOT</version>
+  <version>7.3.2-SNAPSHOT</version>
 
   <!-- Parent -->
   <parent>
@@ -63,24 +63,24 @@
     <jboss.modules.version>2.1.5.Final</jboss.modules.version>
     <jbossws.api.version>3.0.0.Final</jbossws.api.version>
     <jbossws.spi.version>5.0.0.Final</jbossws.spi.version>
-    <jbossws.common.version>5.0.0.Final</jbossws.common.version>
+    <jbossws.common.version>5.1.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>2.1.0.Final</jbossws.common.tools.version>
-    <wildfly.version>33.0.2.Final</wildfly.version>
+    <wildfly.version>35.0.0.Final</wildfly.version>
     <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
     <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
     <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
     <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
     <jakarta.angus.activation.version>2.0.2</jakarta.angus.activation.version>
     <jakarta.angus.mail.version>2.0.3</jakarta.angus.mail.version>
-    <cxf.version>4.0.5</cxf.version>
+    <cxf.version>4.0.6</cxf.version>
     <cxf.asm.version>9.7</cxf.asm.version>
-    <cxf.xjcplugins.version>4.0.0</cxf.xjcplugins.version>
+    <cxf.xjcplugins.version>4.0.1</cxf.xjcplugins.version>
     <jboss-logging.version>3.6.0.Final</jboss-logging.version>
-    <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
+    <jboss-logging-annotations.version>3.0.4.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>2.2.1.Final</jboss-logging-processor.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <jaxws-undertow-httpspi.version>2.0.0.Final</jaxws-undertow-httpspi.version>
-    <io.undertow.version>2.3.17.Final</io.undertow.version>
+    <io.undertow.version>2.3.18.Final</io.undertow.version>
     <jaxb.impl.version>4.0.1</jaxb.impl.version>
     <jboss.jaxbintros.version>2.0.1</jboss.jaxbintros.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
@@ -88,14 +88,14 @@
     <commons-lang3.version>3.17.0</commons-lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
     <slf4j.jboss.logging.version>1.2.1.Final</slf4j.jboss.logging.version>
-    <neethi.version>3.2.0</neethi.version>
+    <neethi.version>3.2.1</neethi.version>
     <fastinfoset.version>2.1.1</fastinfoset.version>
-    <opensaml.version>4.3.0</opensaml.version>
+    <opensaml.version>4.3.2</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0</saaj.impl.version>
     <velocity.version>2.3</velocity.version>
-    <xmlsec.version>3.0.4</xmlsec.version>
-    <wss4j.version>3.0.3</wss4j.version>
+    <xmlsec.version>3.0.5</xmlsec.version>
+    <wss4j.version>3.0.4</wss4j.version>
     <wstx.version>7.0.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <derby.version>10.14.2.0</derby.version>
@@ -126,6 +126,7 @@
     <!--Add wildfly integration tests dependency version below-->
     <jakarta.json-api.version>2.1.3</jakarta.json-api.version>
     <jboss.ejb3.ext-api.version>2.4.0.Final</jboss.ejb3.ext-api.version>
+    <jakarta.enterprise.cdi-api.version>4.1.0</jakarta.enterprise.cdi-api.version>
     <remoting.jmx.version>3.0.4.Final</remoting.jmx.version>
     <jboss.remoting.version>5.0.29.Final</jboss.remoting.version>
     <wildfly.client.properties.version>32.0.1.Final</wildfly.client.properties.version>
@@ -1056,6 +1057,11 @@
         <version>${testcontainer.version}</version>
         <scope>test</scope>
       </dependency>
+      <dependency>
+        <groupId>jakarta.enterprise</groupId>
+        <artifactId>jakarta.enterprise.cdi-api</artifactId>
+        <version>${jakarta.enterprise.cdi-api.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -1197,6 +1203,15 @@
       </properties>
       <dependencies>
       </dependencies>
+    </profile>
+    <profile>
+      <id>jdk11</id>
+      <activation>
+        <jdk>(,17)</jdk>
+      </activation>
+      <properties>
+        <wildfly.version>34.0.1.Final</wildfly.version>
+      </properties>
     </profile>
     <!-- [JBWS-3666] -->
     <profile>

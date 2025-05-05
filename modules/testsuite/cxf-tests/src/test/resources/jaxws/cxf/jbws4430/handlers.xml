@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<handler-chains xmlns="https://jakarta.ee/xml/ns/jakartaee">
+    <handler-chain>
+        <handler>
+            <handler-class>org.jboss.test.ws.jaxws.cxf.jbws4430.LoggingHandler</handler-class>
+        </handler>
+    </handler-chain>
+</handler-chains>
