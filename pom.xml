@@ -118,6 +118,9 @@
     <jaspi.api.version>1.0.2.Final</jaspi.api.version>
     <jacc.api.version>1.0.2.Final</jacc.api.version>
     <javax.inject.version>1</javax.inject.version>
+    <javax.json-api.version>1.1.4</javax.json-api.version>
+    <jboss.ejb3.ext-api.version>2.4.0.Final</jboss.ejb3.ext-api.version>
+    <javax.interceptor.api.version>1.2</javax.interceptor.api.version>
     <org.easymock.version>3.2</org.easymock.version>
     <junit.version>4.13.2</junit.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
@@ -969,6 +972,21 @@
         <groupId>javax.inject</groupId>
         <artifactId>javax.inject</artifactId>
         <version>${javax.inject.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.json</groupId>
+        <artifactId>javax.json-api</artifactId>
+        <version>${javax.json-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.ejb3</groupId>
+        <artifactId>jboss-ejb3-ext-api</artifactId>
+        <version>${jboss.ejb3.ext-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.interceptor</groupId>
+        <artifactId>javax.interceptor-api</artifactId>
+        <version>${javax.interceptor.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.derby</groupId>
