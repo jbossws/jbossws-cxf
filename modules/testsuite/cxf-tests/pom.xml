@@ -15,7 +15,7 @@
   
   <properties>
     <!-- This is used for test archives embedding Spring -->
-    <test.spring.version>6.1.13</test.spring.version>
+    <test.spring.version>6.2.6</test.spring.version>
     <test.cxf.version>${cxf.version}</test.cxf.version>
       <!-- base name of related server config files -->
       <jbws-testsuite-jms-base>jbws-testsuite-jms</jbws-testsuite-jms-base>
