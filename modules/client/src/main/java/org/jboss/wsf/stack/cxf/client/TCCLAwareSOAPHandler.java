@@ -18,19 +18,22 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-import jakarta.xml.ws.handler.Handler;
+import jakarta.xml.ws.handler.soap.SOAPHandler;
 import jakarta.xml.ws.handler.MessageContext;
 import org.jboss.ws.common.utils.DelegateClassLoader;
+
+import javax.xml.namespace.QName;
+import java.util.Set;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-final class TCCLAwareHandler implements Handler {
+final class TCCLAwareSOAPHandler implements SOAPHandler {
 
-    private final Handler delegate;
+    private final SOAPHandler delegate;
 
-    TCCLAwareHandler(final Handler delegate) {
+    TCCLAwareSOAPHandler(final SOAPHandler delegate) {
         this.delegate = delegate;
     }
 
@@ -43,6 +46,20 @@ final class TCCLAwareHandler implements Handler {
                 SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
             return delegate.handleMessage(messageContext);
+        } finally {
+            SecurityActions.setContextClassLoader(original);
+        }
+    }
+
+    @Override
+    public Set<QName> getHeaders() {
+        final ClassLoader original = SecurityActions.getContextClassLoader();
+        try {
+            if (original instanceof DelegateClassLoader) {
+                DelegateClassLoader delegateCL = (DelegateClassLoader) original;
+                SecurityActions.setContextClassLoader(delegateCL.getDelegate());
+            }
+            return delegate.getHeaders();
         } finally {
             SecurityActions.setContextClassLoader(original);
         }
