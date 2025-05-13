@@ -18,7 +18,7 @@
  */
 package org.jboss.wsf.stack.cxf.client;
 
-import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.LogicalHandler;
 import javax.xml.ws.handler.MessageContext;
 import org.jboss.ws.common.utils.DelegateClassLoader;
 
@@ -26,11 +26,11 @@ import org.jboss.ws.common.utils.DelegateClassLoader;
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
-final class TCCLAwareHandler implements Handler {
+final class TCCLAwareLogicalHandler implements LogicalHandler {
 
-    private final Handler delegate;
+    private final LogicalHandler delegate;
 
-    TCCLAwareHandler(final Handler delegate) {
+    TCCLAwareLogicalHandler(final LogicalHandler delegate) {
         this.delegate = delegate;
     }
 

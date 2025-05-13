@@ -19,23 +19,29 @@
 package org.jboss.wsf.stack.cxf.client;
 
 import javax.xml.ws.handler.Handler;
+import javax.xml.ws.handler.LogicalHandler;
+import javax.xml.ws.handler.soap.SOAPHandler;
 
 import java.util.function.UnaryOperator;
 
 /**
  * @author <a href="mailto:ropalka@redhat.com">Richard Opalka</a>
  */
+@SuppressWarnings("rawtypes")
 final class TCCLAwareHandlerReplacer implements UnaryOperator<Handler> {
 
     static final UnaryOperator<Handler> INSTANCE = new TCCLAwareHandlerReplacer();
 
     private TCCLAwareHandlerReplacer() {
-        // forbidden instantation
+        // forbidden instantiation
     }
 
     @Override
     public Handler apply(final Handler handler) {
-        return handler instanceof TCCLAwareHandler ? handler : new TCCLAwareHandler(handler);
+        if (handler instanceof TCCLAwareLogicalHandler) return handler;
+        if (handler instanceof LogicalHandler) return new TCCLAwareLogicalHandler((LogicalHandler)handler);
+        if (handler instanceof SOAPHandler) return new TCCLAwareSOAPHandler((SOAPHandler)handler);;
+        throw new IllegalArgumentException();
     }
 
 }
