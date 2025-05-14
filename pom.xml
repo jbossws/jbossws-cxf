@@ -29,7 +29,7 @@
   <description>JBossWS CXF stack jakarta</description>
 
 
-  <version>7.3.3.Final</version>
+  <version>7.3.4-SNAPSHOT</version>
 
   <!-- Parent -->
   <parent>
