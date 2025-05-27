@@ -60,84 +60,82 @@
 
   <!-- Properties -->
   <properties>
+    <arquillian.version>1.9.4.Final</arquillian.version>
+    <arquillian.wildfly.container.version>5.1.0.Beta6</arquillian.wildfly.container.version>
+    <artemis.client.version>2.35.0</artemis.client.version>
+    <commons.beanutils.version>1.9.4</commons.beanutils.version>
+    <commons.collections.version>3.2.2</commons.collections.version>
+    <commons.lang3.version>3.17.0</commons.lang3.version>
+    <commons.logging.version>1.2</commons.logging.version>
+    <commons.validator.version>1.9.0</commons.validator.version>
+    <cxf.version>4.0.6</cxf.version>
+    <cxf.asm.version>9.8</cxf.asm.version>
+    <cxf.xjcplugins.version>4.0.1</cxf.xjcplugins.version>
+    <derby.version>10.14.2.0</derby.version>
+    <easymock.version>3.2</easymock.version>
+    <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
+    <fastinfoset.version>2.1.1</fastinfoset.version>
+    <gnu.getopt.version>1.0.13</gnu.getopt.version>
+    <jakarta.activation.api.version>2.1.0</jakarta.activation.api.version>
+    <jakarta.angus.activation.version>2.0.2</jakarta.angus.activation.version>
+    <jakarta.angus.mail.version>2.0.3</jakarta.angus.mail.version>
+    <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
+    <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
+    <jakarta.enterprise.cdi.api.version>4.1.0</jakarta.enterprise.cdi.api.version>
+    <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
+    <jakarta.interceptor.api.version>2.2.0</jakarta.interceptor.api.version>
+    <jakarta.jms.api.version>3.1.0</jakarta.jms.api.version>
+    <jakarta.json.api.version>2.1.3</jakarta.json.api.version>
+    <jakarta.mail.version>2.1.0</jakarta.mail.version>
+    <jakarta.servlet.api.version>6.0.0</jakarta.servlet.api.version>
+    <jakarta.xml.bind.api.version>4.0.2</jakarta.xml.bind.api.version>
+    <jakarta.xml.soap.api.version>3.0.2</jakarta.xml.soap.api.version>
+    <jakarta.xml.ws.api.version>4.0.1</jakarta.xml.ws.api.version>
+    <jaxb.impl.version>4.0.1</jaxb.impl.version>
+    <jboss.ejb.client.version>5.0.6.Final</jboss.ejb.client.version>
+    <jboss.ejb3.ext.api.version>2.4.0.Final</jboss.ejb3.ext.api.version>
+    <jboss.jaxbintros.version>2.0.1</jboss.jaxbintros.version>
+    <jboss.logging.version>3.6.0.Final</jboss.logging.version>
+    <jboss.logging.annotations.version>3.0.4.Final</jboss.logging.annotations.version>
+    <jboss.logging.processor.version>3.0.4.Final</jboss.logging.processor.version>
+    <jboss.logging.slf4j.version>1.2.1.Final</jboss.logging.slf4j.version>
+    <jboss.marshalling.version>2.2.3.Final</jboss.marshalling.version>
+    <jboss.marshalling.river.version>2.2.3.Final</jboss.marshalling.river.version>
     <jboss.modules.version>2.1.5.Final</jboss.modules.version>
+    <jboss.openjdk.orb.version>10.1.0.Final</jboss.openjdk.orb.version>
+    <jboss.remoting.version>5.0.29.Final</jboss.remoting.version>
+    <jboss.remoting.jmx.version>3.0.4.Final</jboss.remoting.jmx.version>
+    <jboss.xb.version>2.0.3.GA</jboss.xb.version>
     <jbossws.api.version>3.0.0.Final</jbossws.api.version>
     <jbossws.spi.version>5.0.0.Final</jbossws.spi.version>
     <jbossws.common.version>5.1.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>2.1.0.Final</jbossws.common.tools.version>
-    <wildfly.version>36.0.0.Final</wildfly.version>
-    <jakarta.annotation.api.version>2.1.1</jakarta.annotation.api.version>
-    <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
-    <jakarta.ejb.api.version>4.0.1</jakarta.ejb.api.version>
-    <jakarta.activation-api.version>2.1.0</jakarta.activation-api.version>
-    <jakarta.angus.activation.version>2.0.2</jakarta.angus.activation.version>
-    <jakarta.angus.mail.version>2.0.3</jakarta.angus.mail.version>
-    <cxf.version>4.0.6</cxf.version>
-    <cxf.asm.version>9.8</cxf.asm.version>
-    <cxf.xjcplugins.version>4.0.1</cxf.xjcplugins.version>
-    <jboss-logging.version>3.6.0.Final</jboss-logging.version>
-    <jboss-logging-annotations.version>3.0.4.Final</jboss-logging-annotations.version>
-    <jboss-logging-processor.version>3.0.4.Final</jboss-logging-processor.version>
-    <jboss.xb.version>2.0.3.GA</jboss.xb.version>
-    <jaxws-undertow-httpspi.version>2.0.0.Final</jaxws-undertow-httpspi.version>
+    <jbossws.undertow.httpspi.version>2.0.0.Final</jbossws.undertow.httpspi.version>
     <io.undertow.version>2.3.18.Final</io.undertow.version>
-    <jaxb.impl.version>4.0.1</jaxb.impl.version>
-    <jboss.jaxbintros.version>2.0.1</jboss.jaxbintros.version>
-    <commons-beanutils.version>1.9.4</commons-beanutils.version>
-    <commons-collections.version>3.2.2</commons-collections.version>
-    <commons-lang3.version>3.17.0</commons-lang3.version>
-    <commons.logging.version>1.2</commons.logging.version>
-    <slf4j.jboss.logging.version>1.2.1.Final</slf4j.jboss.logging.version>
+    <junit.version>5.10.2</junit.version>
+    <littleproxy.version>1.1.2</littleproxy.version>
     <neethi.version>3.2.1</neethi.version>
-    <fastinfoset.version>2.1.1</fastinfoset.version>
     <opensaml.version>4.3.2</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.0</saaj.impl.version>
-    <velocity.version>2.4.1</velocity.version>
-    <xmlsec.version>3.0.5</xmlsec.version>
-    <wss4j.version>3.0.4</wss4j.version>
-    <wstx.version>7.1.0</wstx.version>
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
-    <derby.version>10.14.2.0</derby.version>
-    <arquillian.version>1.9.4.Final</arquillian.version>
-    <arquillian-wildfly-container.version>5.1.0.Beta6</arquillian-wildfly-container.version>
-    <artemis.client.version>2.35.0</artemis.client.version>
-    <version.commons.validator>1.9.0</version.commons.validator>
-    <jakarta.interceptor.api.version>2.2.0</jakarta.interceptor.api.version>
-    <version.org.jboss.openjdk-orb>10.1.0.Final</version.org.jboss.openjdk-orb>
-    <org.easymock.version>3.2</org.easymock.version>
-    <org.junit.version>5.10.2</org.junit.version>
-    <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
-    <wildfly.plugin.version>5.0.0.Final</wildfly.plugin.version>
+    <testcontainer.version>1.19.8</testcontainer.version>
+    <velocity.version>2.4.1</velocity.version>
+    <wildfly.version>36.0.0.Final</wildfly.version>
     <wildfly.cli.version>8.2.1.Final</wildfly.cli.version>
+    <wildfly.client.properties.version>32.0.1.Final</wildfly.client.properties.version>
+    <wildfly.cloud.galleon.pack.version>6.0.0.Final</wildfly.cloud.galleon.pack.version>
     <wildfly.controller.client.version>25.0.0.Final</wildfly.controller.client.version>
     <wildfly.elytron.version>2.6.3.Final</wildfly.elytron.version>
-    <modular.jdk.args />
-    <modular.jdk.props />
-    <jakarta.jms-api.version>3.1.0</jakarta.jms-api.version>
-    <jakarta.xml.bind-api.version>4.0.2</jakarta.xml.bind-api.version>
-    <jakarta.xml.ws-api.version>4.0.1</jakarta.xml.ws-api.version>
-    <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-    <jakarta.mail.version>2.1.0</jakarta.mail.version>
-    <jakarta.xml.soap-api.version>3.0.2</jakarta.xml.soap-api.version>
-    <jakarta-client-webservices.version>3.1.4.Final</jakarta-client-webservices.version>
-    <org.littleshoot.littleproxy.version>1.1.2</org.littleshoot.littleproxy.version>
-    <gnu.getopt.version>1.0.13</gnu.getopt.version>
-    <!--Add wildfly integration tests dependency version below-->
-    <jakarta.json-api.version>2.1.3</jakarta.json-api.version>
-    <jboss.ejb3.ext-api.version>2.4.0.Final</jboss.ejb3.ext-api.version>
-    <jakarta.enterprise.cdi-api.version>4.1.0</jakarta.enterprise.cdi-api.version>
-    <remoting.jmx.version>3.0.4.Final</remoting.jmx.version>
-    <jboss.remoting.version>5.0.29.Final</jboss.remoting.version>
-    <wildfly.client.properties.version>32.0.1.Final</wildfly.client.properties.version>
+    <wildfly.galleon.plugin.version>7.1.1.Final</wildfly.galleon.plugin.version>
     <wildfly.naming.client.version>2.0.1.Final</wildfly.naming.client.version>
-    <jboss.marshalling.version>2.2.3.Final</jboss.marshalling.version>
-    <jboss.marshalling.river.version>2.2.3.Final</jboss.marshalling.river.version>
-    <jboss.ejb.client.version>5.0.6.Final</jboss.ejb.client.version>
-    <org.wildfly.galleon.plugin.version>7.1.1.Final</org.wildfly.galleon.plugin.version>
-    <org.wildfly.cloud.galleon-pack.version>6.0.0.Final</org.wildfly.cloud.galleon-pack.version>
-    <testcontainer.version>1.19.8</testcontainer.version>
-    <jib.version>3.3.1</jib.version>
+    <wildfly.plugin.version>5.0.0.Final</wildfly.plugin.version>
+    <wildfly.security.webservices.client.version>3.1.4.Final</wildfly.security.webservices.client.version>
+    <wss4j.version>3.0.4</wss4j.version>
+    <wstx.version>7.1.0</wstx.version>
+    <xmlsec.version>3.0.5</xmlsec.version>
+    <modular.jdk.args/>
+    <modular.jdk.props/>
   </properties>
 
   <!-- licenses -->
@@ -198,7 +196,7 @@
       <dependency>
         <groupId>org.jboss.ws.projects</groupId>
         <artifactId>jaxws-undertow-httpspi</artifactId>
-        <version>${jaxws-undertow-httpspi.version}</version>
+        <version>${jbossws.undertow.httpspi.version}</version>
         <exclusions>
           <exclusion>
             <groupId>org.jboss.spec.javax.xml.ws</groupId>
@@ -573,7 +571,7 @@
       <dependency>
         <groupId>jakarta.xml.ws</groupId>
         <artifactId>jakarta.xml.ws-api</artifactId>
-        <version>${jakarta.xml.ws-api.version}</version>
+        <version>${jakarta.xml.ws.api.version}</version>
       </dependency>
       <dependency>
         <groupId>jakarta.ejb</groupId>
@@ -600,17 +598,17 @@
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
-        <version>${commons-beanutils.version}</version>
+        <version>${commons.beanutils.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
-        <version>${commons-collections.version}</version>
+        <version>${commons.collections.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
-        <version>${commons-lang3.version}</version>
+        <version>${commons.lang3.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.santuario</groupId>
@@ -753,18 +751,18 @@
       <dependency>
         <groupId>jakarta.xml.soap</groupId>
         <artifactId>jakarta.xml.soap-api</artifactId>
-        <version>${jakarta.xml.soap-api.version}</version>
+        <version>${jakarta.xml.soap.api.version}</version>
       </dependency>
       <dependency>
         <groupId>jakarta.servlet</groupId>
         <artifactId>jakarta.servlet-api</artifactId>
-        <version>${jakarta.servlet-api.version}</version>
+        <version>${jakarta.servlet.api.version}</version>
       </dependency>
       <!-- transitive dependencies -->
       <dependency>
         <groupId>jakarta.activation</groupId>
         <artifactId>jakarta.activation-api</artifactId>
-        <version>${jakarta.activation-api.version}</version>
+        <version>${jakarta.activation.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.apache.neethi</groupId>
@@ -780,7 +778,7 @@
       <dependency>
         <groupId>jakarta.xml.bind</groupId>
         <artifactId>jakarta.xml.bind-api</artifactId>
-        <version>${jakarta.xml.bind-api.version}</version>
+        <version>${jakarta.xml.bind.api.version}</version>
         <exclusions>
           <exclusion>
             <groupId>com.sun.activation</groupId>
@@ -827,22 +825,22 @@
       <dependency>
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
-        <version>${jboss-logging.version}</version>
+        <version>${jboss.logging.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging-processor</artifactId>
-        <version>${jboss-logging-processor.version}</version>
+        <version>${jboss.logging.processor.version}</version>
       </dependency>
        <dependency>
           <groupId>org.jboss.logging</groupId>
           <artifactId>jboss-logging-annotations</artifactId>
-          <version>${jboss-logging-annotations.version}</version>
+          <version>${jboss.logging.annotations.version}</version>
        </dependency>
       <dependency>
         <groupId>org.jboss.slf4j</groupId>
         <artifactId>slf4j-jboss-logging</artifactId>
-        <version>${slf4j.jboss.logging.version}</version>
+        <version>${jboss.logging.slf4j.version}</version>
       </dependency>
       <dependency>
         <groupId>com.sun.xml.fastinfoset</groupId>
@@ -858,7 +856,7 @@
       <dependency>
         <groupId>org.easymock</groupId>
         <artifactId>easymockclassextension</artifactId>
-        <version>${org.easymock.version}</version>
+        <version>${easymock.version}</version>
       </dependency>
 
       <dependency>
@@ -889,7 +887,7 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>${org.junit.version}</version>
+        <version>${junit.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -913,7 +911,7 @@
       <dependency>
         <groupId>org.wildfly.arquillian</groupId>
         <artifactId>wildfly-arquillian-container-managed</artifactId>
-        <version>${arquillian-wildfly-container.version}</version>
+        <version>${arquillian.wildfly.container.version}</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
@@ -925,12 +923,12 @@
       <dependency>
         <groupId>commons-validator</groupId>
         <artifactId>commons-validator</artifactId>
-        <version>${version.commons.validator}</version>
+        <version>${commons.validator.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.openjdk-orb</groupId>
         <artifactId>openjdk-orb</artifactId>
-        <version>${version.org.jboss.openjdk-orb}</version>
+        <version>${jboss.openjdk.orb.version}</version>
         <exclusions>
           <!-- TODO remove this exclusion once this supports Jakarta Transactions 1.3 -->
           <!-- superseded by org.jboss.spec.javax.transaction:jboss-transaction-api_1.3_spec -->
@@ -954,18 +952,18 @@
       <dependency>
         <groupId>jakarta.jms</groupId>
         <artifactId>jakarta.jms-api</artifactId>
-        <version>${jakarta.jms-api.version}</version>
+        <version>${jakarta.jms.api.version}</version>
       </dependency>
 
       <dependency>
         <groupId>org.wildfly.security.jakarta</groupId>
         <artifactId>jakarta-client-webservices</artifactId>
-        <version>${jakarta-client-webservices.version}</version>
+        <version>${wildfly.security.webservices.client.version}</version>
       </dependency>
       <dependency>
         <groupId>org.littleshoot</groupId>
         <artifactId>littleproxy</artifactId>
-        <version>${org.littleshoot.littleproxy.version}</version>
+        <version>${littleproxy.version}</version>
         <scope>test</scope>
         <exclusions>
           <exclusion>
@@ -997,7 +995,7 @@
       <dependency>
         <groupId>jakarta.json</groupId>
         <artifactId>jakarta.json-api</artifactId>
-        <version>${jakarta.json-api.version}</version>
+        <version>${jakarta.json.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.wildfly.core</groupId>
@@ -1007,12 +1005,12 @@
       <dependency>
         <groupId>org.jboss.ejb3</groupId>
         <artifactId>jboss-ejb3-ext-api</artifactId>
-        <version>${jboss.ejb3.ext-api.version}</version>
+        <version>${jboss.ejb3.ext.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.remotingjmx</groupId>
         <artifactId>remoting-jmx</artifactId>
-        <version>${remoting.jmx.version}</version>
+        <version>${jboss.remoting.jmx.version}</version>
         <exclusions>
           <!--This imports wildfly-client-config 1.0.0.Final with a windows NPE issue-->
           <exclusion>
@@ -1060,7 +1058,7 @@
       <dependency>
         <groupId>jakarta.enterprise</groupId>
         <artifactId>jakarta.enterprise.cdi-api</artifactId>
-        <version>${jakarta.enterprise.cdi-api.version}</version>
+        <version>${jakarta.enterprise.cdi.api.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -1085,7 +1083,7 @@
        <plugin>
          <groupId>org.wildfly.galleon-plugins</groupId>
          <artifactId>wildfly-galleon-maven-plugin</artifactId>
-         <version>${org.wildfly.galleon.plugin.version}</version>
+         <version>${wildfly.galleon.plugin.version}</version>
        </plugin>
        <plugin>
          <groupId>com.google.cloud.tools</groupId>

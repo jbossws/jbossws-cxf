@@ -21,7 +21,7 @@ streams:
     version: "${jbossws.spi.version}"
   - groupId: "org.jboss.ws.projects"
     artifactId: "jaxws-undertow-httpspi"
-    version: "${jaxws-undertow-httpspi.version}"
+    version: "${jbossws.undertow.httpspi.version}"
   # jbossws-cxf dependencies
   - groupId: "org.jboss.ws.cxf"
     artifactId: "*"
