@@ -61,7 +61,7 @@
   <!-- Properties -->
   <properties>
     <arquillian.version>1.9.4.Final</arquillian.version>
-    <arquillian.wildfly.container.version>5.1.0.Beta6</arquillian.wildfly.container.version>
+    <arquillian.wildfly.container.version>5.1.0.Beta11</arquillian.wildfly.container.version>
     <artemis.client.version>2.38.0</artemis.client.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
     <commons.collections.version>3.2.2</commons.collections.version>
