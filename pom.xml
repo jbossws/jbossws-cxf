@@ -62,13 +62,13 @@
   <properties>
     <arquillian.version>1.9.4.Final</arquillian.version>
     <arquillian.wildfly.container.version>5.1.0.Beta6</arquillian.wildfly.container.version>
-    <artemis.client.version>2.38.0</artemis.client.version>
+    <artemis.client.version>2.42.0</artemis.client.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
     <commons.collections.version>3.2.2</commons.collections.version>
-    <commons.lang3.version>3.17.0</commons.lang3.version>
+    <commons.lang3.version>3.18.0</commons.lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
     <commons.validator.version>1.9.0</commons.validator.version>
-    <cxf.version>4.0.8</cxf.version>
+    <cxf.version>4.0.9</cxf.version>
     <cxf.asm.version>9.8</cxf.asm.version>
     <cxf.xjcplugins.version>4.1.0</cxf.xjcplugins.version>
     <derby.version>10.15.2.0</derby.version>
