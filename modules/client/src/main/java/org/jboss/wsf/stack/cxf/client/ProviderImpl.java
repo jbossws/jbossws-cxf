@@ -28,6 +28,7 @@ import static org.jboss.wsf.stack.cxf.client.SecurityActions.setContextClassLoad
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.Cleaner;
 import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.security.AccessController;
@@ -36,9 +37,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
+import java.util.function.Function;
 
 import jakarta.xml.bind.JAXBContext;
 import javax.xml.namespace.QName;
@@ -572,39 +574,91 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
     */
    static final class JBossWSServiceImpl extends ServiceImpl {
 
-      private final ConcurrentMap<Integer, SoftReference<Object>> portsCache = new ConcurrentHashMap<>();
+      private static final Cleaner cleaner = Cleaner.create();
+      private final Map<CacheKey, SoftReference<Object>> portsCache = new ConcurrentHashMap<>();
 
       public JBossWSServiceImpl(Bus b, URL url, QName name, Class<?> cls, WebServiceFeature ... f) {
          super(b, url, name, cls, f);
       }
 
       @Override
-      protected <T> T createPort(final QName portName, final EndpointReferenceType epr, final Class<T> serviceEndpointInterface, final WebServiceFeature... features) {
-         final int key = Objects.hash(portName, epr, serviceEndpointInterface, Arrays.hashCode(features));
-         final SoftReference<Object> ref = portsCache.get(key);
-         Object port = ref != null ? ref.get() : null;
+      protected <T> T createPort(final QName portName, final EndpointReferenceType epr, final Class<T> sei, final WebServiceFeature... features) {
+         final CacheKey key = new CacheKey(portName, epr, sei, features);
+         SoftReference<Object> ref;
+         Object port;
+         do {
+            ref = portsCache.computeIfAbsent(key, new Function<>() {
+               public SoftReference<Object> apply(final CacheKey key) {
+                  final Object newPort = createPortInternal(portName, epr, sei, features);
+                  final SoftReference<Object> newRef = new SoftReference<>(newPort);
+                  // schedule mapping removal from cache once cached port was GC-ed
+                  cleaner.register(newPort, new CacheCleaner(key, newRef, portsCache));
+                  return newRef;
+               }
+            });
+            port = ref.get();
+            if (port != null) return (T) port;
+            portsCache.remove(key, ref); // cached port was GC-ed but associated cleaner wasn't called yet - removing obsolete mapping now
+         } while (true);
+      }
 
-         if (port == null) {
-            final ClassLoader origCL = getContextClassLoader();
-            final ClassLoader newCL = createDelegateClassLoader(origCL, SecurityActions.getClassLoader(ServiceImpl.class));
-            Object newPort;
-            try {
+      private <T> T createPortInternal(final QName portName, final EndpointReferenceType epr, final Class<T> sei, final WebServiceFeature... features) {
+         final ClassLoader origCL = getContextClassLoader();
+         final ClassLoader newCL = createDelegateClassLoader(origCL, SecurityActions.getClassLoader(ServiceImpl.class));
+         final Object port;
+         try {
                setContextClassLoader(newCL);
-               newPort = super.createPort(portName, epr, serviceEndpointInterface, features);
-            } finally {
+               port = super.createPort(portName, epr, sei, features);
+         } finally {
                setContextClassLoader(origCL);
-            }
-            setupClient(newPort, serviceEndpointInterface, features);
-
-            final SoftReference<Object> newRef = new SoftReference<>(newPort);
-            final SoftReference<Object> existingRef = portsCache.putIfAbsent(key, newRef);
-            port = existingRef != null ? existingRef.get() : null;
-            if (port == null) {
-               if (existingRef != null) portsCache.put(key, newRef);
-               port = newPort;
-            }
          }
+         setupClient(port, sei, features);
          return (T) port;
+      }
+
+      private static class CacheCleaner implements Runnable {
+         private final CacheKey key;
+         private final SoftReference<Object> value;
+         private final Map<CacheKey, SoftReference<Object>> cache;
+
+         private CacheCleaner(final CacheKey key, final SoftReference<Object> value, final Map<CacheKey, SoftReference<Object>> cache) {
+            this.key = key;
+            this.value = value;
+            this.cache = cache;
+         }
+
+         @Override
+         public void run() {
+            cache.remove(key, value);
+         }
+      }
+
+      private static class CacheKey {
+         private final QName portName;
+         private final EndpointReferenceType epr;
+         private final Class<?> sei;
+         private final WebServiceFeature[] features;
+         private final int hashCode;
+
+         private CacheKey(final QName portName, final EndpointReferenceType epr, final Class<?> sei, final WebServiceFeature[] features) {
+            this.portName = portName;
+            this.epr = epr;
+            this.sei = sei;
+            this.features = features;
+            this.hashCode = Objects.hash(portName, epr, sei, Arrays.hashCode(features));
+         }
+
+         @Override
+         public final boolean equals(final Object other) {
+            if (!(other instanceof CacheKey)) return false;
+            final CacheKey o = (CacheKey) other;
+            return Objects.equals(portName, o.portName) && Objects.equals(epr, o.epr) && Objects.equals(sei, o.sei) && Objects.deepEquals(features, o.features);
+         }
+
+         @Override
+         public final int hashCode() {
+            return hashCode;
+         }
       }
 
       @Override
