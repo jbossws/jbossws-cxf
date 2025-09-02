@@ -55,6 +55,12 @@ import org.junit.runner.RunWith;
 @RunWith(Arquillian.class)
 public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
 {
+   static
+   {
+      // [JBWS-4449] Ensuring this property is configured before Apache CXF is initialized
+      System.setProperty("jms.protocols", "remote+http,remote+https");
+   }
+
    private static final String JMS_SERVER = "jms";
    
    private static boolean useHornetQ() {
