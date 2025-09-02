@@ -43,7 +43,6 @@ import org.jboss.ws.common.DOMUtils;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -62,7 +61,6 @@ import java.util.Properties;
  * @since 10-Jun-2011
  */
 @ExtendWith(ArquillianExtension.class)
-@Disabled("FIXME: [JBWS-4449] Restore JMS tests")
 public class JMSEndpointOnlyDeploymentTestCase extends JBossWSTest
 {
    private static final String JMS_SERVER = "jms";
