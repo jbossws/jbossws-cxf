@@ -40,7 +40,6 @@ import org.jboss.test.ws.jaxws.cxf.jms.HelloWorld;
 import org.jboss.ws.common.IOUtils;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -51,9 +50,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * @since 10-Jun-2011
  */
 @ExtendWith(ArquillianExtension.class)
-@Disabled("FIXME: [JBWS-4449] Restore JMS tests")
 public final class JMSHTTPEndpointDeploymentTestCase extends JBossWSTest
 {
+   static
+   {
+      // [JBWS-4449] Ensuring this property is configured before Apache CXF is initialized
+      System.setProperty("jms.protocols", "remote+http,remote+https");
+   }
+
    private static final String JMS_SERVER = "jms";
 
    @Deployment(name = "jaxws-cxf-jms-http-deployment", order = 1, testable = false)
