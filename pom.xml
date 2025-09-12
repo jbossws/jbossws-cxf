@@ -30,7 +30,7 @@
   <description>JBoss Web Services - Stack CXF Jakarta Version</description>
   <url>https://github.com/jbossws/jbossws-cxf</url>
 
-  <version>7.3.4-SNAPSHOT</version>
+  <version>7.3.4.Final</version>
 
   <!-- Parent -->
   <parent>
