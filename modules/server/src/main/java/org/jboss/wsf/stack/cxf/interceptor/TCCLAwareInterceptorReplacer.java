@@ -20,8 +20,6 @@ package org.jboss.wsf.stack.cxf.interceptor;
 
 import java.util.function.UnaryOperator;
 
-import javax.xml.ws.Binding;
-
 import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.SoapInterceptor;
 import org.apache.cxf.interceptor.Interceptor;
@@ -34,10 +32,10 @@ import org.apache.cxf.phase.PhaseInterceptor;
  */
 public final class TCCLAwareInterceptorReplacer implements UnaryOperator<Interceptor<? extends Message>> {
 
-    private final Binding binding;
+    public static final UnaryOperator<Interceptor<? extends Message>> INSTANCE = new TCCLAwareInterceptorReplacer();
 
-    public TCCLAwareInterceptorReplacer(final Binding binding) {
-        this.binding = binding;
+    private TCCLAwareInterceptorReplacer() {
+        // private constructor
     }
 
     @Override
@@ -51,7 +49,7 @@ public final class TCCLAwareInterceptorReplacer implements UnaryOperator<Interce
             return interceptor; // nothing to replace - TCCL aware interceptor is already in place
         }
         if (interceptor instanceof SoapInterceptor) {
-            return new TCCLAwareSoapPhaseInterceptor(binding, (PhaseInterceptor<SoapMessage>) interceptor);
+            return new TCCLAwareSoapPhaseInterceptor((PhaseInterceptor<SoapMessage>) interceptor);
         } else {
             return new TCCLAwarePhaseInterceptor((PhaseInterceptor<Message>) interceptor);
         }

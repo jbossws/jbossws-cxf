@@ -23,8 +23,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-
-import javax.xml.ws.Binding;
 import javax.xml.ws.handler.Handler;
 import javax.xml.ws.handler.soap.SOAPHandler;
 
@@ -32,6 +30,7 @@ import org.apache.cxf.binding.soap.SoapMessage;
 import org.apache.cxf.binding.soap.interceptor.SoapInterceptor;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.phase.PhaseInterceptor;
+
 import org.jboss.ws.common.utils.DelegateClassLoader;
 
 /**
@@ -39,36 +38,24 @@ import org.jboss.ws.common.utils.DelegateClassLoader;
  */
 final class TCCLAwareSoapPhaseInterceptor extends AbstractTCCLAwarePhaseInterceptor<SoapMessage> implements SoapInterceptor {
 
-    private final Binding binding;
-
-    TCCLAwareSoapPhaseInterceptor(final Binding binding, final PhaseInterceptor<SoapMessage> delegate) {
+    TCCLAwareSoapPhaseInterceptor(final PhaseInterceptor<SoapMessage> delegate) {
         super(delegate);
-        this.binding = binding;
     }
 
     // TCCL aware methods
 
     @Override
     public Set<QName> getUnderstoodHeaders() {
-        final Set<QName> understood = new HashSet<>();
-        for (Handler<?> h : binding.getHandlerChain()) {
-            if (h instanceof SOAPHandler) {
-                final ClassLoader original = SecurityActions.getContextClassLoader();
-                try {
-                    if (original instanceof DelegateClassLoader) {
-                        DelegateClassLoader delegateCL = (DelegateClassLoader)original;
-                        SecurityActions.setContextClassLoader(delegateCL.getDelegate());
-                    }
-                    final Set<QName> headers = CastUtils.cast(((SOAPHandler<?>) h).getHeaders());
-                    if (headers != null) {
-                        understood.addAll(headers);
-                    }
-                } finally {
-                    SecurityActions.setContextClassLoader(original);
-                }
+        final ClassLoader original = SecurityActions.getContextClassLoader();
+        try {
+            if (original instanceof DelegateClassLoader) {
+                DelegateClassLoader delegateCL = (DelegateClassLoader)original;
+                SecurityActions.setContextClassLoader(delegateCL.getDelegate());
             }
+            return ((SoapInterceptor) delegate).getUnderstoodHeaders();
+        } finally {
+            SecurityActions.setContextClassLoader(original);
         }
-        return understood;
     }
 
     // TCCL unaware methods
