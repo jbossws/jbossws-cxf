@@ -32,6 +32,7 @@ import static org.jboss.wsf.stack.cxf.client.SecurityActions.setContextClassLoad
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -39,7 +40,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
@@ -616,23 +616,23 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       private static class CacheKey {
          private final QName portName;
          private final EndpointReferenceType epr;
-         private final Class<?> sei;
+         private final int seiId;
          private final WebServiceFeature[] features;
          private final int hashCode;
 
          private CacheKey(final QName portName, final EndpointReferenceType epr, final Class<?> sei, final WebServiceFeature[] features) {
             this.portName = portName;
             this.epr = epr;
-            this.sei = sei;
+            this.seiId = System.identityHashCode(sei);
             this.features = features;
-            this.hashCode = Objects.hash(portName, epr, sei, Arrays.hashCode(features));
+            this.hashCode = Objects.hash(portName, epr, seiId, Arrays.hashCode(features));
          }
 
          @Override
          public final boolean equals(final Object other) {
             if (!(other instanceof CacheKey)) return false;
             final CacheKey o = (CacheKey) other;
-            return Objects.equals(portName, o.portName) && Objects.equals(epr, o.epr) && Objects.equals(sei, o.sei) && Objects.deepEquals(features, o.features);
+            return Objects.equals(portName, o.portName) && Objects.equals(epr, o.epr) && seiId == o.seiId && Objects.deepEquals(features, o.features);
          }
 
          @Override
