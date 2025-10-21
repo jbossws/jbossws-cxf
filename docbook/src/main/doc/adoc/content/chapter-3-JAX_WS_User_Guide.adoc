@@ -521,6 +521,26 @@ public void testConfigureTimeout() throws Exception
 }
 ....
 
+==== Caching Service Ports
+
+It is possible to configure Service to cache ports it creates.
+User just need to pass CachePortFeature to Service.create() or service.getPort() methods:
+
+....
+public void testCachedPorts() throws Exception
+{
+   URL wsdlURL = new URL("http://" + getServerHost() + ":8080/jaxws-samples-shared-ports?wsdl");
+   QName serviceName = new QName(targetNS, "TestEndpointService");
+   Service service = Service.create(wsdlURL, serviceName, new CachePortFeature());
+   TestEndpoint port = service.getPort(TestEndpoint.class);
+   // since now on the retrieved port is cached in service instance, further retrievals will be faster
+   Response response = port.echoAsync("Async");
+   // access future
+   String retStr = (String) response.get();
+   assertEquals("Async", retStr);
+}
+....
+
 ==== HTTP/2 Support
 
 Starting from JBossWS 7.1.0,the new CXF HTTP client transport has been created to better support HTTP/2.
