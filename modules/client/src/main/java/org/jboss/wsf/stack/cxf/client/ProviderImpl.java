@@ -30,14 +30,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.Cleaner;
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.function.Function;
@@ -573,33 +572,42 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
     * setting JBossWS client default config handlers.
     */
    static final class JBossWSServiceImpl extends ServiceImpl {
-
       private static final Cleaner cleaner = Cleaner.create();
       private final Map<CacheKey, SoftReference<Object>> portsCache = new ConcurrentHashMap<>();
+      private final boolean cachePorts;
 
       public JBossWSServiceImpl(Bus b, URL url, QName name, Class<?> cls, WebServiceFeature ... f) {
          super(b, url, name, cls, f);
+         this.cachePorts = f != null && f.length == 1 && f[0] instanceof CachePortFeature && f[0].isEnabled();
       }
 
       @Override
       protected <T> T createPort(final QName portName, final EndpointReferenceType epr, final Class<T> sei, final WebServiceFeature... features) {
-         final CacheKey key = new CacheKey(portName, epr, sei, features);
-         SoftReference<Object> ref;
-         Object port;
-         do {
-            ref = portsCache.computeIfAbsent(key, new Function<>() {
-               public SoftReference<Object> apply(final CacheKey key) {
-                  final Object newPort = createPortInternal(portName, epr, sei, features);
-                  final SoftReference<Object> newRef = new SoftReference<>(newPort);
-                  // schedule mapping removal from cache once cached port was GC-ed
-                  cleaner.register(newPort, new CacheCleaner(key, newRef, portsCache));
-                  return newRef;
-               }
-            });
-            port = ref.get();
-            if (port != null) return (T) port;
-            portsCache.remove(key, ref); // cached port was GC-ed but associated cleaner wasn't called yet - removing obsolete mapping now
-         } while (true);
+         if (isCacheable(epr, features)) {
+             final CacheKey key = new CacheKey(portName, sei);
+             SoftReference<Object> ref;
+             Object port;
+             do {
+                 ref = portsCache.computeIfAbsent(key, new Function<>() {
+                     public SoftReference<Object> apply(final CacheKey key) {
+                         final Object newPort = createPortInternal(portName, epr, sei, features);
+                         final SoftReference<Object> newRef = new SoftReference<>(newPort);
+                         // schedule mapping removal from cache once cached port was GC-ed
+                         cleaner.register(newPort, new CacheCleaner(key, newRef, portsCache));
+                         return newRef;
+                     }
+                 });
+                 port = ref.get();
+                 if (port != null) return (T) port;
+                 portsCache.remove(key, ref); // cached port was GC-ed but associated cleaner wasn't called yet - removing obsolete mapping now
+             } while (true);
+         } else return createPortInternal(portName, epr, sei, features);
+      }
+
+      private boolean isCacheable(final EndpointReferenceType epr, final WebServiceFeature... features) {
+          if (epr != null) return false;
+          if (features == null || features.length == 0) return cachePorts;
+          return features.length == 1 && (features[0] instanceof CachePortFeature) && features[0].isEnabled();
       }
 
       private <T> T createPortInternal(final QName portName, final EndpointReferenceType epr, final Class<T> sei, final WebServiceFeature... features) {
@@ -619,40 +627,39 @@ public class ProviderImpl extends org.apache.cxf.jaxws22.spi.ProviderImpl
       private static class CacheCleaner implements Runnable {
          private final CacheKey key;
          private final SoftReference<Object> value;
-         private final Map<CacheKey, SoftReference<Object>> cache;
+         private final WeakReference<Map<CacheKey, SoftReference<Object>>> cacheRef;
 
          private CacheCleaner(final CacheKey key, final SoftReference<Object> value, final Map<CacheKey, SoftReference<Object>> cache) {
             this.key = key;
             this.value = value;
-            this.cache = cache;
+            this.cacheRef = new WeakReference<>(cache);
          }
 
          @Override
          public void run() {
-            cache.remove(key, value);
+            final Map<CacheKey, SoftReference<Object>> cache = cacheRef.get();
+            if (cache != null) {
+                cache.remove(key, value);
+            }
          }
       }
 
       private static class CacheKey {
          private final QName portName;
-         private final EndpointReferenceType epr;
-         private final Class<?> sei;
-         private final WebServiceFeature[] features;
+         private final int seiId;
          private final int hashCode;
 
-         private CacheKey(final QName portName, final EndpointReferenceType epr, final Class<?> sei, final WebServiceFeature[] features) {
+         private CacheKey(final QName portName, final Class<?> sei) {
             this.portName = portName;
-            this.epr = epr;
-            this.sei = sei;
-            this.features = features;
-            this.hashCode = Objects.hash(portName, epr, sei, Arrays.hashCode(features));
+            this.seiId = System.identityHashCode(sei);
+            this.hashCode = Objects.hash(portName, seiId);
          }
 
          @Override
          public final boolean equals(final Object other) {
             if (!(other instanceof CacheKey)) return false;
             final CacheKey o = (CacheKey) other;
-            return Objects.equals(portName, o.portName) && Objects.equals(epr, o.epr) && Objects.equals(sei, o.sei) && Objects.deepEquals(features, o.features);
+            return Objects.equals(portName, o.portName) && seiId == o.seiId;
          }
 
          @Override
