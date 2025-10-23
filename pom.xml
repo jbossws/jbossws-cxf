@@ -79,7 +79,7 @@
     <jboss-logging-annotations.version>2.2.1.Final</jboss-logging-annotations.version>
     <jboss-logging-processor.version>2.2.1.Final</jboss-logging-processor.version>
     <jboss.xb.version>2.0.3.GA</jboss.xb.version>
-    <picketbox.version>5.0.3.Final</picketbox.version>
+    <picketbox.version>5.1.0.Final</picketbox.version>
     <picketlink.version>2.5.5.SP12</picketlink.version>
     <jaxws-undertow-httpspi.version>1.0.1.Final</jaxws-undertow-httpspi.version>
     <io.undertow.version>2.0.30.Final</io.undertow.version>
