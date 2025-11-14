@@ -133,7 +133,7 @@
     <wildfly.elytron.version>2.6.4.Final</wildfly.elytron.version>
     <wildfly.galleon.plugin.version>7.3.1.Final</wildfly.galleon.plugin.version>
     <wildfly.naming.client.version>2.0.1.Final</wildfly.naming.client.version>
-    <wildfly.plugin.version>5.1.3.Final</wildfly.plugin.version>
+    <wildfly.plugin.version>5.1.5.Final</wildfly.plugin.version>
     <wildfly.security.webservices.client.version>3.1.4.Final</wildfly.security.webservices.client.version>
     <wss4j.version>3.0.4</wss4j.version>
     <wstx.version>7.1.0</wstx.version>
