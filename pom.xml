@@ -22,20 +22,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <name>JBoss Web Services - Stack CXF jakarta</name>
   <groupId>org.jboss.ws.cxf</groupId>
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
-  <description>JBossWS CXF stack jakarta</description>
 
+  <name>JBoss Web Services - Stack CXF Jakarta Version</name>
+  <description>JBoss Web Services - Stack CXF Jakarta Version</description>
+  <url>https://github.com/jbossws/jbossws-cxf</url>
 
-  <version>7.3.4-SNAPSHOT</version>
+  <version>7.3.7-SNAPSHOT</version>
 
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>2.0.0.Final</version>
+    <version>2.0.1.Final</version>
   </parent>
 
   <!-- Source Control Management -->
@@ -43,7 +44,7 @@
     <connection>scm:git:https://github.com/jbossws/jbossws-cxf.git</connection>
     <developerConnection>scm:git:https://github.com/jbossws/jbossws-cxf.git</developerConnection>
     <url>https://github.com/jbossws/jbossws-cxf</url>
-    <tag>HEAD</tag>
+    <tag>${nexus.staging.tag}</tag>
   </scm>
 
   <!-- Modules -->
@@ -60,15 +61,20 @@
 
   <!-- Properties -->
   <properties>
+    <!-- Repository Deployment Settings -->
+    <nexus.repository.staging>jboss-io</nexus.repository.staging>
+    <nexus.repository.release>jbossws</nexus.repository.release>
+    <nexus.staging.tag>jbossws-cxf-${project.version}</nexus.staging.tag>
+    <!-- Dependency versions -->
     <arquillian.version>1.9.4.Final</arquillian.version>
     <arquillian.wildfly.container.version>5.1.0.Beta6</arquillian.wildfly.container.version>
     <artemis.client.version>2.38.0</artemis.client.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
     <commons.collections.version>3.2.2</commons.collections.version>
-    <commons.lang3.version>3.17.0</commons.lang3.version>
+    <commons.lang3.version>3.18.0</commons.lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
     <commons.validator.version>1.9.0</commons.validator.version>
-    <cxf.version>4.0.8</cxf.version>
+    <cxf.version>4.0.9-jbossorg-1</cxf.version>
     <cxf.asm.version>9.8</cxf.asm.version>
     <cxf.xjcplugins.version>4.1.0</cxf.xjcplugins.version>
     <derby.version>10.15.2.0</derby.version>
@@ -1063,33 +1069,53 @@
 
   <!-- Plugins -->
   <build>
-  <!-- PluginMangament-->
-  <pluginManagement>
-     <plugins>
+    <!-- PluginMangament-->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.wildfly.plugins</groupId>
+          <artifactId>wildfly-maven-plugin</artifactId>
+          <version>${wildfly.plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.wildfly.core</groupId>
+              <artifactId>wildfly-controller-client</artifactId>
+              <version>${wildfly.controller.client.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.wildfly.galleon-plugins</groupId>
+          <artifactId>wildfly-galleon-maven-plugin</artifactId>
+          <version>${wildfly.galleon.plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>com.google.cloud.tools</groupId>
+          <artifactId>jib-maven-plugin</artifactId>
+          <version>3.4.3</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <!-- Maven Central requires javadoc jar. Create an empty one. -->
+    <plugins>
       <plugin>
-        <groupId>org.wildfly.plugins</groupId>
-        <artifactId>wildfly-maven-plugin</artifactId>
-        <version>${wildfly.plugin.version}</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.wildfly.core</groupId>
-            <artifactId>wildfly-controller-client</artifactId>
-            <version>${wildfly.controller.client.version}</version>
-          </dependency>
-        </dependencies>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>empty-javadoc-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>javadoc</classifier>
+              <classesDirectory>${project.basedir}/javadoc</classesDirectory>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
-       <plugin>
-         <groupId>org.wildfly.galleon-plugins</groupId>
-         <artifactId>wildfly-galleon-maven-plugin</artifactId>
-         <version>${wildfly.galleon.plugin.version}</version>
-       </plugin>
-       <plugin>
-         <groupId>com.google.cloud.tools</groupId>
-         <artifactId>jib-maven-plugin</artifactId>
-         <version>3.4.3</version>
-       </plugin>
-     </plugins>
-  </pluginManagement>
+    </plugins>
   </build>
 
   <!-- Profiles -->

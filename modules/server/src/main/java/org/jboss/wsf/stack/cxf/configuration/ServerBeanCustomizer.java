@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
 
-import jakarta.xml.ws.Binding;
-
 import org.apache.cxf.Bus;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.annotations.UseAsyncMethod;
@@ -75,8 +73,7 @@ public class ServerBeanCustomizer extends BeanCustomizer
       if (beanInstance instanceof JaxWsEndpointImpl)
       {
          final JaxWsEndpointImpl jaxwsEndpoint = (JaxWsEndpointImpl)beanInstance;
-         final Binding jaxwsBinding = jaxwsEndpoint.getJaxwsBinding();
-         final UnaryOperator<Interceptor<? extends Message>> interceptorReplacer = new TCCLAwareInterceptorReplacer(jaxwsBinding);
+         final UnaryOperator<Interceptor<? extends Message>> interceptorReplacer = TCCLAwareInterceptorReplacer.INSTANCE;
 
          // Endpoint interceptors
          jaxwsEndpoint.getInInterceptors().replaceAll(interceptorReplacer);
