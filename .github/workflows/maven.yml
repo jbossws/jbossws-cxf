@@ -16,9 +16,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest ]
-        java: ['11','17','21']
+        jdk-distribution: [temurin, adopt-openj9]
+        jdk-version: [17, 21, 25]
         profile: ['']
-
     steps:
       - name: Checkout jbossws-cxf
         uses: actions/checkout@v5
@@ -28,23 +28,23 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Set up JDK ${{ matrix.java }}
+      - name: Set up JDK ${{ matrix.jdk-version }}
         uses: actions/setup-java@v4
         with:
-          java-version: ${{ matrix.java }}
-          distribution: 'temurin'
+          distribution: ${{ matrix.jdk-distribution }}
+          java-version: ${{ matrix.jdk-version }}
       - name: Build docbook
         run: mvn -s ./.m2-settings.xml -f docbook/pom.xml install
-      - name: Build with Maven Java ${{ matrix.java }} ${{ matrix.profile }}
+      - name: Build with Maven Java ${{ matrix.jdk-version }} ${{ matrix.profile }}
         run: |
           mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
       - uses: actions/upload-artifact@v5
         if: failure()
         with:
-          name: surefire-reports-${{ matrix.os }}-${{ matrix.java }}
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.jdk-version }}
           path: '${{ github.workspace }}/**/surefire-reports/*.*'
       - uses: actions/upload-artifact@v5
         if: failure()
         with:
-          name: server-logs-${{ matrix.os }}-${{ matrix.java }}
+          name: server-logs-${{ matrix.os }}-${{ matrix.jdk-version }}
           path: '${{ github.workspace }}/**/*.log'
