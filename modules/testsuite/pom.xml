@@ -15,7 +15,6 @@
 
   <!-- Properties -->
   <properties>
-    <surefire.security.args>-Djava.security.manager -Djava.security.policy=src/test/etc/tst.policy</surefire.security.args>
     <surefire.memory.args>-Xmx640m</surefire.memory.args>
     <surefire.jdwp.args>-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5005</surefire.jdwp.args>
     <surefire.management.args>-Dcom.sun.management.jmxremote</surefire.management.args>
@@ -71,7 +70,7 @@
       --add-opens=java.management/javax.management=ALL-UNNAMED
       --add-opens=java.naming/javax.naming=ALL-UNNAMED
     </modular.jdk.args>
-    <surefire.jvm.args>${surefire.security.args} ${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props}</surefire.jvm.args>
+    <surefire.jvm.args>${surefire.memory.args} ${modular.jdk.args} ${modular.jdk.props}</surefire.jvm.args>
   </properties>
 
   <!-- Modules -->
@@ -674,47 +673,6 @@
         </dependency>
       </dependencies>
 
-    </profile>
-    <!--
-    Name:  secmgr
-    Descr: Additional testsuite exclusions when running against a container with security manager enabled 
-    -->
-    <profile>
-      <id>secmgr</id>
-      <activation>
-        <property>
-          <name>secmgr</name>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <excludes combine.children="append">
-                <!-- [UNDERTOW-102] Permission check failed for ("java.lang.RuntimePermission" "MODIFY_UNDERTOW_SECURITY_CONTEXT") -->
-                <exclude>org/jboss/test/ws/jaxws/samples/asynch/AsynchTestCase*</exclude>
-              </excludes>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
-    Name:  wildfly9-secmgr
-    Descr: Additional jvm argumetns to add "-secmgr" flag in server start options" 
-    -->
-    <profile>
-      <id>wildfly9-secmgr</id>
-      <activation>
-        <property>
-          <name>wildfly9-secmgr</name>
-        </property>
-      </activation>
-      <properties>
-          <additionalJvmArgs>-Djava.security.manager</additionalJvmArgs>
-      </properties>
     </profile>
     <!--
     Name:  exclude-integration-tests-BC-related
