@@ -165,32 +165,12 @@ final class AppclientHelper
          // always propagate IPv6 related properties
          final StringBuilder javaOptsValue = new StringBuilder();
 
-         // wildfly9 security manage flag changed from -Djava.security.manager to -secmgr.
-         // Can't pass -secmgr arg through arquillian because it breaks arquillian's
-         // config of our tests.
-         // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
-         // come after the jboss-modules.jar ref.
          String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
-         if (additionalJVMArgs != null) {
-
-            if ("-Djava.security.manager".equals(additionalJVMArgs)) {
-               System.setProperty("SECMGR", "true");
-               javaOptsValue.append("-Djava.security.policy="
-                + System.getProperty("securityPolicyfile", "")).append(" ");
-            }
-         } else {
+         if (additionalJVMArgs == null) {
             javaOptsValue.append("-Djava.net.preferIPv4Stack=").append(System.getProperty("java.net.preferIPv4Stack", "true")).append(" ");
             javaOptsValue.append("-Djava.net.preferIPv6Addresses=").append(System.getProperty("java.net.preferIPv6Addresses", "false")).append(" ");
          }
          javaOptsValue.append("-Djboss.bind.address=").append(undoIPv6Brackets(System.getProperty("jboss.bind.address", "localhost"))).append(" ");
-         String appclientDebugOpts = System.getProperty("APPCLIENT_DEBUG_OPTS", null);
-         if (appclientDebugOpts != null && appclientDebugOpts.trim().length() > 0)
-         {
-            String acDeubOpts = appclientDebugOpts.replace("-Djava.security.manager", "-secmgr");
-            javaOptsValue.append(acDeubOpts).append(" ");
-         }
-         //setting this modular.jdk.args caused the windows error : The syntax of the command is incorrect
-         //javaOptsValue.append(" ").append(System.getProperty("modular.jdk.args", ""));
          pb.environment().put("JAVA_OPTS", javaOptsValue.toString());
          System.out.println("JAVA_OPTS=\"" + javaOptsValue.toString() + "\"");
          System.out.println("Starting " + appclientScript + " " + configArg + " "

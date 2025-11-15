@@ -69,20 +69,7 @@ public class JBWS2591TestCase extends JBossWSTest
       String absOutput = new File(TEST_DIR, "wsconsume" + FS + "java").getAbsolutePath();
       String command = JBOSS_HOME + FS + "bin" + FS + "wsconsume" + EXT + " -v -k -o " + absOutput + " " + absWsdlLoc;
 
-      // wildfly9 security manager flag changed from -Djava.security.manager to -secmgr.
-      // Can't pass -secmgr arg through arquillian because it breaks arquillian's
-      // config of our tests.
-      // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
-      // come after the jboss-modules.jar ref.
-      String additionalJVMArgs = System.getProperty("additionalJvmArgs", "");
-      String securityManagerDesignator = additionalJVMArgs.replace("-Djava.security.manager", "-secmgr");
-
-      File policyFile = new File(JBossWSTestHelper.getTestResourcesDir()
-          + "/jaxws/jbws2591/jbws2591-security.policy");
-      String securityPolicyFile = " -Djava.security.policy=" + policyFile.getCanonicalPath();
-
       Map<String, String> env = new HashMap<>();
-      env.put("JAVA_OPTS", securityManagerDesignator + securityPolicyFile);
 
       executeCommand(command, null, "wsconsume", env);
       File javaSource = new File(TEST_DIR, "wsconsume" + FS + "java" + FS + "org" + FS + "marshalltestservice" + FS + "newschemadefs" + FS + "NewSchemaTest.java");

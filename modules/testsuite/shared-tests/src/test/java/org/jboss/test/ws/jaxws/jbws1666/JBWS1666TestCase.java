@@ -137,15 +137,6 @@ public class JBWS1666TestCase extends JBossWSTest
       // input arguments to jboss-module's main
       sbuf.append(" -mp ").append(jbm);
 
-      // wildfly9 security manage flag changed from -Djava.security.manager to -secmgr.
-      // Can't pass -secmgr arg through arquillian because it breaks arquillian's
-      // config of our tests.
-      // the -secmgr flag MUST be provided as an input arg to jboss-modules so it must
-      // come after the jboss-modules.jar ref.
-      if (additionalJVMArgs.contains("-Djava.security.manager")) {
-         sbuf.append(" ").append("-secmgr");
-      }
-
       // our client jar is an input param to jboss-module
       final File f = new File(JBossWSTestHelper.getTestArchiveDir(), clientJar);
       sbuf.append(" -jar ").append(f.getAbsolutePath());
