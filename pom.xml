@@ -136,7 +136,7 @@
     <wildfly.plugin.version>5.1.5.Final</wildfly.plugin.version>
     <wildfly.security.webservices.client.version>3.1.4.Final</wildfly.security.webservices.client.version>
     <wss4j.version>3.0.4</wss4j.version>
-    <wstx.version>7.1.0</wstx.version>
+    <wstx.version>7.1.1</wstx.version>
     <xmlsec.version>3.0.6</xmlsec.version>
     <modular.jdk.args/>
     <modular.jdk.props/>
