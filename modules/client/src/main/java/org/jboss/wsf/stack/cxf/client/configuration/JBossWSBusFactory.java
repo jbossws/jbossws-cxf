@@ -30,6 +30,7 @@ import org.apache.cxf.bus.extension.ExtensionManagerBus;
 import org.apache.cxf.buslifecycle.BusLifeCycleListener;
 import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
+import org.apache.cxf.io.CachedConstants;
 import org.apache.cxf.resource.ResourceManager;
 import org.jboss.wsf.stack.cxf.client.ClientBusSelector;
 import org.jboss.wsf.stack.cxf.client.Constants;
@@ -76,6 +77,9 @@ public class JBossWSBusFactory extends CXFBusFactory
       final ResourceManager resourceManager = bus.getExtension(ResourceManager.class);
       resourceManager.addResourceResolver(JBossWSResourceInjectionResolver.getInstance());
       SecurityProviderConfig.setup(bus);
+
+      //[JBWS-4458] Use DelayedCachedOutputStreamCleaner.SingleTimerDelayedCleaner strategy to prevent threads leaking
+      bus.setProperty(CachedConstants.CLEANER_STRATEGY_BUS_PROP, "single-timer");
 
       String forceURLConnection = System.getProperty(Constants.FORCE_URL_CONNECTION_CONDUIT);
       Object busForceURLconnection = bus.getProperty(Constants.FORCE_URL_CONNECTION_CONDUIT);
