@@ -37,6 +37,7 @@ import org.apache.cxf.buslifecycle.BusLifeCycleManager;
 import org.apache.cxf.configuration.Configurer;
 import org.apache.cxf.endpoint.ServerLifeCycleManager;
 import org.apache.cxf.interceptor.OneWayProcessorInterceptor;
+import org.apache.cxf.io.CachedConstants;
 import org.apache.cxf.management.InstrumentationManager;
 import org.apache.cxf.management.counters.CounterRepository;
 import org.apache.cxf.management.interceptor.ResponseTimeMessageInInterceptor;
@@ -202,7 +203,10 @@ public class BusHolder
       
       //[JBWS-3135] enable decoupled faultTo. This is an optional feature in cxf and we need this to be default to make it same behavior with native stack
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
-      
+
+      //[JBWS-4458] Use DelayedCachedOutputStreamCleaner.SingleTimerDelayedCleaner strategy to prevent threads leaking
+      bus.setProperty(CachedConstants.CLEANER_STRATEGY_BUS_PROP, "single-timer");
+
       FeatureUtils.addFeatures(bus, bus, props);
       PropertyReferenceUtils.createPropertyReference(props, bus.getProperties());
       for (DDEndpoint dde : metadata.getEndpoints())
