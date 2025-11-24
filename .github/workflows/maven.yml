@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout jbossws-cxf
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - uses: actions/cache@v4
         with:
           path: ~/.m2/repository
