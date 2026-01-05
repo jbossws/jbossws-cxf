@@ -1,0 +1,67 @@
+name: Build and test against latest Apache CXF 4.0.x SNAPSHOT
+
+on:
+  schedule:
+    # Run every Monday at 00:00 UTC
+    - cron: '0 0 * * 1'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest ]
+        jdk-distribution: [temurin, adopt-openj9]
+        jdk-version: [17, 21, 25]
+
+    steps:
+      - name: Checkout JBossWS CXF
+        uses: actions/checkout@v5
+
+      - name: Checkout Apache CXF main branch
+        uses: actions/checkout@v4
+        with:
+          repository: apache/cxf
+          ref: 4.0.x-fixes
+          path: apache-cxf
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Set up JDK ${{ matrix.jdk-version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: ${{ matrix.jdk-distribution }}
+          java-version: ${{ matrix.jdk-version }}
+
+      - name: Build Apache CXF snapshot (skip tests)
+        run: mvn -B clean install -DskipTests
+        working-directory: apache-cxf
+
+      - name: Get Apache CXF snapshot version
+        id: get-cxf-version
+        shell: bash
+        run: |
+          CXF_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "version=$CXF_VERSION" >> $GITHUB_OUTPUT
+          echo "Apache CXF snapshot version: $CXF_VERSION"
+        working-directory: apache-cxf
+
+      - name: Build JBossWS CXF with tests with Maven Java ${{ matrix.jdk-version }}
+        run: |
+          mvn -B -s ./.m2-settings.xml -fae clean install "-Dcxf.version=${{ steps.get-cxf-version.outputs.version }}"
+
+      - uses: actions/upload-artifact@v5
+        if: failure()
+        with:
+          name: surefire-reports-${{ matrix.os }}-${{ matrix.jdk-version }}
+          path: '${{ github.workspace }}/**/surefire-reports/*.*'
+      - uses: actions/upload-artifact@v5
+        if: failure()
+        with:
+          name: server-logs-${{ matrix.os }}-${{ matrix.jdk-version }}
+          path: '${{ github.workspace }}/**/*.log'
