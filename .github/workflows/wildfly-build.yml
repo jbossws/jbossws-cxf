@@ -28,7 +28,7 @@ jobs:
         jdk-distribution: [temurin, adopt-openj9]
         jdk-version: [17, 21, 25]
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/download-artifact@v6
         with:
           name: wildfly-maven-repository
