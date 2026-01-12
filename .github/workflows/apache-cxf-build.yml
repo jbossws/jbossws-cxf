@@ -55,12 +55,12 @@ jobs:
         run: |
           mvn -B -s ./.m2-settings.xml -fae clean install "-Dcxf.version=${{ steps.get-cxf-version.outputs.version }}"
 
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: surefire-reports-${{ matrix.os }}-${{ matrix.jdk-version }}
           path: '${{ github.workspace }}/**/surefire-reports/*.*'
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: server-logs-${{ matrix.os }}-${{ matrix.jdk-version }}
