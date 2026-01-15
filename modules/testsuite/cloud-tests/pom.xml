@@ -24,15 +24,8 @@
                 <executions>
                     <!--combine.self="override" to override configuration from parent pom-->
                     <execution>
-                        <id>default-test</id>
-                        <phase>test</phase>
-                        <configuration combine.self="override">
-                            <skip>true</skip>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>integration-tests</id>
-                        <phase>integration-test</phase>
+                        <phase>integration-test</phase><!-- Re-enable tests previously disabled in parent module -->
                         <goals>
                             <goal>test</goal>
                         </goals>
@@ -41,16 +34,6 @@
                                 <include>**/*Test.java</include>
                                 <include>**/*TestCase.java</include>
                             </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>forked-integration-tests</id>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration combine.self="override">
-                            <skip>true</skip>
                         </configuration>
                     </execution>
                 </executions>
