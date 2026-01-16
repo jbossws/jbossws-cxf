@@ -274,22 +274,25 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <argLine>${surefire.jvm.args} ${surefire.jvm.management.args} ${surefire.default-mgmt-serurity.args} ${ipVerArgs}</argLine>
-          <skip>true</skip>
           <failIfNoTests>false</failIfNoTests>
           <runOrder>alphabetical</runOrder>
         </configuration>
         <executions>
           <execution>
+            <id>default-test</id>
+            <phase>none</phase><!-- Disable default surefire execution, we only want to run our executions -->
+          </execution>
+          <execution>
             <id>integration-tests</id>
-            <phase>integration-test</phase>
+            <phase>none</phase><!-- Disabled here in parent testsuite module, overridden in child modules -->
             <goals>
               <goal>test</goal>
             </goals>
             <configuration>
-              <skip>false</skip>
               <includes>
                 <include>**/*Test.java</include>
                 <include>**/*TestCase.java</include>
@@ -327,13 +330,12 @@
           
           <execution>
             <id>forked-integration-tests</id>
-            <phase>integration-test</phase>
+            <phase>none</phase><!-- Disabled here in parent testsuite module, overridden in child modules -->
             <goals>
               <goal>test</goal>
             </goals>
             <configuration>
               <reuseForks>false</reuseForks>
-              <skip>false</skip>
               <includes>
                 <include>**/*TestCaseForked.java</include>
                 <include>**/*TestForked.java</include>

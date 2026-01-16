@@ -53,6 +53,26 @@
         <jbws-testsuite-shared-default-config-tests-base>jbws-testsuite-shared-default-config-tests</jbws-testsuite-shared-default-config-tests-base>
         <jbws-testsuite-shared-address-rewrite-base>jbws-testsuite-shared-address-rewrite</jbws-testsuite-shared-address-rewrite-base>
     </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>integration-tests</id>
+            <phase>integration-test</phase><!-- Re-enable tests previously disabled in parent module -->
+          </execution>
+          <execution>
+            <id>forked-integration-tests</id>
+            <phase>integration-test</phase><!-- Re-enable tests previously disabled in parent module -->
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
   <!-- Profiles -->
   <profiles>
 
