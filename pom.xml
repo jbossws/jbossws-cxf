@@ -25,11 +25,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss Web Services - Stack CXF</name>
+  <name>JBoss Web Services - CXF Stack</name>
   <groupId>org.jboss.ws.cxf</groupId>
   <artifactId>jbossws-cxf</artifactId>
   <packaging>pom</packaging>
-  <description>JBossWS CXF stack</description>
+  <description>JBossWS CXF Stack</description>
 
   
   <version>5.3.1-SNAPSHOT</version>
@@ -38,7 +38,7 @@
   <parent>
     <groupId>org.jboss.ws</groupId>
     <artifactId>jbossws-parent</artifactId>
-    <version>1.4.4.Final</version>
+    <version>1.4.5-SNAPSHOT</version>
   </parent>
   
   <!-- Source Control Management -->
@@ -46,7 +46,7 @@
     <connection>scm:git:https://github.com/jbossws/jbossws-cxf.git</connection>
     <developerConnection>scm:git:https://github.com/jbossws/jbossws-cxf.git</developerConnection>
     <url>https://github.com/jbossws/jbossws-cxf</url>
-    <tag>HEAD</tag>
+    <tag>${nexus.staging.tag}</tag>
   </scm>
   
   <!-- Modules -->
@@ -62,6 +62,9 @@
   
   <!-- Properties -->
   <properties>
+    <!-- Repository Deployment Settings -->
+    <nexus.staging.tag>jbossws-cxf-${project.version}</nexus.staging.tag>
+    <!-- Dependency versions -->
     <jboss.modules.version>1.9.1.Final</jboss.modules.version>
     <jbossws.api.version>1.1.2.Final</jbossws.api.version>
     <jbossws.spi.version>3.2.3.Final</jbossws.spi.version>
@@ -916,8 +919,8 @@
   
   <!-- Plugins -->
   <build>
-  <!-- PluginMangament-->
-  <pluginManagement>
+    <!-- PluginMangament-->
+    <pluginManagement>
      <plugins>
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
@@ -994,7 +997,28 @@
         </dependencies>
       </plugin>
      </plugins>
-  </pluginManagement>
+    </pluginManagement>
+
+    <plugins>
+      <!-- Maven Central requires javadoc jar. Create an empty one. -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>empty-javadoc-jar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <configuration>
+              <classifier>javadoc</classifier>
+              <classesDirectory>${project.basedir}/javadoc</classesDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
   <!-- Profiles -->
