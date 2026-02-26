@@ -29,7 +29,7 @@ jobs:
         jdk-version: [17, 21, 25]
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: wildfly-maven-repository
           path: .
