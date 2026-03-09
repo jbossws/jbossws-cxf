@@ -239,7 +239,13 @@ public class CXFProviderImpl extends WSContractProvider
          URLClassLoader urlLoader = (URLClassLoader)cl;
          for (URL url : urlLoader.getURLs())
          {
-            builder.append(url.getPath());
+            try {
+               // Use File to convert the URL to platform-specific path (Windows or Unix)
+               builder.append(new File(url.toURI()).getAbsolutePath());
+            } catch (Exception e) {
+               // fallback to URL path if URI conversion fails
+               builder.append(url.getPath());
+            }
             builder.append(File.pathSeparator);
          }
 
