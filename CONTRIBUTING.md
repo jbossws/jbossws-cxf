@@ -7,6 +7,7 @@ We welcome contributions from the community. This guide will walk you through th
 - [Issues](#issues)
   - [Good First Issues](#good-first-issues)
 - [Code Style](#code-style)
+- [Legal](#legal)
 
 
 
@@ -48,3 +49,8 @@ If you encounter any problem during the contribution, please use [GitHub discuss
 ## Code Style
 If you are using Eclipse then set your code style to eclipse/jboss-style.xml and check style to eclipse/jboss-format.xml.
 And please make sure you're putting correct license headers to Java and XML files.
+
+## Legal
+
+All contributions are subject to the [Developer Certificate of Origin (DCO)](https://developercertificate.org/).
+The DCO text is also included verbatim in the [dco.txt](dco.txt) file in the root directory of the repository.
