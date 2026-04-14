@@ -132,6 +132,43 @@ Of course, when a confidential transport address is required, the
 addresses are always rewritten using https protocol and the port
 currently configured for the https/ssl connector.
 
+=== URL Path Decoding for NLS Characters
+
+JBossWS-CXF can automatically handle URL-encoded paths containing National Language Symbols (NLS) or other non-ASCII
+characters. When a web service `name` or `serviceName` contains special characters (e.g., "Caffè"), HTTP requests
+arrive with URL-encoded paths (e.g., "/Caff%C3%A8"), but destinations are registered with decoded names by CXF.
+The stack can automatically attempt to decode incoming request paths to match the registered endpoints.
+
+This behavior is disabled by default and can be controlled globally or per-deployment:
+
+==== Global configuration
+
+The `org.jboss.ws.cxf.decodeUrlPath` system property controls the default behavior across all deployments.
+The default value is `false`.
+
+To enable URL path decoding globally, set the system property to `true` in the WildFly configuration:
+
+....
+<system-properties>
+  <property name="org.jboss.ws.cxf.decodeUrlPath" value="true"/>
+</system-properties>
+....
+
+==== Per-deployment configuration
+
+Individual deployments can override the global setting using a Bus property in the `jboss-webservices.xml` descriptor:
+
+....
+<webservices xmlns="http://www.jboss.com/xml/ns/javaee" version="1.2">
+  <property>
+    <name>org.jboss.ws.cxf.decodeUrlPath</name>
+    <value>true</value>
+  </property>
+</webservices>
+....
+
+The deployment-level property takes precedence over the system property, allowing fine-grained control per deployment.
+
 === Configuration through deployment descriptor
 
 The `jboss-webservices.xml` deployment descriptor can be used to provide
