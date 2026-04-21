@@ -18,14 +18,29 @@
  */
 package org.jboss.wsf.stack.cxf.transport;
 
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
+import org.apache.cxf.message.Message;
+import org.apache.cxf.phase.PhaseInterceptorChain;
 import org.apache.cxf.transport.http.AbstractHTTPDestination;
 import org.apache.cxf.transport.http.DestinationRegistryImpl;
 import org.jboss.logging.Logger;
+import org.jboss.wsf.spi.SPIProvider;
+import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
+import org.jboss.wsf.spi.deployment.Deployment;
+import org.jboss.wsf.spi.deployment.Endpoint;
+import org.jboss.wsf.spi.invocation.EndpointAssociation;
+import org.jboss.wsf.spi.management.EndpointRegistry;
+import org.jboss.wsf.spi.management.EndpointRegistryFactory;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
+import org.jboss.wsf.stack.cxf.client.Constants;
+
+import javax.management.ObjectName;
 
 /**
  * A JBossWS version of the CXF DestinationRegistryImpl that registers destinations
@@ -87,6 +102,32 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
    @Override
    public AbstractHTTPDestination getDestinationForPath(String path, boolean tryDecoding) {
 
+      // 1. System property provides global default (UTF-8 by default)
+      LOGGER.debug("Checking the " + Constants.JBWS_CXF_URL_CHARSET + " system property...");
+      String urlCharset = SecurityActions.getSystemProperty(Constants.JBWS_CXF_URL_CHARSET,
+              StandardCharsets.UTF_8.toString());
+      LOGGER.debug(Constants.JBWS_CXF_URL_CHARSET + " system property is set to " + urlCharset);
+
+      // 2. Deployment metadata property can override on a per-deployment basis (from jboss-webservices.xml)
+      LOGGER.debug("Checking the " + Constants.JBWS_CXF_URL_CHARSET + " deployment metadata property...");
+      // Let's see whether an Endpoint instance is associated with the current thread, as a way to
+      // decide whether the code is being executed within an HTTP request.
+      final Endpoint endpoint = EndpointAssociation.getEndpoint();
+      if (endpoint == null) {
+         LOGGER.warn("Cannot find an endpoint for the current request and look up the " +
+                 Constants.JBWS_CXF_URL_CHARSET + " deployment property");
+      } else {
+         final Deployment deployment = getDeploymentFromEndpoint(endpoint);
+         final JBossWebservicesMetaData wsmd = deployment.getAttachment(JBossWebservicesMetaData.class);
+         if (wsmd != null && wsmd.getProperties() != null) {
+            final String metadataProp = wsmd.getProperties().get(Constants.JBWS_CXF_URL_CHARSET);
+            if (metadataProp != null) {
+               urlCharset = metadataProp;
+            }
+         }
+      }
+      LOGGER.debug(Constants.JBWS_CXF_URL_CHARSET + " deployment metadata property is set to " + urlCharset);
+
       // First attempt: try original lookup with encoded path (backward compatibility)
       LOGGER.debug("Attempting CXF destination lookup for " + (path == null ? "(null)" : path) +
               " with tryDecoding=" + tryDecoding + "...");
@@ -96,8 +137,13 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
       // Second attempt: if not found and decoding is enabled, try with decoded path
       if (dest == null && tryDecoding && path != null) {
          LOGGER.debug("Decoding the URL-encoded path...");
-         String sanitizedPath = decodeAndClean(path);
-         // Only retry if decoding actually changed the path
+          String sanitizedPath = null;
+          try {
+              sanitizedPath = decodeAndClean(path, urlCharset);
+          } catch (UnsupportedEncodingException e) {
+              throw new RuntimeException(e);
+          }
+          // Only retry if decoding actually changed the path
          if (!sanitizedPath.equals(path)) {
             // The URL path is now sanitized, so we pass "tryDecoding" as "false", to
             // avoid any further action.
@@ -110,12 +156,21 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
    }
 
    /**
+    * Gets the deployment instance associated with the current thread endpoint.
+    * @param endpoint The {@link Endpoint} instance associated with the current thread.
+    * @return A {@link Deployment} instance associated with the given endpoint.
+    */
+   private static Deployment getDeploymentFromEndpoint(final Endpoint endpoint) {
+       return endpoint.getService().getDeployment();
+   }
+
+   /**
     * Decodes URL-encoded characters and normalizes path separators.
     *
     * @param path The raw incoming URI path
     * @return A decoded and normalized path string
     */
-   private String decodeAndClean(final String path) {
+   private String decodeAndClean(final String path, final String urlEncodingCharset) throws UnsupportedEncodingException {
 
       if (path == null || path.isEmpty()) {
          return path;
@@ -125,7 +180,7 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
 
       // 1. Decode NLS and special characters (e.g., %C3%A0 -> à)
       // Using StandardCharsets.UTF_8 is the standard for Jakarta EE 10+
-      processedPath = URLDecoder.decode(processedPath, StandardCharsets.UTF_8);
+      processedPath = URLDecoder.decode(processedPath, urlEncodingCharset);
 
       // 2. Collapse multiple slashes into a single one, after decoding
       // This prevents mismatches caused by "//" in the URL
@@ -133,4 +188,6 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
 
       return processedPath;
    }
+
+
 }
