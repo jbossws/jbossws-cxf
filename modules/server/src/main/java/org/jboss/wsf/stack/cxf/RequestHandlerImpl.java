@@ -154,7 +154,7 @@ public class RequestHandlerImpl implements RequestHandler
       Logger.getLogger(RequestHandlerImpl.class).debug(
               "Checking the " + Constants.JBWS_CXF_DECODE_URL_PATH + " system property...");
       boolean tryDecoding = Boolean.parseBoolean(
-         System.getProperty(Constants.JBWS_CXF_DECODE_URL_PATH, "false"));
+         SecurityActions.getSystemProperty(Constants.JBWS_CXF_DECODE_URL_PATH, "false"));
       Logger.getLogger(RequestHandlerImpl.class).debug(Constants.JBWS_CXF_DECODE_URL_PATH + " system property is set to " + tryDecoding);
 
       // 2. Deployment metadata property can override on a per-deployment basis (from jboss-webservices.xml)
