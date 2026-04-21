@@ -114,7 +114,7 @@
     <jbossws.common.version>5.1.0.Final</jbossws.common.version>
     <jbossws.common.tools.version>2.1.0.Final</jbossws.common.tools.version>
     <jbossws.undertow.httpspi.version>2.0.0.Final</jbossws.undertow.httpspi.version>
-    <io.undertow.version>2.3.20.Final</io.undertow.version>
+    <io.undertow.version>2.3.21.Final</io.undertow.version>
     <junit.version>5.10.2</junit.version>
     <littleproxy.version>1.1.2</littleproxy.version>
     <neethi.version>3.2.1</neethi.version>
