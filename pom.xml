@@ -75,7 +75,7 @@
     <cxf.version>4.1.5</cxf.version>
     <cxf.asm.version>9.9.1</cxf.asm.version>                              <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L60 -->
     <cxf.xjcplugins.version>4.1.2</cxf.xjcplugins.version>                <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/pom.xml#L44 -->
-    <derby.version>10.15.2.0</derby.version>
+    <derby.version>10.17.1.0</derby.version>
     <easymock.version>3.2</easymock.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
     <fastinfoset.version>2.1.1</fastinfoset.version>
