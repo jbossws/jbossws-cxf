@@ -75,6 +75,7 @@ class SecurityActions
          });
       }
    }
+
    static JAXPDelegateClassLoader createDelegateClassLoader(final ClassLoader delegate, final ClassLoader parent)
    {
       SecurityManager sm = System.getSecurityManager();
@@ -93,5 +94,24 @@ class SecurityActions
             }
          });
       }
+   }
+
+   /**
+    * Return the current value of the specified system property, as a string, by executing a privileged action
+    *
+    * @param name The name of the system property
+    * @param defaultValue the default value if the property is not found
+    * @return The value of the system property, or {@code defaultValue} if not found
+    */
+   static String getSystemProperty(final String name, final String defaultValue)
+   {
+      PrivilegedAction<String> action = new PrivilegedAction<String>()
+      {
+         public String run()
+         {
+            return System.getProperty(name, defaultValue);
+         }
+      };
+      return AccessController.doPrivileged(action);
    }
 }
