@@ -26,7 +26,7 @@
          </dependencies>
          <configuration>
              <attributes>
-                 <source-highlighter>coderay</source-highlighter>
+                 <source-highlighter>rouge</source-highlighter>
                  <jbossws-version>${project.version}</jbossws-version>
                  <imagesdir>./image</imagesdir>
              </attributes>
