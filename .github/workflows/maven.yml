@@ -39,7 +39,7 @@ jobs:
           MAVEN_OPTS: "-Xmx2048m -Xms1024m -XX:MaxMetaspaceSize=512m -XX:+UseStringDeduplication"
       - name: Build with Maven Java ${{ matrix.jdk-version }} ${{ matrix.profile }}
         run: |
-          mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
+          mvn -B -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install
       - uses: actions/upload-artifact@v6
         if: failure()
         with:
