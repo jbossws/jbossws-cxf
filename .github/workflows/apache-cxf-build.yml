@@ -1,4 +1,4 @@
-name: Build and test against latest Apache CXF 4.0.x SNAPSHOT
+name: Build and test against latest Apache CXF 4.1.x SNAPSHOT
 
 on:
   schedule:
@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: apache/cxf
-          ref: 4.0.x-fixes
+          ref: 4.1.x-fixes
           path: apache-cxf
 
       - uses: actions/cache@v5
