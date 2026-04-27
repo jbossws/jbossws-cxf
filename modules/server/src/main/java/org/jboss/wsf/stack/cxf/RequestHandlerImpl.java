@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.AccessController;
 import java.util.Collection;
 import java.util.regex.Pattern;
@@ -49,7 +50,9 @@ import org.jboss.wsf.spi.invocation.RequestHandler;
 import org.jboss.wsf.spi.management.EndpointMetrics;
 import org.jboss.wsf.spi.management.ServerConfig;
 import org.jboss.wsf.spi.metadata.config.SOAPAddressRewriteMetadata;
+import org.jboss.wsf.spi.metadata.webservices.JBossWebservicesMetaData;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
+import org.jboss.wsf.stack.cxf.client.Constants;
 import org.jboss.wsf.stack.cxf.configuration.BusHolder;
 import org.jboss.wsf.stack.cxf.i18n.Messages;
 import org.jboss.logging.Logger;
@@ -63,6 +66,12 @@ import org.jboss.logging.Logger;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
+   /**
+    * Statically initialized with the {@link Constants#JBWS_CXF_DECODE_URL_PATH} system property value.
+    */
+   private static final boolean JBWS_CXF_DECODE_URL_PATH_SYSTEM_PROPERTY_VALUE = Boolean.parseBoolean(
+           SecurityActions.getSystemProperty(Constants.JBWS_CXF_DECODE_URL_PATH, "false"));
+
    private static final RequestHandlerImpl me = new RequestHandlerImpl();
    private static final Pattern pathPattern = Pattern.compile("/{2,}");
 
@@ -93,7 +102,7 @@ public class RequestHandlerImpl implements RequestHandler
       final boolean statisticsEnabled = getServerConfig().isStatisticsEnabled();
       final Long beginTime = statisticsEnabled == true ? initRequestMetrics(ep) : 0;
       final Deployment dep = ep.getService().getDeployment();
-      final AbstractHTTPDestination dest = findDestination(req, dep.getAttachment(BusHolder.class).getBus());
+      final AbstractHTTPDestination dest = findDestination(req, dep.getAttachment(BusHolder.class).getBus(), dep);
       final HttpServletResponseWrapper response = new HttpServletResponseWrapper(res);
       try
       {
@@ -128,11 +137,13 @@ public class RequestHandlerImpl implements RequestHandler
 
    /**
     * Finds destination based on request URI
-    * @param requestURI to be recognized
+    * @param req the HTTP servlet request
+    * @param bus the CXF bus
+    * @param dep the deployment
     * @return destination associated with the request URI
     * @throws ServletException when destination wasn't found
     */
-   private AbstractHTTPDestination findDestination(HttpServletRequest req, Bus bus) throws ServletException
+   private AbstractHTTPDestination findDestination(HttpServletRequest req, Bus bus, Deployment dep) throws ServletException
    {
       // Find destination based on request URI
       String requestURI = req.getRequestURI();
@@ -142,8 +153,32 @@ public class RequestHandlerImpl implements RequestHandler
          throw Messages.MESSAGES.cannotObtainRegistry(DestinationRegistry.class.getName());
       }
       requestURI = pathPattern.matcher(requestURI).replaceAll("/");
+
+      // Determine if URL decoding should be attempted for NLS characters
+      // Priority: system property < deployment metadata property
+
+      // 1. System property provides global default (disabled by default)
+      Logger.getLogger(RequestHandlerImpl.class).debug(
+              "Checking the " + Constants.JBWS_CXF_DECODE_URL_PATH + " system property...");
+      boolean tryDecoding = JBWS_CXF_DECODE_URL_PATH_SYSTEM_PROPERTY_VALUE;
+      Logger.getLogger(RequestHandlerImpl.class).debug(
+              Constants.JBWS_CXF_DECODE_URL_PATH + " system property is set to " + tryDecoding);
+
+      // 2. Deployment metadata property can override on a per-deployment basis (from jboss-webservices.xml)
+      Logger.getLogger(RequestHandlerImpl.class).debug(
+              "Checking the " + Constants.JBWS_CXF_DECODE_URL_PATH + " deployment metadata property...");
+      final JBossWebservicesMetaData wsmd = dep.getAttachment(JBossWebservicesMetaData.class);
+      if (wsmd != null && wsmd.getProperties() != null) {
+         final String metadataProp = wsmd.getProperties().get(Constants.JBWS_CXF_DECODE_URL_PATH);
+         if (metadataProp != null) {
+            tryDecoding = Boolean.parseBoolean(metadataProp);
+         }
+      }
+      Logger.getLogger(RequestHandlerImpl.class).debug(
+              Constants.JBWS_CXF_DECODE_URL_PATH + " deployment metadata property is set to " + tryDecoding);
+
       //first try looking up the destination in the registry map
-      final AbstractHTTPDestination dest = destRegistry.getDestinationForPath(requestURI, true);
+      final AbstractHTTPDestination dest = destRegistry.getDestinationForPath(requestURI, tryDecoding);
       if (dest != null) {
          return dest;
       }

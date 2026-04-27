@@ -60,6 +60,8 @@ public class Constants
    public static final String JBWS_CXF_JAXWS_CLIENT_BUS_SELECTOR = "org.jboss.ws.cxf.jaxws-client.bus.selector";
    public static final String JBWS_CXF_DISABLE_DEPLOYMENT_USER_DEFAULT_THREAD_BUS = "org.jboss.ws.cxf.disable-deployment-user-default-thread-bus";
    public static final String JBWS_CXF_DISABLE_SCHEMA_CACHE = "org.jboss.ws.cxf.disableSchemaCache";
+   public static final String JBWS_CXF_DECODE_URL_PATH = "org.jboss.ws.cxf.decodeUrlPath";
+   public static final String JBWS_CXF_URL_CHARSET = "org.jboss.ws.cxf.urlCharset";
    //The flag to force use the URLConnectionHTTPConduit instead of the HttpClientHTTPConduit since CXF 4.0.4
    public static final String FORCE_URL_CONNECTION_CONDUIT = "force.urlconnection.http.conduit";
 }

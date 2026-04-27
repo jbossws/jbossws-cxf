@@ -18,6 +18,21 @@
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
+    <container qualifier="jboss-sysprop" mode="manual">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss-sysprop} ${modular.jdk.args} ${additionalJvmArgs} -Dorg.jboss.ws.cxf.decodeUrlPath=true</property>
+            <property name="serverConfig">jbws-testsuite-default.xml</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${cxf-tests.jboss-sysprop_9990}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${cxf-tests.jboss-sysprop_8787} ${cxf-tests.jboss-sysprop_9990}</property>
+            <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
+        </configuration>
+    </container>
     <container qualifier="ssl-mutual-auth" mode="manual">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
