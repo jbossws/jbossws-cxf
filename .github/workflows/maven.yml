@@ -34,7 +34,9 @@ jobs:
           distribution: ${{ matrix.jdk-distribution }}
           java-version: ${{ matrix.jdk-version }}
       - name: Build docbook
-        run: mvn -s ./.m2-settings.xml -f docbook/pom.xml install
+        run: mvn -B -s ./.m2-settings.xml -f docbook/pom.xml install
+        env:
+          MAVEN_OPTS: "-Xmx2048m -Xms1024m -XX:MaxMetaspaceSize=512m -XX:+UseStringDeduplication ${{ (matrix.os == 'windows-latest' && matrix.jdk-distribution == 'adopt-openj9') && '-Djruby.compile.mode=OFF -Djruby.jit.threshold=-1' || '' }}"
       - name: Build with Maven Java ${{ matrix.jdk-version }} ${{ matrix.profile }}
         run: |
           mvn -s ./.m2-settings.xml -fae ${{ matrix.profile }} clean install

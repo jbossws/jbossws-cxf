@@ -23,15 +23,19 @@
             <artifactId>asciidoctorj-pdf</artifactId>
             <version>2.3.19</version>
           </dependency>
-         </dependencies>
+        </dependencies>
          <configuration>
              <attributes>
-                 <source-highlighter>coderay</source-highlighter>
+                 <source-highlighter>rouge</source-highlighter>
                  <jbossws-version>${project.version}</jbossws-version>
                  <imagesdir>./image</imagesdir>
              </attributes>
              <sourceDirectory>src/main/doc/adoc</sourceDirectory>
              <sourceDocumentName>JBossWS-CXF.adoc</sourceDocumentName>
+             <enableVerbose>true</enableVerbose>
+             <logHandler>
+                 <outputToConsole>true</outputToConsole>
+             </logHandler>
           </configuration>
           <executions>
               <execution>
