@@ -25,6 +25,7 @@
           </dependency>
         </dependencies>
          <configuration>
+             <fork>true</fork>
              <attributes>
                  <source-highlighter>coderay</source-highlighter>
                  <jbossws-version>${project.version}</jbossws-version>
