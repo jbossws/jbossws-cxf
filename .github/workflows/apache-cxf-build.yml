@@ -46,7 +46,7 @@ jobs:
         id: get-cxf-version
         shell: bash
         run: |
-          CXF_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          CXF_VERSION=$(mvn -B help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "version=$CXF_VERSION" >> $GITHUB_OUTPUT
           echo "Apache CXF snapshot version: $CXF_VERSION"
         working-directory: apache-cxf

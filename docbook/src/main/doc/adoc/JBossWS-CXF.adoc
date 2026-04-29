@@ -3,7 +3,6 @@
 :toc:
 :toclevels: 3
 :doctype: book
-:title-logo-image:
 :leveloffset: -1
 
 include::content/Preface.adoc[]
