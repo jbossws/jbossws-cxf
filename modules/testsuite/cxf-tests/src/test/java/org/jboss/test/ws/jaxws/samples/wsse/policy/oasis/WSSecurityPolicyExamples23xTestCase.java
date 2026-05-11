@@ -23,6 +23,8 @@ package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
 import java.io.File;
 import java.net.URL;
+import java.security.Provider;
+import java.security.Security;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -46,7 +48,6 @@ import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,7 +61,6 @@ import org.junit.runner.RunWith;
  * @since 10-Sep-2012
  */
 @RunWith(Arquillian.class)
-@Ignore(value="[JBWS-4476] - WSSecurityPolicyExamples23xTestCase HTTPS tests are failing when run along with others")
 public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
 {
    private static final String DEPLOYMENT = "jaxws-samples-wsse-policy-oasis-23x";
@@ -117,6 +117,14 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
    
    @Before
    public void startContainerAndDeploy() throws Exception {
+      // BC 1.49 PSSSigner NPEs when JDK 8u261+ TLS delegates RSA-PSS CertificateVerify signing to BC
+      // (registered as JCA provider #1 by earlier WS-Security tests). Move BC to lowest priority so
+      // JDK's SunRsaSign handles RSA operations in the TLS handshake instead.
+      Provider bc = Security.getProvider("BC");
+      if (bc != null) {
+         Security.removeProvider("BC");
+         Security.addProvider(bc);
+      }
       if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
          containerController.start(SSL_MUTUAL_AUTH_SERVER);
          deployer.deploy(DEPLOYMENT);
