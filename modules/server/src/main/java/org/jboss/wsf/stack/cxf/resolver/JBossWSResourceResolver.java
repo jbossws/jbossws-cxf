@@ -41,13 +41,23 @@ public class JBossWSResourceResolver implements ResourceResolver
    public JBossWSResourceResolver(org.jboss.wsf.spi.deployment.ResourceResolver resolver)
    {
       this.resolver = resolver;
+      if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         Loggers.ROOT_LOGGER.debug("JBossWSResourceResolver created with underlying resolver: "
+            + (resolver != null ? resolver.getClass().getName() : "null"));
+      }
    }
    
    public InputStream getAsStream(String resourcePath)
    {
+      if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         Loggers.ROOT_LOGGER.debug("getAsStream called with resourcePath: " + resourcePath);
+      }
       URL url = resolve(resourcePath, URL.class);
       if (url != null)
       {
+         if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+            Loggers.ROOT_LOGGER.debug("Resolved resourcePath '" + resourcePath + "' to URL: " + url);
+         }
          try
          {
             return url.openStream();
@@ -57,18 +67,41 @@ public class JBossWSResourceResolver implements ResourceResolver
             Loggers.ROOT_LOGGER.cannotOpenStream(JBossWSResourceResolver.class.getSimpleName(), resourcePath);
          }
       }
+      else if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         Loggers.ROOT_LOGGER.debug("getAsStream returning null for resourcePath: " + resourcePath);
+      }
       return null;
    }
 
    public <T> T resolve(String resourcePath, Class<T> resourceType)
    {
+      if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         Loggers.ROOT_LOGGER.debug("resolve called with resourcePath: '" + resourcePath
+            + "', resourceType: " + resourceType.getName());
+      }
       URL url = resolver.resolveFailSafe(resourcePath);
+      if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         Loggers.ROOT_LOGGER.debug("Underlying SPI resolver.resolveFailSafe('" + resourcePath
+            + "') returned: " + url);
+      }
       if (url == null && Loggers.ROOT_LOGGER.isDebugEnabled()) {
          Loggers.ROOT_LOGGER.cannotResolveResource(JBossWSResourceResolver.class.getSimpleName(), resourcePath);
+         // Add stack trace to see who's calling
+         Loggers.ROOT_LOGGER.debug("Stack trace for failed resolution:", new Exception("Stack trace"));
       }
       if (url != null && resourceType.isInstance(url))
       {
+         if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+            Loggers.ROOT_LOGGER.debug("Returning resolved URL: " + url + " (type matches)");
+         }
          return resourceType.cast(url);
+      }
+      if (Loggers.ROOT_LOGGER.isDebugEnabled()) {
+         if (url != null) {
+            Loggers.ROOT_LOGGER.debug("URL resolved but type mismatch. URL class: "
+               + url.getClass().getName() + ", requested type: " + resourceType.getName());
+         }
+         Loggers.ROOT_LOGGER.debug("resolve returning null for resourcePath: " + resourcePath);
       }
       return null;
    }
