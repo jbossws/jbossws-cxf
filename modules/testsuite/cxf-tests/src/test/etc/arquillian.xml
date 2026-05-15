@@ -30,7 +30,7 @@
             <property name="managementPort">${cxf-tests.jboss-sysprop_9990}</property>
             <!-- AS7-4070 -->
             <property name="waitForPorts">${cxf-tests.jboss-sysprop_8787} ${cxf-tests.jboss-sysprop_9990}</property>
-            <property name="waitForPortsTimeoutInSeconds">8</property>
+            <property name="waitForPortsTimeoutInSeconds">45</property>
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
