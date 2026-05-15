@@ -21,6 +21,8 @@
  */
 package org.jboss.test.ws.jaxws.samples.wsse.policy.oasis;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.net.URL;
 import java.security.Provider;
@@ -47,7 +49,9 @@ import org.jboss.wsf.test.CryptoCheckHelper;
 import org.jboss.wsf.test.JBossWSTest;
 import org.jboss.wsf.test.JBossWSTestHelper;
 import org.jboss.wsf.test.WrapThreadContextClassLoader;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -65,6 +69,7 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
 {
    private static final String DEPLOYMENT = "jaxws-samples-wsse-policy-oasis-23x";
    private static final String SSL_MUTUAL_AUTH_SERVER = "ssl-mutual-auth"; 
+   private static Integer originalBcPosition = null;
    
    private final String NS = "http://www.jboss.org/jbossws/ws-extensions/wssecuritypolicy/oasis-samples";
    private final String serviceURL = "http://" + getServerHost() + ":" + getServerPort(CXF_TESTS_GROUP_QUALIFIER, SSL_MUTUAL_AUTH_SERVER) + "/jaxws-samples-wsse-policy-oasis-23x/";
@@ -114,17 +119,40 @@ public final class WSSecurityPolicyExamples23xTestCase extends JBossWSTest
          }
       });
    }
+
+   @BeforeClass
+   public static void adjustSecurityProviders() {
+      // BC 1.49 PSSSigner NPEs when JDK 8u261+ TLS delegates RSA-PSS CertificateVerify signing to BC
+      // Move BC to lowest priority so JDK's SunRsaSign handles RSA operations in the TLS handshake instead.
+      Provider bc = Security.getProvider("BC");
+      if (bc != null) {
+         // Capture original position (1-based index) to restore it later
+         Provider[] providers = Security.getProviders();
+         for (int i = 0; i < providers.length; i++) {
+               if (providers[i].getName().equals("BC")) {
+                  originalBcPosition = i + 1;
+                  break;
+               }
+         }
+         Security.removeProvider("BC");
+         Security.addProvider(bc); // Appends to the end (lowest priority)
+      }
+   }
+
+   @AfterClass
+   public static void restoreSecurityProviders() {
+      // Restore Bouncy Castle to its original position to prevent side effects in other test suites
+      if (originalBcPosition != null) {
+         Provider bc = Security.getProvider("BC");
+         if (bc != null) {
+               Security.removeProvider("BC");
+               Security.insertProviderAt(bc, originalBcPosition);
+         }
+      }
+   }
    
    @Before
    public void startContainerAndDeploy() throws Exception {
-      // BC 1.49 PSSSigner NPEs when JDK 8u261+ TLS delegates RSA-PSS CertificateVerify signing to BC
-      // (registered as JCA provider #1 by earlier WS-Security tests). Move BC to lowest priority so
-      // JDK's SunRsaSign handles RSA operations in the TLS handshake instead.
-      Provider bc = Security.getProvider("BC");
-      if (bc != null) {
-         Security.removeProvider("BC");
-         Security.addProvider(bc);
-      }
       if (!containerController.isStarted(SSL_MUTUAL_AUTH_SERVER)) {
          containerController.start(SSL_MUTUAL_AUTH_SERVER);
          deployer.deploy(DEPLOYMENT);
