@@ -79,10 +79,30 @@ public class NLSSystemPropertyTestCase extends JBossWSTest
 
    @BeforeEach
    public void startContainer() {
+      System.out.println("=== DEBUG: Starting container: " + CONTAINER_NAME);
+      System.out.println("=== DEBUG: Container started status before start: " + containerController.isStarted(CONTAINER_NAME));
+      
       if (!containerController.isStarted(CONTAINER_NAME)) {
-         containerController.start(CONTAINER_NAME);
+         try {
+            System.out.println("=== DEBUG: Calling containerController.start()...");
+            containerController.start(CONTAINER_NAME);
+            System.out.println("=== DEBUG: containerController.start() completed successfully");
+         } catch (Exception e) {
+            System.err.println("=== DEBUG: Exception during container start: " + e.getMessage());
+            throw e;
+         }
       }
-      deployer.deploy(DEPLOYMENT_NAME);
+      
+      System.out.println("=== DEBUG: Container started status after start: " + containerController.isStarted(CONTAINER_NAME));
+      System.out.println("=== DEBUG: Deploying: " + DEPLOYMENT_NAME);
+      
+      try {
+         deployer.deploy(DEPLOYMENT_NAME);
+         System.out.println("=== DEBUG: Deployment completed successfully");
+      } catch (Exception e) {
+         System.err.println("=== DEBUG: Exception during deployment: " + e.getMessage());
+         throw e;
+      }
    }
 
    @AfterEach
