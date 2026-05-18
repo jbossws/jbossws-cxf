@@ -94,7 +94,7 @@
     <jakarta.servlet.api.version>6.0.0</jakarta.servlet.api.version>
     <jakarta.xml.bind.api.version>4.0.4</jakarta.xml.bind.api.version>    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L155 -->
     <jakarta.xml.soap.api.version>3.0.2</jakarta.xml.soap.api.version>    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L143 -->
-    <jakarta.xml.ws.api.version>4.0.2</jakarta.xml.ws.api.version>        <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L144 -->
+    <jakarta.xml.ws.api.version>4.0.3</jakarta.xml.ws.api.version>        <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L144 -->
     <jaxb.impl.version>4.0.6</jaxb.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L154 -->
     <jboss.ejb.client.version>5.0.8.Final</jboss.ejb.client.version>
     <jboss.ejb3.ext.api.version>2.4.0.Final</jboss.ejb3.ext.api.version>
