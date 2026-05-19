@@ -66,11 +66,6 @@ import org.jboss.logging.Logger;
  */
 public class RequestHandlerImpl implements RequestHandler
 {
-   /**
-    * Statically initialized with the {@link Constants#JBWS_CXF_DECODE_URL_PATH} system property value.
-    */
-   private static final boolean JBWS_CXF_DECODE_URL_PATH_SYSTEM_PROPERTY_VALUE = Boolean.parseBoolean(
-           SecurityActions.getSystemProperty(Constants.JBWS_CXF_DECODE_URL_PATH, "false"));
 
    private static final RequestHandlerImpl me = new RequestHandlerImpl();
    private static final Pattern pathPattern = Pattern.compile("/{2,}");
@@ -160,7 +155,8 @@ public class RequestHandlerImpl implements RequestHandler
       // 1. System property provides global default (disabled by default)
       Logger.getLogger(RequestHandlerImpl.class).debug(
               "Checking the " + Constants.JBWS_CXF_DECODE_URL_PATH + " system property...");
-      boolean tryDecoding = JBWS_CXF_DECODE_URL_PATH_SYSTEM_PROPERTY_VALUE;
+      boolean tryDecoding = Boolean.parseBoolean(
+           SecurityActions.getSystemProperty(Constants.JBWS_CXF_DECODE_URL_PATH, "false"));
       Logger.getLogger(RequestHandlerImpl.class).debug(
               Constants.JBWS_CXF_DECODE_URL_PATH + " system property is set to " + tryDecoding);
 

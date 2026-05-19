@@ -45,11 +45,6 @@ import org.jboss.wsf.stack.cxf.client.Constants;
 public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
 {
    private static final Logger LOGGER = Logger.getLogger(JBossWSDestinationRegistryImpl.class);
-   /**
-    * Statically initialized with the {@link Constants#JBWS_CXF_URL_CHARSET} system property value
-    */
-   private static final String JBWS_CXF_URL_CHARSET_SYSTEM_PROPERTY_VALUE = SecurityActions.getSystemProperty(
-           Constants.JBWS_CXF_URL_CHARSET, StandardCharsets.UTF_8.toString());
 
    /**
     * Return a real path value, removing the protocol, host and port
@@ -100,7 +95,8 @@ public class JBossWSDestinationRegistryImpl extends DestinationRegistryImpl
 
       // 1. System property provides global default (UTF-8 by default)
       LOGGER.debug("Checking the " + Constants.JBWS_CXF_URL_CHARSET + " system property...");
-      String urlCharset = JBWS_CXF_URL_CHARSET_SYSTEM_PROPERTY_VALUE;
+      String urlCharset = SecurityActions.getSystemProperty(
+         Constants.JBWS_CXF_URL_CHARSET, StandardCharsets.UTF_8.toString());
       LOGGER.debug(Constants.JBWS_CXF_URL_CHARSET + " system property is set to " + urlCharset);
 
       // 2. Deployment metadata property can override on a per-deployment basis (from jboss-webservices.xml)
