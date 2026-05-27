@@ -140,7 +140,7 @@
       and most importantly, WSS4J 4.x requires JDK 17 as minimum supported version, which we'd introduce in 8.0.0,
       TODO in https://redhat.atlassian.net/browse/JBWS-4469
     -->
-    <wss4j.version>3.0.5</wss4j.version>
+    <wss4j.version>4.0.1</wss4j.version>
     <wstx.version>7.1.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L236 -->
     <xmlsec.version>3.0.6</xmlsec.version>
     <modular.jdk.args />
