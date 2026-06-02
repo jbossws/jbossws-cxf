@@ -129,7 +129,7 @@
     <wildfly.cloud.galleon.pack.version>9.2.3.Final</wildfly.cloud.galleon.pack.version>
     <wildfly.controller.client.version>32.0.0.Final</wildfly.controller.client.version>
     <wildfly.elytron.version>2.9.0.Final</wildfly.elytron.version>
-    <wildfly.galleon.plugin.version>8.1.5.Final</wildfly.galleon.plugin.version>
+    <wildfly.galleon.plugin.version>8.1.6.Final</wildfly.galleon.plugin.version>
     <wildfly.naming.client.version>2.0.1.Final</wildfly.naming.client.version>
     <wildfly.plugin.version>6.0.0.Final</wildfly.plugin.version>
     <wildfly.security.webservices.client.version>4.0.0.Final</wildfly.security.webservices.client.version>
