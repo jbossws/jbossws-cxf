@@ -16,10 +16,10 @@ jobs:
 
     steps:
       - name: Checkout JBossWS CXF
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Checkout Apache CXF main branch
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: apache/cxf
           ref: 4.1.x-fixes
