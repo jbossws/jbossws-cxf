@@ -1228,9 +1228,9 @@
       </modules>
     </profile>
     <profile>
-      <id>JDK11plus</id>
+      <id>JDK17plus</id>
       <activation>
-        <jdk>[11,)</jdk>
+        <jdk>[17,)</jdk>
       </activation>
       <properties>
         <modular.jdk.args>
