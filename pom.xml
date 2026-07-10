@@ -133,6 +133,7 @@
     <wildfly.naming.client.version>2.0.1.Final</wildfly.naming.client.version>
     <wildfly.plugin.version>6.0.0.Final</wildfly.plugin.version>
     <wildfly.security.webservices.client.version>4.0.0.Final</wildfly.security.webservices.client.version>
+<<<<<<< HEAD
     <!--
       We should use 4.0.1 to be aligned with Apache CXF 4.1.5, see
       https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L239
@@ -142,6 +143,10 @@
     -->
     <wss4j.version>3.0.5</wss4j.version>
     <wstx.version>7.2.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L237 -->
+=======
+    <wss4j.version>4.0.1</wss4j.version>                                  <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L239 -->
+    <wstx.version>7.1.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L236 -->
+>>>>>>> bd4a5bca3 ([JBWS-4469] - Bumping WSS4j tfrom 3.0.5 to 4.0.1, which supports JDK 17+ only)
     <xmlsec.version>3.0.6</xmlsec.version>
     <modular.jdk.args />
     <modular.jdk.props />
