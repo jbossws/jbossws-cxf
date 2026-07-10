@@ -133,14 +133,7 @@
     <wildfly.naming.client.version>2.0.1.Final</wildfly.naming.client.version>
     <wildfly.plugin.version>6.0.0.Final</wildfly.plugin.version>
     <wildfly.security.webservices.client.version>4.0.0.Final</wildfly.security.webservices.client.version>
-    <!--
-      We should use 4.0.1 to be aligned with Apache CXF 4.1.5, see
-      https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L239
-      but the major version bump requires some (at least) more invasive dependency changes,
-      and most importantly, WSS4J 4.x requires JDK 17 as minimum supported version, which we'd introduce in 8.0.0,
-      TODO in https://redhat.atlassian.net/browse/JBWS-4469
-    -->
-    <wss4j.version>3.0.5</wss4j.version>
+    <wss4j.version>4.0.1</wss4j.version>                                  <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L239 -->
     <wstx.version>7.1.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L236 -->
     <xmlsec.version>3.0.6</xmlsec.version>
     <modular.jdk.args />
