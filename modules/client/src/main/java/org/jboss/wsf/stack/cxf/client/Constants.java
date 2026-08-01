@@ -62,6 +62,7 @@ public class Constants
    public static final String JBWS_CXF_DISABLE_SCHEMA_CACHE = "org.jboss.ws.cxf.disableSchemaCache";
    public static final String JBWS_CXF_DECODE_URL_PATH = "org.jboss.ws.cxf.decodeUrlPath";
    public static final String JBWS_CXF_URL_CHARSET = "org.jboss.ws.cxf.urlCharset";
+   public static final String JBWS_CXF_DECOUPLED_ENDPOINT_ENABLED = "org.jboss.ws.cxf.decoupledEndpointEnabled";
    //The flag to force use the URLConnectionHTTPConduit instead of the HttpClientHTTPConduit since CXF 4.0.4
    public static final String FORCE_URL_CONNECTION_CONDUIT = "force.urlconnection.http.conduit";
 }

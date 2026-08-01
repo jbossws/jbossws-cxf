@@ -204,6 +204,9 @@ public class BusHolder
       //[JBWS-3135] enable decoupled faultTo. This is an optional feature in cxf and we need this to be default to make it same behavior with native stack
       bus.setProperty("org.apache.cxf.ws.addressing.decoupled_fault_support", true);
 
+      //[JBWS-4521] CXF 4.1.8+ decoupled WS-Addressing destination enablement is handled as a
+      // JVM-wide system property in CXFStackConfig's constructor (one-time JVM-level init)
+
       //[JBWS-4458] Use DelayedCachedOutputStreamCleaner.SingleTimerDelayedCleaner strategy to prevent threads leaking
       bus.setProperty(CachedConstants.CLEANER_STRATEGY_BUS_PROP, "single-timer");
 
