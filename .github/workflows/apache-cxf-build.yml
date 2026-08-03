@@ -4,6 +4,12 @@ on:
   schedule:
     # Run every Monday at 00:00 UTC
     - cron: '0 0 * * 1'
+  workflow_dispatch:
+    inputs:
+      cxf-ref:
+        description: 'Apache CXF branch or tag to build (e.g. 4.1.x-fixes, cxf-4.1.8)'
+        required: false
+        default: '4.1.x-fixes'
 
 jobs:
   build:
@@ -22,7 +28,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           repository: apache/cxf
-          ref: 4.1.x-fixes
+          ref: ${{ github.event.inputs.cxf-ref || '4.1.x-fixes' }}
           path: apache-cxf
 
       - uses: actions/cache@v6
