@@ -34,6 +34,22 @@
             <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
         </configuration>
     </container>
+    <container qualifier="jboss-decoupled-disabled" mode="manual">
+        <configuration>
+            <property name="jbossHome">${jboss.home}</property>
+            <property name="javaVmArguments">-server -Xms64m -Xmx512m -Djboss.socket.binding.port-offset=${port-offset.cxf-tests.jboss-decoupled-disabled} ${modular.jdk.args} ${additionalJvmArgs} -Dorg.jboss.ws.cxf.decoupledEndpointEnabled=false</property>
+            <property name="serverConfig">jbws-testsuite-default.xml</property>
+            <property name="outputToConsole">true</property>
+            <property name="allowConnectingToRunningServer">true</property>
+            <property name="managementAddress">${jboss.bind.address:localhost}</property>
+            <property name="jbossArguments">${jbossArguments}</property>
+            <property name="managementPort">${cxf-tests.jboss-decoupled-disabled_9990}</property>
+            <!-- AS7-4070 -->
+            <property name="waitForPorts">${cxf-tests.jboss-decoupled-disabled_8787} ${cxf-tests.jboss-decoupled-disabled_9990}</property>
+            <property name="waitForPortsTimeoutInSeconds">45</property>
+            <property name="startupTimeoutInSeconds">${startupTimeoutInSeconds:60}</property>
+        </configuration>
+    </container>
     <container qualifier="ssl-mutual-auth" mode="manual">
         <configuration>
             <property name="jbossHome">${jboss.home}</property>
