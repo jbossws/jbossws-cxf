@@ -135,7 +135,7 @@
     <wildfly.security.webservices.client.version>4.0.0.Final</wildfly.security.webservices.client.version>
     <wss4j.version>4.0.1</wss4j.version>                                  <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L239 -->
     <wstx.version>7.1.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L236 -->
-    <xmlsec.version>3.0.6</xmlsec.version>
+    <xmlsec.version>4.0.4</xmlsec.version>                                <!-- Updated for WSS4J 4.0.1 compatibility; See https://github.com/apache/ws-wss4j/blob/master/parent/pom.xml#L52 -->
     <modular.jdk.args />
     <modular.jdk.props />
   </properties>
