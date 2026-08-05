@@ -118,7 +118,7 @@
     <junit.version>5.10.2</junit.version>
     <littleproxy.version>1.1.2</littleproxy.version>
     <neethi.version>3.2.2</neethi.version>
-    <opensaml.version>4.3.2</opensaml.version>
+    <opensaml.version>5.1.6</opensaml.version>                               <!-- Updated for WSS4J 4.0.1 compatibility; See https://github.com/apache/ws-wss4j/blob/wss4j-4.0.1/parent/pom.xml -->
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.5</saaj.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L208 -->
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
@@ -133,16 +133,9 @@
     <wildfly.naming.client.version>2.0.1.Final</wildfly.naming.client.version>
     <wildfly.plugin.version>6.0.0.Final</wildfly.plugin.version>
     <wildfly.security.webservices.client.version>4.0.0.Final</wildfly.security.webservices.client.version>
-    <!--
-      We should use 4.0.1 to be aligned with Apache CXF 4.1.5, see
-      https://github.com/apache/cxf/blob/cxf-4.1.5/parent/pom.xml#L239
-      but the major version bump requires some (at least) more invasive dependency changes,
-      and most importantly, WSS4J 4.x requires JDK 17 as minimum supported version, which we'd introduce in 8.0.0,
-      TODO in https://redhat.atlassian.net/browse/JBWS-4469
-    -->
-    <wss4j.version>3.0.5</wss4j.version>
+    <wss4j.version>4.0.1</wss4j.version>                                  <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L239 -->
     <wstx.version>7.1.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L236 -->
-    <xmlsec.version>3.0.6</xmlsec.version>
+    <xmlsec.version>4.0.4</xmlsec.version>                                <!-- Updated for WSS4J 4.0.1 compatibility; See https://github.com/apache/ws-wss4j/blob/master/parent/pom.xml#L52 -->
     <modular.jdk.args />
     <modular.jdk.props />
   </properties>
@@ -1235,9 +1228,9 @@
       </modules>
     </profile>
     <profile>
-      <id>JDK11plus</id>
+      <id>JDK17plus</id>
       <activation>
-        <jdk>[11,)</jdk>
+        <jdk>[17,)</jdk>
       </activation>
       <properties>
         <modular.jdk.args>
@@ -1250,15 +1243,6 @@
       </properties>
       <dependencies>
       </dependencies>
-    </profile>
-    <profile>
-      <id>jdk11</id>
-      <activation>
-        <jdk>(,17)</jdk>
-      </activation>
-      <properties>
-        <wildfly.version>34.0.1.Final</wildfly.version>
-      </properties>
     </profile>
     <!-- [JBWS-3666] -->
     <profile>
