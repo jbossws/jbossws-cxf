@@ -72,9 +72,9 @@
     <commons.lang3.version>3.18.0</commons.lang3.version>
     <commons.logging.version>1.2</commons.logging.version>
     <commons.validator.version>1.9.0</commons.validator.version>
-    <cxf.version>4.1.6</cxf.version>
-    <cxf.asm.version>9.9.1</cxf.asm.version>                              <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L60 -->
-    <cxf.xjcplugins.version>4.1.3</cxf.xjcplugins.version>                <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/pom.xml#L44 -->
+    <cxf.version>4.1.8</cxf.version>
+    <cxf.asm.version>9.10.1</cxf.asm.version>                             <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L61 -->
+    <cxf.xjcplugins.version>4.1.3</cxf.xjcplugins.version>                <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/pom.xml#L44 -->
     <derby.version>10.15.2.0</derby.version>
     <easymock.version>3.2</easymock.version>
     <eclipse.plugin.version>1.0.0</eclipse.plugin.version>
@@ -88,14 +88,14 @@
     <jakarta.enterprise.cdi.api.version>4.1.0</jakarta.enterprise.cdi.api.version>
     <jakarta.inject.api.version>2.0.1</jakarta.inject.api.version>
     <jakarta.interceptor.api.version>2.2.0</jakarta.interceptor.api.version>
-    <jakarta.jms.api.version>3.1.0</jakarta.jms.api.version>              <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L145 -->
+    <jakarta.jms.api.version>3.1.0</jakarta.jms.api.version>              <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L146 -->
     <jakarta.json.api.version>2.1.3</jakarta.json.api.version>
     <jakarta.mail.version>2.1.5</jakarta.mail.version>
     <jakarta.servlet.api.version>6.1.0</jakarta.servlet.api.version>
-    <jakarta.xml.bind.api.version>4.0.5</jakarta.xml.bind.api.version>    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L155 -->
-    <jakarta.xml.soap.api.version>3.0.2</jakarta.xml.soap.api.version>    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L143 -->
-    <jakarta.xml.ws.api.version>4.0.3</jakarta.xml.ws.api.version>        <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L144 -->
-    <jaxb.impl.version>4.0.8</jaxb.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L154 -->
+    <jakarta.xml.bind.api.version>4.0.5</jakarta.xml.bind.api.version>    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L156 -->
+    <jakarta.xml.soap.api.version>3.0.2</jakarta.xml.soap.api.version>    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L144 -->
+    <jakarta.xml.ws.api.version>4.0.3</jakarta.xml.ws.api.version>        <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L145 -->
+    <jaxb.impl.version>4.0.9</jaxb.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L155 -->
     <jboss.ejb.client.version>5.0.8.Final</jboss.ejb.client.version>
     <jboss.ejb3.ext.api.version>2.4.0.Final</jboss.ejb3.ext.api.version>
     <jboss.jaxbintros.version>2.1.0.Final</jboss.jaxbintros.version>
@@ -120,7 +120,7 @@
     <neethi.version>3.2.2</neethi.version>
     <opensaml.version>4.3.2</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
-    <saaj.impl.version>3.0.5</saaj.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L208 -->
+    <saaj.impl.version>3.0.6</saaj.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L209 -->
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <testcontainer.version>1.21.0</testcontainer.version>
     <velocity.version>2.4.1</velocity.version>
@@ -141,7 +141,7 @@
       TODO in https://redhat.atlassian.net/browse/JBWS-4469
     -->
     <wss4j.version>3.0.5</wss4j.version>
-    <wstx.version>7.1.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.6/parent/pom.xml#L236 -->
+    <wstx.version>7.2.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L237 -->
     <xmlsec.version>3.0.6</xmlsec.version>
     <modular.jdk.args />
     <modular.jdk.props />
