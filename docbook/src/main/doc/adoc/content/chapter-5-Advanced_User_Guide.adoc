@@ -1714,6 +1714,51 @@ proxy.sayHello("World");
 ....
 
 
+==== Decoupled WS-Addressing Endpoints
+
+Starting with Apache CXF 4.1.8, decoupled WS-Addressing destination endpoints are blocked by default as part of CXF's SSRF hardening. JBossWS-CXF re-enables this feature automatically for backward compatibility, so existing WS-Addressing deployments that rely on decoupled endpoints (e.g. for asynchronous responses or decoupled fault-to destinations) continue to work without changes.
+
+The behavior is controlled through two system properties, evaluated in the following order of precedence:
+
+[cols="1,3,1",options="header"]
+|===
+|System property |Description |Default
+
+|`org.apache.cxf.ws.addressing.decoupled.enabled`
+|Native Apache CXF property. When set explicitly (e.g. via JVM `-D` flag or WildFly `<system-properties>`), it takes the highest precedence and is used as-is.
+|_(not set)_
+
+|`org.jboss.ws.cxf.decoupledEndpointEnabled`
+|JBossWS-CXF property. Consulted only when the native CXF property above is not set. Set it to `false` to opt out of the backward-compatible default.
+|`true`
+|===
+
+When neither property is set explicitly, JBossWS-CXF defaults to `true`, preserving the pre-CXF-4.1.8 behavior where decoupled WS-Addressing endpoints are allowed.
+
+===== Opting out
+
+To disable decoupled WS-Addressing endpoints and align with the CXF 4.1.8+ default, set the JBossWS-CXF property to `false`. In a WildFly server configuration:
+
+[source,xml]
+----
+<system-properties>
+    <property name="org.jboss.ws.cxf.decoupledEndpointEnabled" value="false"/>
+</system-properties>
+----
+
+Or via JVM argument:
+
+----
+-Dorg.jboss.ws.cxf.decoupledEndpointEnabled=false
+----
+
+Alternatively, the native CXF property can be used directly:
+
+----
+-Dorg.apache.cxf.ws.addressing.decoupled.enabled=false
+----
+
+
 === WS-Security
 
 
