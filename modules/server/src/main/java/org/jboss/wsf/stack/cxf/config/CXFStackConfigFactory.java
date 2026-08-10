@@ -29,6 +29,7 @@ import org.jboss.wsf.spi.classloading.ClassLoaderProvider;
 import org.jboss.wsf.spi.management.StackConfig;
 import org.jboss.wsf.spi.management.StackConfigFactory;
 import org.jboss.wsf.stack.cxf.addressRewrite.SoapAddressRewriteHelper;
+import org.jboss.wsf.stack.cxf.client.Constants;
 
 /**
  * 
@@ -66,6 +67,35 @@ class CXFStackConfig implements StackConfig
       finally
       {
          setContextClassLoader(orig);
+      }
+
+      // [JBWS-4521] CXF 4.1.8+ blocks decoupled WS-Addressing destinations by default (SSRF hardening).
+      // Re-enable for backward compatibility via the JBossWS-CXF property, defaulting to true.
+      // External override via -D flag or WildFly <system-properties> is respected at either level.
+      if (System.getSecurityManager() == null)
+      {
+         configureDecoupledAddressing();
+      }
+      else
+      {
+         AccessController.doPrivileged(new PrivilegedAction<Void>() {
+            public Void run()
+            {
+               configureDecoupledAddressing();
+               return null;
+            }
+         });
+      }
+   }
+
+   private static void configureDecoupledAddressing()
+   {
+      if (System.getProperty("org.apache.cxf.ws.addressing.decoupled.enabled") == null) {
+         String decoupledEnabled = System.getProperty(Constants.JBWS_CXF_DECOUPLED_ENDPOINT_ENABLED);
+         if (decoupledEnabled == null) {
+            decoupledEnabled = "true";
+         }
+         System.setProperty("org.apache.cxf.ws.addressing.decoupled.enabled", decoupledEnabled);
       }
    }
 

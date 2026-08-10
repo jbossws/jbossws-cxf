@@ -29,6 +29,7 @@
     <port-offset.cxf-tests.default-config-tests>10000</port-offset.cxf-tests.default-config-tests>
     <port-offset.cxf-tests.jms>35000</port-offset.cxf-tests.jms>
     <port-offset.cxf-tests.jboss-sysprop>40000</port-offset.cxf-tests.jboss-sysprop>
+    <port-offset.cxf-tests.jboss-decoupled-disabled>45000</port-offset.cxf-tests.jboss-decoupled-disabled>
     <port-offset.shared-tests.jboss>15000</port-offset.shared-tests.jboss>
     <port-offset.shared-tests.default-config-tests>20000</port-offset.shared-tests.default-config-tests>
     <port-offset.shared-tests.address-rewrite>25000</port-offset.shared-tests.address-rewrite>
@@ -50,6 +51,9 @@
     <cxf-tests.jms_8787>43787</cxf-tests.jms_8787>
     <cxf-tests.jboss-sysprop_9990>49990</cxf-tests.jboss-sysprop_9990>
     <cxf-tests.jboss-sysprop_8787>48787</cxf-tests.jboss-sysprop_8787>
+    <cxf-tests.jboss-decoupled-disabled_8080>53080</cxf-tests.jboss-decoupled-disabled_8080>
+    <cxf-tests.jboss-decoupled-disabled_9990>54990</cxf-tests.jboss-decoupled-disabled_9990>
+    <cxf-tests.jboss-decoupled-disabled_8787>53787</cxf-tests.jboss-decoupled-disabled_8787>
     <shared-tests.jboss_8080>23080</shared-tests.jboss_8080>
     <shared-tests.jboss_9990>24990</shared-tests.jboss_9990>
     <shared-tests.jboss_8787>23787</shared-tests.jboss_8787>
