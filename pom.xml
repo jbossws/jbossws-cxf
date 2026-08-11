@@ -118,7 +118,7 @@
     <junit.version>5.10.2</junit.version>
     <littleproxy.version>1.1.2</littleproxy.version>
     <neethi.version>3.2.3</neethi.version>
-    <opensaml.version>4.3.2</opensaml.version>
+    <opensaml.version>5.2.3</opensaml.version>
     <saaj.api.version>1.0.0.Final</saaj.api.version>
     <saaj.impl.version>3.0.6</saaj.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L209 -->
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
