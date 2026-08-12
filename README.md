@@ -61,58 +61,99 @@ mvn -Pdist,testsuite clean
 
 * Check Resources availability
 
-  JBossWS CXF has a lot of dependencies, this includes jbossws subprojects like jbossws-parent,
+  JBossWS CXF has a lot of dependencies, including jbossws subprojects like jbossws-parent,
   jbossws-spi, jbossws-common, jbossws-api, jbossws-common-tools. Please check if the version is still
-  the SNAPSHOT and release the subproject if it is needed. For the third party projects like CXF, please
+  a SNAPSHOT and release the subproject if needed. For third-party projects like CXF, please
   make sure it is the official release version. Because we always test the jbossws-cxf project against the
-  latest WildFly version, the only SNAPSHOT version is allowed before release is the WildFly version.
+  latest WildFly version, the only SNAPSHOT version allowed before release is the WildFly version.
 
 * Contents checks
 
-  Check the [JBWS JIRA](https://issues.redhat.com/projects/JBWS/) to make sure all the must-have features or issues are included
+  Check the [JBWS JIRA](https://redhat.atlassian.net/browse/JBWS) to make sure all must-have features or issues are included
 * Quality / testing gate
     - Make sure the CI is passed/green as expected.
-    - Check if the major component like Apache CXF or WSS4j has some major issue or CVEs
-    - Check if the CXF, jaxb impl has some TCK failure.
-    - Check if other components have some major CVE and it needs an upgrade
+    - Check if major components like Apache CXF or WSS4J have any major issues or CVEs
+    - Check if CXF or the JAXB impl have any TCK failures
+    - Check if other components have major CVEs that require an upgrade
 * PR queue
     - Review the PR queue and check all desired contributions are included
 * Branch preparation
     - Branch the codebase in preparation for the release if necessary
+* Docker must be running locally (required by the `-Prelease` profile for cloud-tests)
 * JDK and Maven to build the release
-    - Check the JDK version to run the build is the latest 11
-    - Maven is the latest version
+    - JDK 17+
+    - Maven 3.9+
 
 ### Source Tagging
 JBossWS relies on `maven-release-plugin` to tag and change the development version.
 
-``` mvn release:prepare -Prelease  -DignoreSnapshots=true -DskipTests=true```
+```bash
+mvn release:prepare -Prelease -DpushChanges=false -DskipTests \
+  -DpreparationGoals="clean install" \
+  -DreleaseVersion=<RELEASE_VERSION> \
+  -Dtag=jbossws-cxf-<RELEASE_VERSION> \
+  -DdevelopmentVersion=<NEXT_SNAPSHOT>
+```
 
-This is interactive command, and make sure you input the correct release version number and next
-development version before the next step.
-The `-DignoreSnapshots=true` is only for WildFly snapshot version, please double-check if there is other
-SNAPSHOT dependency before run this command.
-As CI is passed before we tag the release, we use `-DskipTests=true` property to skip the tests, but it doesn't matter to tag
-release without this property.
+Key flags:
+* `-Prelease` activates the release profile, which includes all modules (cloud-tests, docbook). Without it, those modules will not have their versions updated.
+* `-DpreparationGoals="clean install"` ensures artifacts are installed to the local Maven repository before the feature pack build resolves them.
+* `-DpushChanges=false` lets you review commits and tag before pushing.
+
+As CI is passed before we tag the release, we use `-DskipTests` to skip the tests.
+
+After `release:prepare`, verify no old SNAPSHOT references remain:
+
+```bash
+grep -r "<old-SNAPSHOT>" --include="pom.xml" . | grep -v target
+```
 
 ### Publish Artifacts
-JBossWS-CXF projects publish the artifacts to jboss nexus, and this requires properly configuring the credentials to upload 
-artifacts to the jboss nexus. Uploading artifacts with the following commands:
+JBossWS-CXF artifacts are published to the JBoss Nexus staging repository. This requires
+properly configured credentials and GPG signing. The deploy command must run in the foreground
+for GPG passphrase entry:
 
-```git checkout new-tag-version```
+```bash
+git checkout jbossws-cxf-<RELEASE_VERSION>
 
-```mvn deploy```
+mvn deploy -Pjboss-release -Dmaven.install.skip=true \
+  -Dmaven.compiler.skip=true -DskipTests
+```
 
-After the artifacts are all uploaded, go to jboss nexus to publish these artifacts.
+After the artifacts are uploaded, validate the staging repository, then promote:
+
+```bash
+mvn nxrm3:staging-move -Dmaven.install.skip=true \
+  -Dmaven.compiler.skip=true -DskipTests
+```
+
+If validation fails and you need to drop the staging repository:
+
+```bash
+mvn nxrm3:staging-delete -Dmaven.install.skip=true \
+  -Dmaven.compiler.skip=true -DskipTests
+```
+
+After successful promotion, clean up the backup files created by the release plugin:
+
+```bash
+find . -name "pom.xml.releaseBackup" -delete
+rm -f release.properties
+```
+
+Then push the release commits and tag to GitHub.
+
+### WildFly Upgrade
+If needed, submit PRs to [wildfly/wildfly](https://github.com/wildfly/wildfly) updating
+the relevant version properties (e.g. `version.org.jboss.ws.cxf`, `version.org.apache.cxf`).
 
 ### Content update
 After the artifacts are published, the release note and website content of this release should be updated too. This includes:
-* Update JIRA to mark the new version is released and add the next version number
-* Generate the JIRA release note
-* Created the blog entry and main page to announce the new release in [jbossws.githut.io](https://github.com/jbossws/jbossws.github.io)
-* Upload the documentation for this release and update the links.
-* Update the download page: adding the download and release notes link for the new release.
-
+* Update JIRA to mark the new version as released and add the next version number
+* Generate the JIRA release notes
+* Create the blog entry and update the main page to announce the new release in [jbossws.github.io](https://github.com/jbossws/jbossws.github.io)
+* Upload the documentation for this release and update the links
+* Update the download page: add the download and release notes links for the new release
 
 ### JIRA update
 Review / update the schedule, possibly re-assign / reschedule issues for the next release cycle.
