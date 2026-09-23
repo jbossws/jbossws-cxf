@@ -6,6 +6,11 @@ implementations and the JAX-WS programming models. For further
 information on POJO service implementations and advanced topics
 consult the <<Jakarta XML Web Services User Guide>> .
 
+[NOTE]
+====
+Java SE 17 or later is required.
+====
+
 === Developing web service implementations
 
 Jakarta XML Web Services leverages annotations in order to express web service meta data on Java components and to describe the mapping between Java data types and XML. When developing web service implementations one needs to decide whether to start with an abstract contract (WSDL) or a Java component.

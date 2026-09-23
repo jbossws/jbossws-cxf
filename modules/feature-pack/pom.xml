@@ -547,8 +547,7 @@
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-ee-galleon-pack</artifactId>
-            <!-- We hardcode 34.0.1.Final here, as the latest version targeting JDK 11 -->
-            <version>34.0.1.Final</version>
+            <version>${jboss.version}</version>
             <type>zip</type>
             <scope>provided</scope>
         </dependency>
