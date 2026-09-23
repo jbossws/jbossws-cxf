@@ -24,6 +24,7 @@ to execute single tests against a locally running container
 
 ==== Prerequisites and requirements
 
+* Java SE 17 or later is required.
 * Maven version 3.2.2 or higher is required to build and run the
 testsuite.
 * A unique class name for each test across the testsuite's three child
