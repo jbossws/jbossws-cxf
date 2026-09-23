@@ -136,8 +136,10 @@
     <wss4j.version>4.0.1</wss4j.version>                                  <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L240 -->
     <wstx.version>7.2.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L237 -->
     <xmlsec.version>4.0.4</xmlsec.version>                                <!-- Updated for WSS4J 4.0.1 compatibility; See https://github.com/apache/ws-wss4j/blob/master/parent/pom.xml#L52 -->
-    <modular.jdk.args />
-    <modular.jdk.props />
+    <modular.jdk.args>--add-modules=java.se</modular.jdk.args>
+    <modular.jdk.props/>
+    <skip-enforce>true</skip-enforce>
+    <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
   </properties>
 
   <!-- licenses -->
@@ -1226,23 +1228,6 @@
         <module>modules/testsuite/cloud-tests</module>
         <module>docbook</module>
       </modules>
-    </profile>
-    <profile>
-      <id>JDK17plus</id>
-      <activation>
-        <jdk>[17,)</jdk>
-      </activation>
-      <properties>
-        <modular.jdk.args>
-          --add-modules=java.se
-        </modular.jdk.args>
-        <modular.jdk.props>
-        </modular.jdk.props>
-        <skip-enforce>true</skip-enforce>
-        <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
-      </properties>
-      <dependencies>
-      </dependencies>
     </profile>
     <!-- [JBWS-3666] -->
     <profile>
