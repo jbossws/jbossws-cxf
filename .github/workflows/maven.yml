@@ -16,7 +16,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest ]
-        jdk-distribution: [temurin, adopt-openj9]
+        jdk-distribution: [temurin, semeru]
         jdk-version: [17, 21, 25]
         profile: ['']
     steps:
@@ -35,7 +35,7 @@ jobs:
           java-version: ${{ matrix.jdk-version }}
       - name: Build docbook
         # Skip on Windows + OpenJ9 17 due to known JRuby hang issue (JBWS-4477)
-        if: ${{ !(matrix.os == 'windows-latest' && matrix.jdk-distribution == 'adopt-openj9') }}
+        if: ${{ !(matrix.os == 'windows-latest' && matrix.jdk-distribution == 'semeru') }}
         run: mvn -B -s ./.m2-settings.xml -f docbook/pom.xml install
         env:
           MAVEN_OPTS: "-Xmx2048m -Xms1024m -XX:MaxMetaspaceSize=512m -XX:+UseStringDeduplication"
