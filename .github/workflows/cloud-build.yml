@@ -36,7 +36,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
-          distribution: 'adopt'
+          distribution: 'temurin'
       - uses: actions/cache@v6
         with:
           path: ~/.m2/repository
