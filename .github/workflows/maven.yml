@@ -33,7 +33,7 @@ jobs:
         uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
-          distribution: 'adopt'
+          distribution: 'temurin'
       - name: Build with Maven Java ${{ matrix.java }} on WildFly ${{ matrix.wildfly-version }}
         run: |
           mvn -s ./.m2-settings.xml -B -V -fae -P${{ matrix.wildfly-version }} -Pdeploy verify
