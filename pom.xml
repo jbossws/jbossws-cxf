@@ -97,7 +97,7 @@
     <jakarta.xml.ws.api.version>4.0.3</jakarta.xml.ws.api.version>        <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L145 -->
     <jaxb.impl.version>4.0.9</jaxb.impl.version>                          <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L155 -->
     <jboss.ejb.client.version>5.0.8.Final</jboss.ejb.client.version>
-    <jboss.ejb3.ext.api.version>2.4.0.Final</jboss.ejb3.ext.api.version>
+    <jboss.ejb3.ext.api.version>2.5.0.Final</jboss.ejb3.ext.api.version>
     <jboss.jaxbintros.version>2.1.0.Final</jboss.jaxbintros.version>
     <jboss.logging.version>3.6.3.Final</jboss.logging.version>
     <jboss.logging.annotations.version>3.0.4.Final</jboss.logging.annotations.version>
