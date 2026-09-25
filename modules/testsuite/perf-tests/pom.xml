@@ -16,7 +16,7 @@
   <properties>
     <jmeter.version>2.13</jmeter.version>
     <jmeter.graph.plugin.version>0.1.0</jmeter.graph.plugin.version>
-    <jmeter.plugin.version>1.10.1</jmeter.plugin.version>
+    <jmeter.plugin.version>3.8.0</jmeter.plugin.version>
 
     <!-- base name of related server config files -->
     <jbws-testsuite-perf-base>jbws-testsuite-perf</jbws-testsuite-perf-base>
