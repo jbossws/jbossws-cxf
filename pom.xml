@@ -30,7 +30,7 @@
   <description>JBoss Web Services - Stack CXF Jakarta Version</description>
   <url>https://github.com/jbossws/jbossws-cxf</url>
 
-  <version>8.0.0.Beta1-SNAPSHOT</version>
+  <version>8.0.0.Beta1</version>
 
   <!-- Parent -->
   <parent>
@@ -44,7 +44,7 @@
     <connection>scm:git:https://github.com/jbossws/jbossws-cxf.git</connection>
     <developerConnection>scm:git:https://github.com/jbossws/jbossws-cxf.git</developerConnection>
     <url>https://github.com/jbossws/jbossws-cxf</url>
-    <tag>${nexus.staging.tag}</tag>
+    <tag>jbossws-cxf-8.0.0.Beta1</tag>
   </scm>
 
   <!-- Modules -->
@@ -137,7 +137,7 @@
     <wstx.version>7.2.1</wstx.version>                                    <!-- See https://github.com/apache/cxf/blob/cxf-4.1.8/parent/pom.xml#L237 -->
     <xmlsec.version>4.0.4</xmlsec.version>                                <!-- Updated for WSS4J 4.0.1 compatibility; See https://github.com/apache/ws-wss4j/blob/master/parent/pom.xml#L52 -->
     <modular.jdk.args>--add-modules=java.se</modular.jdk.args>
-    <modular.jdk.props/>
+    <modular.jdk.props />
     <skip-enforce>true</skip-enforce>
     <!--modular.jdk.props>-Dsun.util.logging.disableCallerCheck=true -Dsun.reflect.debugModuleAccessChecks=true -Djaxb.debug=true</modular.jdk.props-->
   </properties>
