@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.jboss.ws.cxf</groupId>
         <artifactId>jbossws-cxf-k8s-tests</artifactId>
-        <version>8.0.0.Final</version>
+        <version>8.0.1.Beta1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <build>
