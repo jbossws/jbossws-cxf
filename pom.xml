@@ -124,7 +124,7 @@
     <shrinkwrap.version>1.2.6</shrinkwrap.version>
     <testcontainer.version>1.21.0</testcontainer.version>
     <velocity.version>2.4.1</velocity.version>
-    <wildfly.version>40.0.0.Final</wildfly.version>
+    <wildfly.version>41.0.1.Final</wildfly.version>
     <wildfly.client.properties.version>40.0.0.Final</wildfly.client.properties.version>
     <wildfly.cloud.galleon.pack.version>9.2.3.Final</wildfly.cloud.galleon.pack.version>
     <wildfly.controller.client.version>32.0.0.Final</wildfly.controller.client.version>
