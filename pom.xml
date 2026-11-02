@@ -70,7 +70,7 @@
     <commons.beanutils.version>1.11.0</commons.beanutils.version>
     <commons.collections.version>3.2.2</commons.collections.version>
     <commons.lang3.version>3.18.0</commons.lang3.version>
-    <commons.logging.version>1.2</commons.logging.version>
+    <commons.logging.version>1.4.0</commons.logging.version>
     <commons.validator.version>1.9.0</commons.validator.version>
     <cxf.version>4.1.9</cxf.version>
     <cxf.asm.version>9.10.1</cxf.asm.version>                             <!-- See https://github.com/apache/cxf/blob/cxf-4.1.9/parent/pom.xml#L61 -->
