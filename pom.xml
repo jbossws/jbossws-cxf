@@ -70,7 +70,7 @@
     <commons.beanutils.version>1.11.0</commons.beanutils.version>
     <commons.collections.version>3.2.2</commons.collections.version>
     <commons.lang3.version>3.18.0</commons.lang3.version>
-    <commons.logging.version>1.2</commons.logging.version>
+    <commons.logging.version>1.4.0</commons.logging.version>
     <commons.validator.version>1.9.0</commons.validator.version>
     <cxf.version>4.1.9</cxf.version>
     <cxf.asm.version>9.11.1</cxf.asm.version>                             <!-- Align to Apache CXF 4.1.x, see https://github.com/apache/cxf/blob/4.1.x-fixes/parent/pom.xml#L61 and to WildFly, see https://github.com/wildfly/wildfly/blob/main/pom.xml#L563 -->
